@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+		
+	<import resource="classpath:applicationContext-props.xml" />
+	
+	<!-- Scan our custom classes -->
+    <context:component-scan base-package="com.pepboys.online.aspects.*" />
+	<context:component-scan base-package="com.pepboys.online.web">
+		<context:exclude-filter type="regex" expression="com\.pepboys\.online\.web\.search.*"/>
+	</context:component-scan>
+	<context:component-scan base-package="com.pepboys.ecommerce.web" />
+	<context:component-scan base-package="com.pepboys.mobile" />
+
+    <tx:annotation-driven proxy-target-class="true"/>
+
+    <!-- Turn on AOP annotations (required by Broadleaf) -->
+	<aop:config/>
+
+	<!-- Enables support for @AspectJ -->
+	<aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<!-- Allow annotation driven controllers -->
+	<mvc:annotation-driven/>
+		
+	<mvc:view-controller path="/" view-name="/jsp/index"/>
+
+	<bean id="handlerMapping" name="handlerMapping" class="com.pepboys.online.web.handler.ContentAppUrlHandlerMapping"></bean>
+	
+	<import resource="classpath:jasper-views.xml"/> 
+	<bean id="xmlViewResolver" class="org.springframework.web.servlet.view.XmlViewResolver">
+		<property name="location" value="classpath:jasper-views.xml"/>
+		<property name="order" value="0"/>
+	</bean>
+
+	<bean id="viewResolver"	class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/"></property>
+		<property name="suffix" value=".jsp"></property>
+		<property name="order" value="1" />
+	</bean>
+
+	<bean class="com.pepboys.online.web.handler.PepboysMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<map>
+				<entry key="java.lang.Exception" value="redirect:/error" />
+			</map>
+		</property>
+		<property name="defaultErrorView" value="redirect:/error" />
+		<property name="defaultStatusCode" value="404" />
+	</bean>
+</beans>
