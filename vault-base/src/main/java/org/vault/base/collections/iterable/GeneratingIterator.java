@@ -1,21 +1,18 @@
 package org.vault.base.collections.iterable;
 
-import java.util.Iterator;
+import java.util.NoSuchElementException;
 
-public class GeneratingIterator<T> implements Iterator<T> {
+import org.vault.base.utilities.function.Generator;
 
-	public boolean hasNext() {
-		// JOHN Auto-generated method stub
-		return false;
+public class GeneratingIterator<T> extends SingleEntryIterator<T> {
+	private Generator<T> generator;
+	
+	public GeneratingIterator(Generator<T> generator) {
+		this.generator = generator;
 	}
-
-	public T next() {
-		// JOHN Auto-generated method stub
-		return null;
-	}
-
-	public void remove() {
-		// JOHN Auto-generated method stub
-
+	
+	@Override
+	protected T generateNext() throws NoSuchElementException {
+		return generator.apply();
 	}
 }

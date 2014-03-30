@@ -20,8 +20,17 @@ public abstract class SingleEntryIterator<T> implements Iterator<T> {
 	}
 
 	public T next() {
-		// JOHN Auto-generated method stub
-		return null;
+		if(nextGenerated) {
+			nextGenerated = false;
+			return next;
+		}
+		else {
+			return generateNext();
+		}
+	}
+	
+	public void remove() {
+		throw new RuntimeException("Method not supported");
 	}
 
 	protected abstract T generateNext() throws NoSuchElementException;

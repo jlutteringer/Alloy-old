@@ -4,11 +4,11 @@ import java.util.Iterator;
 
 import org.vault.base.utilities.function.Generator;
 
-public class IterableWithGenerator<T> extends IterableWithToString<T> {
+public class GeneratingIterable<T> extends IterableWithToString<T> {
 
 	private Generator<Iterator<T>> generator;
 
-	public IterableWithGenerator(Generator<Iterator<T>> generator) {
+	public GeneratingIterable(Generator<Iterator<T>> generator) {
 		this.generator = generator;
 	}
 
