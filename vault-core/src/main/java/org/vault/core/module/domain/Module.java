@@ -10,4 +10,6 @@ public interface Module {
 	public ModuleType getType();
 
 	public List<ConfigurationLocation> getConfigurationLocations();
+
+	public List<Module> getDependencies();
 }

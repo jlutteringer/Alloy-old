@@ -7,8 +7,11 @@ import org.vault.core.module.domain.ModuleHierarchy;
 public class SimpleModuleHierarchy implements ModuleHierarchy {
 	private Tree<Module> modules;
 
-	public Iterable<Module> getModules() {
-		// JOHN Auto-generated method stub
-		return null;
+	public Tree<Module> getModules() {
+		return modules;
+	}
+
+	public void setModules(Tree<Module> modules) {
+		this.modules = modules;
 	}
 }

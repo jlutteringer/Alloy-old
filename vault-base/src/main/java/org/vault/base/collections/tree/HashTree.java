@@ -1,16 +1,16 @@
 package org.vault.base.collections.tree;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 
-public class HashTree<T> implements Tree<T> {
+import com.google.common.collect.Lists;
+
+public class HashTree<T> extends AbstractTree<T> {
 	private T head;
-
-	private ArrayList<Tree<T>> leafs = new ArrayList<Tree<T>>();
+	private List<Tree<T>> leafs = Lists.newArrayList();
 
 	private Tree<T> parent = null;
-
 	private HashMap<T, Tree<T>> locate = new HashMap<T, Tree<T>>();
 
 	public HashTree(T head) {
@@ -18,20 +18,22 @@ public class HashTree<T> implements Tree<T> {
 		locate.put(head, this);
 	}
 
-	public void addLeaf(T root, T leaf) {
+	@Override
+	public void addChild(T root, T child) {
 		if (locate.containsKey(root)) {
-			locate.get(root).addLeaf(leaf);
+			locate.get(root).addChild(child);
 		} else {
-			addLeaf(root).addLeaf(leaf);
+			addChild(root).addChild(child);
 		}
 	}
 
-	public Tree<T> addLeaf(T leaf) {
-		HashTree<T> t = Trees.newHashTree(leaf);
+	@Override
+	public Tree<T> addChild(T child) {
+		HashTree<T> t = Trees.newHashTree(child);
 		leafs.add(t);
 		t.parent = this;
 		t.locate = this.locate;
-		locate.put(leaf, t);
+		locate.put(child, t);
 		return t;
 	}
 
@@ -45,30 +47,23 @@ public class HashTree<T> implements Tree<T> {
 		return t;
 	}
 
+	@Override
 	public T getHead() {
 		return head;
 	}
 
-	public Tree<T> getTree(T element) {
+	@Override
+	public Tree<T> findSubTree(T element) {
 		return locate.get(element);
 	}
 
+	@Override
 	public Tree<T> getParent() {
 		return parent;
 	}
 
-	public Collection<T> getSuccessors(T root) {
-		Collection<T> successors = new ArrayList<T>();
-		Tree<T> tree = getTree(root);
-		if (null != tree) {
-			for (Tree<T> leaf : tree.getSubTrees()) {
-				successors.add(leaf.getHead());
-			}
-		}
-		return successors;
-	}
-
-	public Collection<Tree<T>> getSubTrees() {
+	@Override
+	public Collection<Tree<T>> getChildren() {
 		return leafs;
 	}
 }
