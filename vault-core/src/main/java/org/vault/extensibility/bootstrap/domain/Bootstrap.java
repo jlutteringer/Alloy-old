@@ -1,5 +1,7 @@
 package org.vault.extensibility.bootstrap.domain;
 
+import org.springframework.context.ApplicationContext;
+
 public interface Bootstrap {
-	public void bootstrap();
+	public ApplicationContext bootstrap();
 }

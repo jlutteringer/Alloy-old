@@ -24,7 +24,7 @@ import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -79,13 +79,11 @@ public class ImportProcessor {
 		}
 	}
 
-	public ResourceInputStream[] extract(ResourceInputStream[] sources) throws MergeException {
-		if (sources == null) {
-			return null;
-		}
+	public List<ResourceInputStream> extract(List<ResourceInputStream> sources) throws MergeException {
 		try {
 			DynamicResourceIterator resourceList = new DynamicResourceIterator();
-			resourceList.addAll(Arrays.asList(sources));
+			resourceList.addAll(sources);
+
 			while (resourceList.hasNext()) {
 				ResourceInputStream myStream = resourceList.nextResource();
 				Document doc = builder.parse(myStream);
@@ -120,7 +118,7 @@ public class ImportProcessor {
 				}
 			}
 
-			return resourceList.toArray(new ResourceInputStream[resourceList.size()]);
+			return resourceList;
 		} catch (Exception e) {
 			throw new MergeException(e);
 		}

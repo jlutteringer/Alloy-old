@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vault.base.collections.tree.Tree;
 import org.vault.base.collections.tree.Trees;
+import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.core.module.domain.Module;
 import org.vault.core.module.domain.ModuleHierarchy;
 import org.vault.core.module.domain.ModuleType;
@@ -98,5 +99,18 @@ public class CoreModuleLoader implements ModuleLoader {
 			dependencies.addAll(this.getFullDependencyHierarchy(dependency));
 		}
 		return dependencies;
+	}
+
+	public List<ConfigurationLocation> buildConfigurationLocations(ModuleHierarchy moduleHierarchy) {
+		List<ConfigurationLocation> configurationLocations = Lists.newArrayList();
+		List<Module> visited = Lists.newArrayList();
+		for (Module module : Trees.iterateBreadthFirst(moduleHierarchy.getModules())) {
+			if (!visited.contains(module)) {
+				visited.add(module);
+
+				configurationLocations.addAll(module.getConfigurationLocations());
+			}
+		}
+		return configurationLocations;
 	}
 }

@@ -24,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,6 +36,8 @@ import org.vault.extensibility.context.ResourceInputStream;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
 import org.vault.extensibility.context.merge.exceptions.MergeManagerSetupException;
 
+import com.google.common.collect.Iterables;
+
 /**
 *
 * @author jfischer
@@ -44,7 +47,7 @@ public class MergeXmlConfigResource {
 
 	private static final Log LOG = LogFactory.getLog(MergeXmlConfigResource.class);
 
-	public Resource getMergedConfigResource(ResourceInputStream[] sources) throws BeansException {
+	public Resource getMergedConfigResource(List<ResourceInputStream> sources) throws BeansException {
 		Resource configResource = null;
 		ResourceInputStream merged = null;
 		try {
@@ -85,15 +88,16 @@ public class MergeXmlConfigResource {
 		return configResource;
 	}
 
-	protected ResourceInputStream merge(ResourceInputStream[] sources) throws MergeException, MergeManagerSetupException {
-		if (sources.length == 1)
-			return sources[0];
+	protected ResourceInputStream merge(List<ResourceInputStream> sources) throws MergeException, MergeManagerSetupException {
+		if (sources.size() == 1) {
+			return Iterables.getFirst(sources, null);
+		}
 
 		ResourceInputStream response = null;
 		ResourceInputStream[] pair = new ResourceInputStream[2];
-		pair[0] = sources[0];
-		for (int j = 1; j < sources.length; j++) {
-			pair[1] = sources[j];
+		pair[0] = sources.get(0);
+		for (int j = 1; j < sources.size(); j++) {
+			pair[1] = sources.get(j);
 			response = mergeItems(pair[0], pair[1]);
 			try {
 				pair[0].close();

@@ -3,24 +3,24 @@ package org.vault.extensibility.context;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
-import org.springframework.util.StringUtils;
 import org.vault.extensibility.context.merge.ImportProcessor;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
+
+import com.google.common.collect.Lists;
 
 public class MergeClasspathXmlApplicationContext extends ClassPathXmlApplicationContext {
 	private static final Log LOG = LogFactory.getLog(MergeClasspathXmlApplicationContext.class);
 
-	private String patchLocation;
+	private List<String> patchLocations;
 	private String shutdownBean;
 	private String shutdownMethod;
 
@@ -39,44 +39,38 @@ public class MergeClasspathXmlApplicationContext extends ClassPathXmlApplication
 	*/
 	@Override
 	protected void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansException, IOException {
-		String[] broadleafConfigLocations = StandardConfigLocations.retrieveAll(StandardConfigLocations.APPCONTEXTTYPE);
+		List<ResourceInputStream> configurations = Lists.newArrayList();
+		for (String configurationLocation : patchLocations) {
+			ResourceInputStream stream;
 
-		ArrayList<ResourceInputStream> sources = new ArrayList<ResourceInputStream>(20);
-		for (String location : broadleafConfigLocations) {
-			InputStream source = MergeClasspathXmlApplicationContext.class.getClassLoader().getResourceAsStream(location);
-			if (source != null) {
-				sources.add(new ResourceInputStream(source, location));
-			}
-		}
-		ResourceInputStream[] filteredSources = new ResourceInputStream[] {};
-		filteredSources = sources.toArray(filteredSources);
-		String patchLocation = getPatchLocation();
-		String[] patchLocations = StringUtils.tokenizeToStringArray(patchLocation, ConfigurableApplicationContext.CONFIG_LOCATION_DELIMITERS);
-		ResourceInputStream[] patches = new ResourceInputStream[patchLocations.length];
-		for (int i = 0; i < patchLocations.length; i++) {
-			if (patchLocations[i].startsWith("classpath")) {
-				InputStream is = MergeClasspathXmlApplicationContext.class.getClassLoader().getResourceAsStream(patchLocations[i].substring("classpath*:".length(), patchLocations[i].length()));
-				patches[i] = new ResourceInputStream(is, patchLocations[i]);
+			if (configurationLocation.startsWith("classpath")) {
+				InputStream is = MergeClasspathXmlApplicationContext.class.getClassLoader()
+						.getResourceAsStream(configurationLocation.substring("classpath*:".length(), configurationLocation.length()));
+
+				stream = new ResourceInputStream(is, configurationLocation);
 			} else {
-				Resource resource = getResourceByPath(patchLocations[i]);
-				patches[i] = new ResourceInputStream(resource.getInputStream(), patchLocations[i]);
+				Resource resource = getResourceByPath(configurationLocation);
+				stream = new ResourceInputStream(resource.getInputStream(), configurationLocation);
 			}
-			if (patches[i] == null || patches[i].available() <= 0) {
-				throw new IOException("Unable to open an input stream on specified application context resource: " + patchLocations[i]);
+
+			if (stream.available() <= 0) {
+				stream.close();
+				throw new IOException("Unable to open an input stream on specified application context resource: " + configurationLocation);
 			}
+
+			configurations.add(stream);
 		}
 
 		ImportProcessor importProcessor = new ImportProcessor(this);
 		try {
-			filteredSources = importProcessor.extract(filteredSources);
-			patches = importProcessor.extract(patches);
+			configurations = importProcessor.extract(configurations);
 		} catch (MergeException e) {
 			throw new FatalBeanException("Unable to merge source and patch locations", e);
 		}
 
-		Resource[] resources = new MergeApplicationContextXmlConfigResource().getConfigResources(filteredSources, patches);
+		List<Resource> resources = new MergeApplicationContextXmlConfigResource().getConfigResources(configurations);
 
-		reader.loadBeanDefinitions(resources);
+		reader.loadBeanDefinitions(resources.toArray(new Resource[0]));
 	}
 
 	/* (non-Javadoc)
@@ -99,15 +93,15 @@ public class MergeClasspathXmlApplicationContext extends ClassPathXmlApplication
 	/**
 	* @return the patchLocation
 	*/
-	public String getPatchLocation() {
-		return patchLocation;
+	public List<String> getPatchLocations() {
+		return patchLocations;
 	}
 
 	/**
 	* @param patchLocation the patchLocation to set
 	*/
-	public void setPatchLocation(String patchLocation) {
-		this.patchLocation = patchLocation;
+	public void setPatchLocations(List<String> configurationLocations) {
+		this.patchLocations = configurationLocations;
 	}
 
 	/**

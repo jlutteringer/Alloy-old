@@ -22,6 +22,7 @@ package org.vault.extensibility.context;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -32,6 +33,8 @@ import org.springframework.core.io.Resource;
 import org.vault.extensibility.context.merge.MergeXmlConfigResource;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
 import org.vault.extensibility.context.merge.exceptions.MergeManagerSetupException;
+
+import com.google.common.collect.Lists;
 
 /**
 *
@@ -53,19 +56,11 @@ public class MergeApplicationContextXmlConfigResource extends MergeXmlConfigReso
 	* @param patches array of input streams for the patch application context files
 	* @throws BeansException
 	*/
-	public Resource[] getConfigResources(ResourceInputStream[] sources, ResourceInputStream[] patches) throws BeansException {
-		Resource[] configResources = null;
+	public List<Resource> getConfigResources(List<ResourceInputStream> sources) throws BeansException {
+		List<Resource> configResources = Lists.newArrayList();
 		ResourceInputStream merged = null;
 		try {
 			merged = merge(sources);
-
-			if (patches != null) {
-				ResourceInputStream[] patches2 = new ResourceInputStream[patches.length + 1];
-				patches2[0] = merged;
-				System.arraycopy(patches, 0, patches2, 1, patches.length);
-
-				merged = merge(patches2);
-			}
 
 			// read the final stream into a byte array
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -78,10 +73,10 @@ public class MergeApplicationContextXmlConfigResource extends MergeXmlConfigReso
 					baos.write(temp);
 				}
 			}
-			configResources = new Resource[] { new ByteArrayResource(baos.toByteArray()) };
+			configResources = Lists.<Resource> newArrayList(new ByteArrayResource(baos.toByteArray()));
 
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("Merged ApplicationContext Including Patches: \n" + serialize(configResources[0]));
+				LOG.debug("Merged ApplicationContext Including Patches: \n" + serialize(configResources.get(0)));
 			}
 		} catch (MergeException e) {
 			throw new FatalBeanException("Unable to merge source and patch locations", e);

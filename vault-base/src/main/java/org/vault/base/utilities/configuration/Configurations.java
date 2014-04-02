@@ -11,12 +11,12 @@ public class Configurations {
 		return configLocation;
 	}
 
-	public static String[] parseLocations(List<ConfigurationLocation> configurationLocations) {
+	public static List<String> parseLocations(List<ConfigurationLocation> configurationLocations) {
 		List<String> parsedLocations = Lists.newArrayList();
 		for (ConfigurationLocation configurationLocation : configurationLocations) {
 			parsedLocations.add(configurationLocation.getLocation());
 		}
 
-		return parsedLocations.toArray(new String[0]);
+		return parsedLocations;
 	}
 }

@@ -28,17 +28,13 @@ import java.util.ArrayList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.support.XmlWebApplicationContext;
-import org.vault.extensibility.context.MergeApplicationContextXmlConfigResource;
 import org.vault.extensibility.context.ResourceInputStream;
 import org.vault.extensibility.context.StandardConfigLocations;
-import org.vault.extensibility.context.merge.ImportProcessor;
-import org.vault.extensibility.context.merge.exceptions.MergeException;
 import org.vault.web.extensibility.MergeContextLoader;
 
 /**
@@ -122,17 +118,18 @@ public class MergeXmlWebApplicationContext extends XmlWebApplicationContext {
 			}
 		}
 
-		ImportProcessor importProcessor = new ImportProcessor(this);
-		try {
-			filteredSources = importProcessor.extract(filteredSources);
-			patches = importProcessor.extract(patches);
-		} catch (MergeException e) {
-			throw new FatalBeanException("Unable to merge source and patch locations", e);
-		}
-
-		Resource[] resources = new MergeApplicationContextXmlConfigResource().getConfigResources(filteredSources, patches);
-
-		reader.loadBeanDefinitions(resources);
+		// TODO
+//		ImportProcessor importProcessor = new ImportProcessor(this);
+//		try {
+//			filteredSources = importProcessor.extract(filteredSources);
+//			patches = importProcessor.extract(patches);
+//		} catch (MergeException e) {
+//			throw new FatalBeanException("Unable to merge source and patch locations", e);
+//		}
+//
+//		Resource[] resources = new MergeApplicationContextXmlConfigResource().getConfigResources(filteredSources, patches);
+//
+//		reader.loadBeanDefinitions(resources);
 	}
 
 	/* (non-Javadoc)
