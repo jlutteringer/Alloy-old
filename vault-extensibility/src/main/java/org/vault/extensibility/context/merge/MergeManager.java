@@ -48,7 +48,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.vault.extensibility.context.ResourceInputStream;
+import org.vault.base.resources.stream.ResourceInputStream;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
 import org.vault.extensibility.context.merge.exceptions.MergeManagerSetupException;
 import org.vault.extensibility.context.merge.handlers.MergeHandler;

@@ -71,18 +71,6 @@ public class MergeContextLoader extends ContextLoader {
 	public static final String PATCH_LOCATION_PARAM = "patchConfigLocation";
 
 	/**
-	* Name of a bean to hook before Spring shutdown for this
-	* context commences.
-	*/
-	public static final String SHUTDOWN_HOOK_BEAN = "shutdownHookBean";
-
-	/**
-	* Name of method to call on the shutdown hook bean before
-	* Spring shutdown for this context commences
-	*/
-	public static final String SHUTDOWN_HOOK_METHOD = "shutdownHookMethod";
-
-	/**
 	* Instantiate the rootId WebApplicationContext for this loader, either the
 	* default context class or a custom context class if specified.
 	* <p>This implementation expects custom contexts to implement the
@@ -100,13 +88,10 @@ public class MergeContextLoader extends ContextLoader {
 		MergeXmlWebApplicationContext wac = new MergeXmlWebApplicationContext();
 		wac.setServletContext(servletContext);
 		wac.setConfigLocation(servletContext.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM));
-		wac.setPatchLocation(servletContext.getInitParameter(PATCH_LOCATION_PARAM));
-		wac.setShutdownBean(servletContext.getInitParameter(SHUTDOWN_HOOK_BEAN));
-		wac.setShutdownMethod(servletContext.getInitParameter(SHUTDOWN_HOOK_METHOD));
-		customizeContext(servletContext, wac);
-		// NOTE: in Spring 3.1, refresh gets called automatically. All that is required is to return the context back to Spring
-		// wac.refresh();
+		// TODO
+//		wac.setPatchLocation(servletContext.getInitParameter(PATCH_LOCATION_PARAM));
 
+		customizeContext(servletContext, wac);
 		return wac;
 	}
 }

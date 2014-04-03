@@ -18,7 +18,7 @@
 * #L%
 */
 
-package org.vault.extensibility.context;
+package org.vault.base.resources.stream;
 
 import java.io.IOException;
 import java.io.InputStream;

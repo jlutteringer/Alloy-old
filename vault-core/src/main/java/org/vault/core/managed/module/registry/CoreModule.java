@@ -12,6 +12,6 @@ public class CoreModule extends SimpleModule {
 		this.name = "Core Module";
 		this.type = ModuleType.CORE;
 		this.configurationLocations = VLists.create(
-				Configurations.createLocation("vault-common-applicationContext.xml"));
+				Configurations.createClasspathLocation("vault-common-applicationContext.xml"));
 	}
 }

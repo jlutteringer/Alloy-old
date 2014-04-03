@@ -1,10 +1,9 @@
 package org.vault.site.test;
 
-import org.vault.base.utilities.configuration.Configurations;
-import org.vault.core.bootstrap.CoreApplicationBootstrapper;
+import org.vault.core.bootstrap.AbstractCoreApplicationBootstrapper;
 
 public class Tester {
 	public static void main(String[] args) {
-		new CoreApplicationBootstrapper(Configurations.createLocation("vault-bootstrap-applicationContext.xml")).bootstrap();
+		new AbstractCoreApplicationBootstrapper("vault-bootstrap-applicationContext.xml").bootstrap();
 	}
 }

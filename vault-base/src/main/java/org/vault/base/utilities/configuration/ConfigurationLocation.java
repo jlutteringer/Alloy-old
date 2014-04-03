@@ -1,13 +1,10 @@
 package org.vault.base.utilities.configuration;
 
-public class ConfigurationLocation {
-	private String location;
+import java.io.IOException;
 
-	public String getLocation() {
-		return location;
-	}
+import org.springframework.context.ApplicationContext;
+import org.vault.base.resources.stream.ResourceInputStream;
 
-	public void setLocation(String location) {
-		this.location = location;
-	}
+public interface ConfigurationLocation {
+	public ResourceInputStream resolveResource(ApplicationContext context) throws IOException;
 }
