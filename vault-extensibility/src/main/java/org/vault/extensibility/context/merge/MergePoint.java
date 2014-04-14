@@ -19,8 +19,6 @@
 */
 package org.vault.extensibility.context.merge;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.xml.transform.TransformerException;
@@ -29,12 +27,22 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
+import org.vault.base.collections.VCollections;
+import org.vault.base.utilities.matcher.Matcher;
+import org.vault.base.utilities.tuple.Tuple;
+import org.vault.base.utilities.tuple.Tuple.Pair;
+import org.vault.base.utilities.xpath.XPathUtils;
+import org.vault.base.utilities.xpath.XPathUtils.NodeMatcher;
+import org.vault.extensibility.context.merge.handlers.AttributeReplaceInsert;
 import org.vault.extensibility.context.merge.handlers.MergeHandler;
+import org.vault.extensibility.context.merge.handlers.MergeMatcherType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 /**
 * This class provides the xml merging apparatus at a defined XPath merge point in
@@ -49,18 +57,17 @@ import org.w3c.dom.NodeList;
 *
 */
 public class MergePoint {
-
-	private static final Log LOG = LogFactory.getLog(MergePoint.class);
+	private static final Logger log = Logger.getLogger(MergePoint.class);
 
 	private MergeHandler handler;
-	private Document doc1;
-	private Document doc2;
+	private Document sourceDoc;
+	private Document patchDoc;
 	private XPath xPath;
 
-	public MergePoint(MergeHandler handler, Document doc1, Document doc2) {
+	public MergePoint(MergeHandler handler, Document sourceDoc, Document patchDoc) {
 		this.handler = handler;
-		this.doc1 = doc1;
-		this.doc2 = doc2;
+		this.sourceDoc = sourceDoc;
+		this.patchDoc = patchDoc;
 		XPathFactory factory = XPathFactory.newInstance();
 		xPath = factory.newXPath();
 	}
@@ -73,45 +80,129 @@ public class MergePoint {
 	* @return list of merged nodes
 	* @throws XPathExpressionException
 	*/
-	public Node[] merge(List<Node> exhaustedNodes) throws XPathExpressionException, TransformerException {
-		return merge(handler, exhaustedNodes);
+	public List<Node> merge(List<Node> exhaustedNodes) throws XPathExpressionException, TransformerException {
+		return merge(handler, exhaustedNodes, null, null);
 	}
 
-	private Node[] merge(MergeHandler handler, List<Node> exhaustedNodes) throws XPathExpressionException, TransformerException {
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Processing handler: " + handler.getXPath());
+	private List<Node> merge(MergeHandler handler, List<Node> exhaustedNodes, Object sourceLoc, Object patchLoc) throws XPathExpressionException, TransformerException {
+		if (sourceLoc == null) {
+			sourceLoc = this.sourceDoc;
 		}
-		if (handler.getChildren() != null) {
-			MergeHandler[] children = handler.getChildren();
-			for (MergeHandler aChildren : children) {
-				Node[] temp = merge(aChildren, exhaustedNodes);
-				if (temp != null) {
-					Collections.addAll(exhaustedNodes, temp);
-				}
-			}
+
+		if (patchLoc == null) {
+			patchLoc = this.patchDoc;
 		}
+
 		String[] xPaths = handler.getXPath().split(" ");
-		List<Node> nodeList1 = new ArrayList<Node>();
-		List<Node> nodeList2 = new ArrayList<Node>();
+
+		List<Node> sourceNodes = Lists.newArrayList();
+		List<Node> patchNodes = Lists.newArrayList();
+
 		for (String xPathVal : xPaths) {
-			NodeList temp1 = (NodeList) xPath.evaluate(xPathVal, doc1, XPathConstants.NODESET);
-			if (temp1 != null) {
-				int length = temp1.getLength();
-				for (int j = 0; j < length; j++) {
-					nodeList1.add(temp1.item(j));
+			sourceNodes.addAll(this.getNodes(xPathVal, sourceLoc));
+			patchNodes.addAll(this.getNodes(xPathVal, patchLoc));
+		}
+
+		List<Pair<Node, Node>> matchedNodes = Lists.newArrayList();
+		List<Node> unmatchedPatchNodes = Lists.newArrayList();
+
+		for (Node sourceNode : sourceNodes) {
+			Matcher<Node> matcher = this.getMatcher(sourceNode, handler.getMatcherType());
+			Node matchingNode = VCollections.getSingleResult(matcher.getMatches(patchNodes), true);
+			if (matchingNode != null) {
+				log.debug("Match found: " + matchingNode + " for source node " + sourceNode);
+				matchedNodes.add(Tuple.pair(sourceNode, matchingNode));
+			}
+		}
+
+		for (Node patchNode : patchNodes) {
+			boolean matchFound = false;
+			for (Pair<Node, Node> matchedNode : matchedNodes) {
+				if (patchNode == matchedNode.getSecond()) {
+					matchFound = true;
+					break;
 				}
 			}
-			NodeList temp2 = (NodeList) xPath.evaluate(xPathVal, doc2, XPathConstants.NODESET);
-			if (temp2 != null) {
-				int length = temp2.getLength();
-				for (int j = 0; j < length; j++) {
-					nodeList2.add(temp2.item(j));
+
+			if (!matchFound) {
+				unmatchedPatchNodes.add(patchNode);
+			}
+		}
+
+		for (Pair<Node, Node> matchedNode : matchedNodes) {
+			if (handler.getChildren().isEmpty()) {
+				this.merge(this.getDefaultMergeHandler(), exhaustedNodes, matchedNode.getFirst(), matchedNode.getSecond());
+			}
+			else {
+				for (MergeHandler childHandler : handler.getChildren()) {
+					this.merge(childHandler, exhaustedNodes, matchedNode.getFirst(), matchedNode.getSecond());
+				}
+			}
+
+			exhaustedNodes.add(matchedNode.getSecond());
+			handler.merge(matchedNode.getFirst(), matchedNode.getSecond());
+		}
+
+		if (!sourceNodes.isEmpty()) {
+			Node parent = Iterables.getFirst(sourceNodes, null).getParentNode();
+
+			for (Node unmatchedPatchNode : unmatchedPatchNodes) {
+				if (!exhaustedNodes.contains(unmatchedPatchNode)) {
+					exhaustedNodes.add(unmatchedPatchNode);
+					parent.appendChild(XPathUtils.cloneAndImport(unmatchedPatchNode, XPathUtils.getDocument(parent)));
 				}
 			}
 		}
-		if (nodeList1 != null && nodeList2 != null) {
-			return handler.merge(nodeList1, nodeList2, exhaustedNodes);
+
+		return Lists.newArrayList();
+	}
+
+	private MergeHandler getDefaultMergeHandler() {
+		MergeHandler handler = new AttributeReplaceInsert();
+		handler.setName("Default Handler");
+		return handler;
+	}
+
+	private Matcher<Node> getMatcher(final Node sourceNode, MergeMatcherType type) {
+		switch (type) {
+		case ID:
+			return new NodeMatcher() {
+				@Override
+				public boolean matches(Node input) {
+					if (XPathUtils.attributeEqual(sourceNode, input, "id")) {
+						return true;
+					}
+					if (XPathUtils.attributeEqual(sourceNode, input, "name")) {
+						return true;
+					}
+					return false;
+				}
+			};
+		case TYPE:
+			return new NodeMatcher() {
+				@Override
+				public boolean matches(Node input) {
+					if (sourceNode.getNodeName().equals(input.getNodeName())) {
+						return true;
+					}
+					return false;
+				}
+			};
+		default:
+			throw new RuntimeException("No node matcher implementation for type " + type);
 		}
-		return null;
+	}
+
+	private List<Node> getNodes(String xPathVal, Object doc) throws XPathExpressionException {
+		List<Node> nodes = Lists.newArrayList();
+		NodeList temp1 = (NodeList) xPath.evaluate(xPathVal, doc, XPathConstants.NODESET);
+		if (temp1 != null) {
+			int length = temp1.getLength();
+			for (int j = 0; j < length; j++) {
+				nodes.add(temp1.item(j));
+			}
+		}
+
+		return nodes;
 	}
 }

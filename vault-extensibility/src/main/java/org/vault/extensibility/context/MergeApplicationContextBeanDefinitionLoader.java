@@ -12,9 +12,8 @@ import org.vault.base.utilities.configuration.Configurations;
 import org.vault.extensibility.context.merge.ImportProcessor;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
 
-import com.google.common.collect.Lists;
-
 public class MergeApplicationContextBeanDefinitionLoader {
+	private static String MERGE_CONFIG_LOCATION = "application-merge.properties";
 	private MergeApplicationContext parent;
 
 	public MergeApplicationContextBeanDefinitionLoader(MergeApplicationContext parent) {
@@ -35,15 +34,7 @@ public class MergeApplicationContextBeanDefinitionLoader {
 	* @see #getResourcePatternResolver
 	*/
 	public void loadBeanDefinitions(XmlBeanDefinitionReader reader) throws BeansException, IOException {
-		List<ResourceInputStream> configurations = Lists.newArrayList();
-		for (ResourceInputStream resource : Configurations.resolveResources(parent.getPatchLocations(), parent)) {
-			if (resource.available() <= 0) {
-				resource.close();
-				throw new IOException("Unable to open an input stream on specified application context resource: " + resource.getName());
-			}
-
-			configurations.add(resource);
-		}
+		List<ResourceInputStream> configurations = Configurations.getConfigurations(parent.getPatchLocations(), parent);
 
 		ImportProcessor importProcessor = new ImportProcessor(parent);
 		try {
@@ -52,8 +43,8 @@ public class MergeApplicationContextBeanDefinitionLoader {
 			throw new FatalBeanException("Unable to merge source and patch locations", e);
 		}
 
-		List<Resource> resources = new MergeApplicationContextXmlConfigResource().getConfigResources(configurations);
+		Resource mergedResource = new MergeApplicationContextXmlConfigResource(MERGE_CONFIG_LOCATION, parent).getConfigResources(configurations);
 
-		reader.loadBeanDefinitions(resources.toArray(new Resource[0]));
+		reader.loadBeanDefinitions(mergedResource);
 	}
 }

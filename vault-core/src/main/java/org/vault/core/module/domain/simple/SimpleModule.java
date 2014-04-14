@@ -3,16 +3,19 @@ package org.vault.core.module.domain.simple;
 import java.util.List;
 
 import org.vault.base.utilities.configuration.ConfigurationLocation;
+import org.vault.base.utilities.configuration.Configurations;
 import org.vault.core.module.domain.Module;
 import org.vault.core.module.domain.ModuleType;
 
 import com.google.common.collect.Lists;
 
 public class SimpleModule implements Module {
-	public String name;
-	public ModuleType type = ModuleType.MODULE;
-	public List<ConfigurationLocation> configurationLocations = Lists.newArrayList();
-	public List<Module> dependencies = Lists.newArrayList();
+	protected String name;
+	protected ModuleType type = ModuleType.MODULE;
+	protected List<Module> dependencies = Lists.newArrayList();
+
+	protected List<ConfigurationLocation> configurationLocations = Lists.newArrayList();
+	protected ConfigurationLocation loggingConfigurationLocation = Configurations.createClasspathLocation("logging/log4j-shared.xml");
 
 	public String getName() {
 		return name;
@@ -49,5 +52,9 @@ public class SimpleModule implements Module {
 	@Override
 	public String toString() {
 		return name + " " + type;
+	}
+
+	public ConfigurationLocation getLoggingConfigurationLocation() {
+		return loggingConfigurationLocation;
 	}
 }

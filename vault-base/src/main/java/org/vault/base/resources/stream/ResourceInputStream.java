@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.ApplicationContext;
 
 /**
 * @author jfischer
@@ -57,6 +58,7 @@ public class ResourceInputStream extends InputStream {
 		return names.get(0);
 	}
 
+	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder(100);
 		int size = names.size();
@@ -113,5 +115,9 @@ public class ResourceInputStream extends InputStream {
 	@Override
 	public long skip(long l) throws IOException {
 		return is.skip(l);
+	}
+
+	public static ResourceInputStream create(String resourceName, ApplicationContext applicationContext) throws IOException {
+		return new ResourceInputStream(applicationContext.getResource(resourceName).getInputStream(), resourceName);
 	}
 }

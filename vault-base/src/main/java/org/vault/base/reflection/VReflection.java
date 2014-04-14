@@ -1,7 +1,9 @@
 package org.vault.base.reflection;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.GenericArrayType;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -10,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Reflection {
+public class VReflection {
 	public static Class<?> getClass(Type type) {
 		if (type instanceof Class) {
 			return (Class<?>) type;
@@ -82,5 +84,23 @@ public class Reflection {
 			typeArgumentsAsClasses.add(getClass(baseType));
 		}
 		return typeArgumentsAsClasses;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T construct(Class<T> clazz) {
+		Constructor<?> constructor = clazz.getDeclaredConstructors()[0];
+		constructor.setAccessible(true);
+
+		if (constructor.getParameterTypes().length == 0) {
+			try {
+				return (T) constructor.newInstance();
+			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		else {
+			throw new RuntimeException("No default constructor for class " + clazz);
+		}
+
 	}
 }

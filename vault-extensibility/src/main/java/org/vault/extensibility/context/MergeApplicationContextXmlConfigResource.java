@@ -28,6 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.vault.base.resources.stream.ResourceInputStream;
@@ -35,16 +36,17 @@ import org.vault.extensibility.context.merge.MergeXmlConfigResource;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
 import org.vault.extensibility.context.merge.exceptions.MergeManagerSetupException;
 
-import com.google.common.collect.Lists;
-
 /**
 *
 * @author jfischer
 *
 */
 public class MergeApplicationContextXmlConfigResource extends MergeXmlConfigResource {
-
 	private static final Log LOG = LogFactory.getLog(MergeApplicationContextXmlConfigResource.class);
+
+	public MergeApplicationContextXmlConfigResource(String defaultHandlerConfiguration, ApplicationContext applicationContext) {
+		super(defaultHandlerConfiguration, applicationContext);
+	}
 
 	/**
 	* Generate a merged configuration resource, loading the definitions from the given streams. Note,
@@ -57,8 +59,9 @@ public class MergeApplicationContextXmlConfigResource extends MergeXmlConfigReso
 	* @param patches array of input streams for the patch application context files
 	* @throws BeansException
 	*/
-	public List<Resource> getConfigResources(List<ResourceInputStream> sources) throws BeansException {
-		List<Resource> configResources = Lists.newArrayList();
+	public Resource getConfigResources(List<ResourceInputStream> sources) throws BeansException {
+		Resource mergedResource;
+
 		ResourceInputStream merged = null;
 		try {
 			merged = merge(sources);
@@ -74,10 +77,10 @@ public class MergeApplicationContextXmlConfigResource extends MergeXmlConfigReso
 					baos.write(temp);
 				}
 			}
-			configResources = Lists.<Resource> newArrayList(new ByteArrayResource(baos.toByteArray()));
+			mergedResource = new ByteArrayResource(baos.toByteArray());
 
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("Merged ApplicationContext Including Patches: \n" + serialize(configResources.get(0)));
+				LOG.debug("Merged ApplicationContext Including Patches: \n" + serialize(mergedResource));
 			}
 		} catch (MergeException e) {
 			throw new FatalBeanException("Unable to merge source and patch locations", e);
@@ -95,6 +98,6 @@ public class MergeApplicationContextXmlConfigResource extends MergeXmlConfigReso
 			}
 		}
 
-		return configResources;
+		return mergedResource;
 	}
 }

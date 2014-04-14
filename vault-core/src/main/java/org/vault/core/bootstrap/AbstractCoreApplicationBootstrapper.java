@@ -3,10 +3,12 @@ package org.vault.core.bootstrap;
 import java.util.List;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.vault.base.reflection.VReflection;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.core.module.domain.ModuleHierarchy;
 import org.vault.core.module.service.ModuleLoader;
 import org.vault.extensibility.bootstrap.domain.Bootstrap;
+import org.vault.extensibility.bootstrap.domain.BootstrapHandlerContext;
 import org.vault.extensibility.context.MergeApplicationContext;
 
 public abstract class AbstractCoreApplicationBootstrapper<T extends MergeApplicationContext> implements Bootstrap<T> {
@@ -20,7 +22,11 @@ public abstract class AbstractCoreApplicationBootstrapper<T extends MergeApplica
 		return mergedContext;
 	}
 
-	protected abstract T createMergeContext();
+	@SuppressWarnings("unchecked")
+	protected T createMergeContext() {
+		Class<?> clazz = VReflection.getTypeArguments(AbstractCoreApplicationBootstrapper.class, this.getClass()).get(0);
+		return (T) VReflection.construct(clazz);
+	}
 
 	private List<ConfigurationLocation> bootstrapConfigurationLocations() {
 		ClassPathXmlApplicationContext bootstrapApplicationContext =
@@ -28,6 +34,9 @@ public abstract class AbstractCoreApplicationBootstrapper<T extends MergeApplica
 
 		bootstrapApplicationContext.refresh();
 		bootstrapApplicationContext.start();
+
+		BootstrapHandlerContext handlers = bootstrapApplicationContext.getBean(BootstrapHandlerContext.class);
+		handlers.run();
 
 		ModuleLoader loader = bootstrapApplicationContext.getBean(ModuleLoader.class);
 

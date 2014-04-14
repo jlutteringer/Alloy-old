@@ -30,6 +30,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.vault.base.resources.stream.ResourceInputStream;
@@ -46,6 +47,14 @@ import com.google.common.collect.Iterables;
 public class MergeXmlConfigResource {
 
 	private static final Log LOG = LogFactory.getLog(MergeXmlConfigResource.class);
+
+	private ApplicationContext applicationContext;
+	private String defaultHandlerConfiguration;
+
+	public MergeXmlConfigResource(String defaultHandlerConfiguration, ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+		this.defaultHandlerConfiguration = defaultHandlerConfiguration;
+	}
 
 	public Resource getMergedConfigResource(List<ResourceInputStream> sources) throws BeansException {
 		Resource configResource = null;
@@ -116,7 +125,7 @@ public class MergeXmlConfigResource {
 	}
 
 	protected ResourceInputStream mergeItems(ResourceInputStream sourceLocationFirst, ResourceInputStream sourceLocationSecond) throws MergeException, MergeManagerSetupException {
-		ResourceInputStream response = new MergeManager().merge(sourceLocationFirst, sourceLocationSecond);
+		ResourceInputStream response = new MergeManager(defaultHandlerConfiguration, applicationContext).merge(sourceLocationFirst, sourceLocationSecond);
 
 		return response;
 	}

@@ -1,4 +1,4 @@
-package org.vault.core.test.framework;
+package org.vault.base.test.framework;
 
 public class AbstractTestHarness {
 

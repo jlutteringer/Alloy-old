@@ -2,10 +2,13 @@ package org.vault.base.utilities.configuration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.Resource;
 import org.vault.base.resources.stream.ResourceInputStream;
+
+import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
 
 public class ClasspathResourceConfigurationLocation extends AbstractConfigurationLocation {
 	private String resourceLocation;
@@ -18,8 +21,9 @@ public class ClasspathResourceConfigurationLocation extends AbstractConfiguratio
 		this.resourceLocation = resourceLocation;
 	}
 
+	@SuppressWarnings("resource")
 	@Override
-	public ResourceInputStream resolveResource(ApplicationContext context) throws IOException {
+	public List<ResourceInputStream> resolveResources(ApplicationContext context) {
 		ResourceInputStream stream;
 		if (resourceLocation.startsWith("classpath")) {
 			InputStream is = ClasspathResourceConfigurationLocation.class.getClassLoader()
@@ -27,10 +31,13 @@ public class ClasspathResourceConfigurationLocation extends AbstractConfiguratio
 
 			stream = new ResourceInputStream(is, resourceLocation);
 		} else {
-			Resource resource = context.getResource(resourceLocation);
-			stream = new ResourceInputStream(resource.getInputStream(), resourceLocation);
+			try {
+				stream = ResourceInputStream.create(resourceLocation, context);
+			} catch (IOException e) {
+				throw Throwables.propagate(e);
+			}
 		}
 
-		return stream;
+		return Lists.newArrayList(stream);
 	}
 }

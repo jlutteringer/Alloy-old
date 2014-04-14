@@ -29,9 +29,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -48,13 +45,24 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.vault.base.collections.VCollections;
 import org.vault.base.resources.stream.ResourceInputStream;
+import org.vault.base.utilities.configuration.ConfigurationLocation;
+import org.vault.base.utilities.configuration.Configurations;
+import org.vault.base.utilities.matcher.AbstractContextualMatcher;
+import org.vault.base.utilities.matcher.ContextualMatcher;
+import org.vault.extensibility.PatchableConfiguration;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
 import org.vault.extensibility.context.merge.exceptions.MergeManagerSetupException;
 import org.vault.extensibility.context.merge.handlers.MergeHandler;
-import org.vault.extensibility.context.merge.handlers.MergeHandlerAdapter;
+import org.vault.extensibility.context.merge.handlers.MergeMatcherType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+import com.google.common.collect.Lists;
 
 /**
 * This class manages all xml merge interactions with callers. It is responsible for
@@ -64,22 +72,19 @@ import org.w3c.dom.Node;
 * @author jfischer
 *
 */
-public class MergeManager {
-
-	/**
-	* Additional merge points may be added by the caller. Also default merge points
-	* may be overriden to change their current behavior. This is accomplished by
-	* specifying the system property denoted by the key MergeManager.MERGE_DEFINITION_SYSTEM_PROPERTY
-	* with a value stating the fully qualified path of user-created property file. Please refer
-	* to the default properties file located at org/broadleafcommerce/profile/extensibility/context/merge/default.properties
-	* for more details.
-	*
-	*/
-	public static final String MERGE_DEFINITION_SYSTEM_PROPERTY = "org.broadleafcommerce.extensibility.context.merge.handlers.merge.properties";
-
+public class MergeManager implements PatchableConfiguration, ApplicationContextAware {
 	private static final Log LOG = LogFactory.getLog(MergeManager.class);
-
 	private static DocumentBuilder builder;
+
+	private ContextualMatcher<MergeHandler, String> contextualNameMatcher = new AbstractContextualMatcher<MergeHandler, String>() {
+		@Override
+		public boolean matches(MergeHandler input) {
+			if (this.context.equals(input.getName())) {
+				return true;
+			}
+			return false;
+		}
+	};
 
 	static {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -91,9 +96,15 @@ public class MergeManager {
 		}
 	}
 
-	private MergeHandler[] handlers;
+	private ApplicationContext applicationContext;
+	private String defaultHandlerConfiguration;
+	private List<MergeHandler> handlers = Lists.newArrayList();
+	private List<ConfigurationLocation> patchLocations = Lists.newArrayList();
 
-	public MergeManager() throws MergeManagerSetupException {
+	public MergeManager(String defaultHandlerConfiguration, ApplicationContext applicationContext) throws MergeManagerSetupException {
+		this.defaultHandlerConfiguration = defaultHandlerConfiguration;
+		this.applicationContext = applicationContext;
+
 		try {
 			Properties props = loadProperties();
 			removeSkippedMergeComponents(props);
@@ -236,10 +247,8 @@ public class MergeManager {
 					LOG.debug("Processing handler: " + handler.getXPath());
 				}
 				MergePoint point = new MergePoint(handler, doc1, doc2);
-				Node[] list = point.merge(exhaustedNodes);
-				if (list != null) {
-					Collections.addAll(exhaustedNodes, list);
-				}
+				List<Node> list = point.merge(exhaustedNodes);
+				exhaustedNodes.addAll(list);
 			}
 
 			TransformerFactory tFactory = TransformerFactory.newInstance();
@@ -264,70 +273,55 @@ public class MergeManager {
 	}
 
 	private void setHandlers(Properties props) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-		ArrayList<MergeHandler> handlers = new ArrayList<MergeHandler>();
+		List<MergeHandler> tempHandlers = Lists.newArrayList();
 		String[] keys = props.keySet().toArray(new String[props.keySet().size()]);
 		for (String key : keys) {
 			if (key.startsWith("handler.")) {
 				MergeHandler temp = (MergeHandler) Class.forName(props.getProperty(key)).newInstance();
 				String name = key.substring(8, key.length());
 				temp.setName(name);
+
 				String priority = props.getProperty("priority." + name);
 				if (priority != null) {
 					temp.setPriority(Integer.parseInt(priority));
 				}
+
 				String xpath = props.getProperty("xpath." + name);
-				if (priority != null) {
+				if (xpath != null) {
 					temp.setXPath(xpath);
 				}
-				handlers.add(temp);
+
+				String matcherType = props.getProperty("matcherType." + name);
+				if (matcherType != null) {
+					temp.setMatcherType(MergeMatcherType.valueOf(matcherType));
+				}
+
+				tempHandlers.add(temp);
 			}
 		}
-		MergeHandler[] explodedView = {};
-		explodedView = handlers.toArray(explodedView);
-		Comparator<Object> nameCompare = new Comparator<Object>() {
-			public int compare(Object arg0, Object arg1) {
-				return ((MergeHandler) arg0).getName().compareTo(((MergeHandler) arg1).getName());
-			}
-		};
-		Arrays.sort(explodedView, nameCompare);
-		ArrayList<MergeHandler> finalHandlers = new ArrayList<MergeHandler>();
-		for (MergeHandler temp : explodedView) {
+
+		List<MergeHandler> finalHandlers = Lists.newArrayList();
+		for (MergeHandler temp : tempHandlers) {
 			if (temp.getName().contains(".")) {
-				final String parentName = temp.getName().substring(0, temp.getName().lastIndexOf("."));
-				int pos = Arrays.binarySearch(explodedView, new MergeHandlerAdapter() {
-					@Override
-					public String getName() {
-						return parentName;
-					}
-				}, nameCompare);
-				if (pos >= 0) {
-					MergeHandler[] parentHandlers = explodedView[pos].getChildren();
-					MergeHandler[] newHandlers = new MergeHandler[parentHandlers.length + 1];
-					System.arraycopy(parentHandlers, 0, newHandlers, 0, parentHandlers.length);
-					newHandlers[newHandlers.length - 1] = temp;
-					Arrays.sort(newHandlers);
-					explodedView[pos].setChildren(newHandlers);
-				}
+				contextualNameMatcher.setContext(temp.getName().substring(0, temp.getName().lastIndexOf(".")));
+
+				MergeHandler parent = VCollections.getSingleResult(contextualNameMatcher.getMatches(tempHandlers));
+				parent.getChildren().add(temp);
 			} else {
 				finalHandlers.add(temp);
 			}
 		}
 
-		this.handlers = new MergeHandler[0];
-		this.handlers = finalHandlers.toArray(this.handlers);
-		Arrays.sort(this.handlers);
+		this.handlers = finalHandlers;
 	}
 
 	private Properties loadProperties() throws IOException {
-		Properties defaultProperties = new Properties();
-		defaultProperties.load(MergeManager.class.getResourceAsStream("default.properties"));
-		Properties props;
-		String overrideFileClassPath = System.getProperty(MERGE_DEFINITION_SYSTEM_PROPERTY);
-		if (overrideFileClassPath != null) {
-			props = new Properties(defaultProperties);
-			props.load(MergeManager.class.getClassLoader().getResourceAsStream(overrideFileClassPath));
-		} else {
-			props = defaultProperties;
+		Properties props = new Properties();
+		props.load(ResourceInputStream.create(this.defaultHandlerConfiguration, this.applicationContext));
+
+		List<ResourceInputStream> configurations = Configurations.getConfigurations(this.patchLocations, this.applicationContext);
+		for (ResourceInputStream configuration : configurations) {
+			props.load(configuration);
 		}
 
 		return props;
@@ -361,5 +355,17 @@ public class MergeManager {
 		}
 
 		return item.toString();
+	}
+
+	public List<ConfigurationLocation> getPatchLocations() {
+		return patchLocations;
+	}
+
+	public void setPatchLocations(List<ConfigurationLocation> patchLocations) {
+		this.patchLocations = patchLocations;
+	}
+
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		this.applicationContext = applicationContext;
 	}
 }
