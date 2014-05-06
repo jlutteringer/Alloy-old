@@ -1,18 +1,18 @@
 package org.vault.base.collections.iterable;
 
 import java.util.Iterator;
-
-import org.vault.base.utilities.function.Generator;
+import java.util.function.Supplier;
 
 public class GeneratingIterable<T> extends IterableWithToString<T> {
 
-	private Generator<Iterator<T>> generator;
+	private Supplier<Iterator<T>> supplier;
 
-	public GeneratingIterable(Generator<Iterator<T>> generator) {
-		this.generator = generator;
+	public GeneratingIterable(Supplier<Iterator<T>> supplier) {
+		this.supplier = supplier;
 	}
 
+	@Override
 	public Iterator<T> iterator() {
-		return generator.apply();
+		return supplier.get();
 	}
 }

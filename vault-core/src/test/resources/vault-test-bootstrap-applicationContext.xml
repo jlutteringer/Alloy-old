@@ -8,5 +8,7 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 		
-		<import resource="classpath:*vault-bootstrap-applicationContext.xml"/>
+		<context:component-scan base-package="org.vault.core.managed.module.registry"/>
+		<context:component-scan base-package="org.vault.core.test.managed.module.registry"/>
+		<context:component-scan base-package="org.vault.core.managed.bootstrap.handlers"/>
 </beans>

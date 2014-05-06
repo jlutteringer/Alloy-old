@@ -2,30 +2,30 @@ package org.vault.base.utilities.matcher;
 
 import java.util.List;
 
-import org.vault.base.utilities.domain.Identifiable;
+import org.vault.base.domain.Identifiable;
 
 import com.google.common.collect.Lists;
 
 public class Matchers {
 	@SafeVarargs
-	public static <T> Matcher<T> andMatchers(Matcher<T>... matchers) {
+	public static <T> Selector<T> andMatchers(Selector<T>... matchers) {
 		return andMatchers(Lists.newArrayList(matchers));
 	}
 
-	public static <T> Matcher<T> andMatchers(List<Matcher<T>> matchers) {
+	public static <T> Selector<T> andMatchers(List<Selector<T>> matchers) {
 		return new AndCompositeMatcher<T>().addInternalMatchers(matchers);
 	}
 
 	@SafeVarargs
-	public static <T> Matcher<T> orMatchers(Matcher<T>... matchers) {
+	public static <T> Selector<T> orMatchers(Selector<T>... matchers) {
 		return orMatchers(Lists.newArrayList(matchers));
 	}
 
-	public static <T> Matcher<T> orMatchers(List<Matcher<T>> matchers) {
+	public static <T> Selector<T> orMatchers(List<Selector<T>> matchers) {
 		return new OrCompositeMatcher<T>().addInternalMatchers(matchers);
 	}
 
-	public static <T extends Identifiable> Matcher<T> matchId(final Long id) {
+	public static <T extends Identifiable> Selector<T> matchId(final Long id) {
 		return new AbstractMatcher<T>() {
 			@Override
 			public boolean matches(T input) {
@@ -37,7 +37,7 @@ public class Matchers {
 		};
 	}
 
-	public static <T> Matcher<T> matchAll() {
+	public static <T> Selector<T> matchAll() {
 		return new AbstractMatcher<T>() {
 			@Override
 			public boolean matches(T input) {
@@ -46,7 +46,7 @@ public class Matchers {
 		};
 	}
 
-	public static <T> Matcher<T> matchClass(Class<?> clazz) {
+	public static <T> Selector<T> matchClass(Class<?> clazz) {
 		return new ClassMatcher<T>(clazz);
 	}
 

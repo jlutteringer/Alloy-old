@@ -6,7 +6,11 @@ import com.google.common.collect.Lists;
 
 public class VLists {
 	@SafeVarargs
-	public static <T> List<T> create(T... item) {
-		return Lists.newArrayList(item);
+	public static <T> List<T> list(T... items) {
+		return Lists.newArrayList(items);
+	}
+
+	public static <T> List<T> list(Iterable<T> items) {
+		return Lists.newArrayList(items);
 	}
 }

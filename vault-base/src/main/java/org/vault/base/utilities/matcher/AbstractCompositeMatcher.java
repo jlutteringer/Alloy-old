@@ -5,14 +5,14 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 public abstract class AbstractCompositeMatcher<T> extends AbstractMatcher<T> {
-	protected List<Matcher<T>> internalMatchers = Lists.newArrayList();
+	protected List<Selector<T>> internalMatchers = Lists.newArrayList();
 
-	public AbstractCompositeMatcher<T> addInternalMatcher(Matcher<T> matcher) {
+	public AbstractCompositeMatcher<T> addInternalMatcher(Selector<T> matcher) {
 		internalMatchers.add(matcher);
 		return this;
 	}
 
-	public AbstractCompositeMatcher<T> addInternalMatchers(List<Matcher<T>> matchers) {
+	public AbstractCompositeMatcher<T> addInternalMatchers(List<Selector<T>> matchers) {
 		internalMatchers.addAll(matchers);
 		return this;
 	}

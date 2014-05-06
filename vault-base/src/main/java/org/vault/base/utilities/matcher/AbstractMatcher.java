@@ -1,22 +1,14 @@
 package org.vault.base.utilities.matcher;
 
-import java.util.List;
+import org.vault.base.collections.iterable.VIterables;
 
-import com.google.common.collect.Lists;
-
-public abstract class AbstractMatcher<T> implements Matcher<T> {
+public abstract class AbstractMatcher<T> implements Selector<T> {
 
 	@Override
 	public abstract boolean matches(T input);
 
 	@Override
-	public List<T> getMatches(List<T> inputs) {
-		List<T> matches = Lists.newArrayList();
-		for (T input : inputs) {
-			if (matches(input)) {
-				matches.add(input);
-			}
-		}
-		return matches;
+	public Iterable<T> getMatches(Iterable<T> inputs) {
+		return VIterables.matchingIterable(inputs, this);
 	}
 }

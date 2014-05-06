@@ -31,6 +31,8 @@ public class CoreModuleLoader implements ModuleLoader {
 
 	private List<Module> modules;
 
+	private ModuleHierarchy heirarchy = null;
+
 	@Autowired
 	private void setModules(List<Module> modules) {
 		List<Module> filteredModules = Lists.newArrayList();
@@ -48,11 +50,13 @@ public class CoreModuleLoader implements ModuleLoader {
 		if (applicationModule == null) {
 			applicationModule = new ApplicationModule();
 		}
+
+		heirarchy = new SimpleModuleHierarchy();
+		heirarchy.setModules(this.buildModuleTree());
 	}
 
+	@Override
 	public ModuleHierarchy getModuleHierarchy() {
-		ModuleHierarchy heirarchy = new SimpleModuleHierarchy();
-		heirarchy.setModules(this.buildModuleTree());
 		return heirarchy;
 	}
 
@@ -101,15 +105,11 @@ public class CoreModuleLoader implements ModuleLoader {
 		return dependencies;
 	}
 
+	@Override
 	public List<ConfigurationLocation> buildConfigurationLocations(ModuleHierarchy moduleHierarchy) {
 		List<ConfigurationLocation> configurationLocations = Lists.newArrayList();
-		List<Module> visited = Lists.newArrayList();
 		for (Module module : Trees.iterateBreadthFirst(moduleHierarchy.getModules())) {
-			if (!visited.contains(module)) {
-				visited.add(module);
-
-				configurationLocations.addAll(module.getConfigurationLocations());
-			}
+			configurationLocations.addAll(module.getModuleConfigurationLocations());
 		}
 		return configurationLocations;
 	}

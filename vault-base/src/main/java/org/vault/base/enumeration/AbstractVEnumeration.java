@@ -1,5 +1,8 @@
 package org.vault.base.enumeration;
 
+import org.vault.base.utilities.object.VObjects;
+
+import com.google.common.base.Optional;
 
 public class AbstractVEnumeration implements VEnumeration {
 	private String type;
@@ -25,26 +28,26 @@ public class AbstractVEnumeration implements VEnumeration {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((type == null) ? 0 : type.hashCode());
-		return result;
+		return VObjects.hashCode(type);
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
+		Optional<Boolean> equals = VObjects.baseEquals(this, obj);
+		if (equals.isPresent()) {
+			return equals.get();
+		}
+
+		AbstractVEnumeration other = (AbstractVEnumeration) obj;
+		if (!this.getType().equals(other.getType())) {
 			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		FulfillmentType other = (FulfillmentType) obj;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
+		}
+
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return this.getType();
 	}
 }

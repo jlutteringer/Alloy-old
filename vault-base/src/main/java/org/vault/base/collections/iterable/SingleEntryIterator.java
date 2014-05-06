@@ -7,6 +7,7 @@ public abstract class SingleEntryIterator<T> implements Iterator<T> {
 	private boolean nextGenerated = false;
 	private T next;
 
+	@Override
 	public boolean hasNext() {
 		if (!nextGenerated) {
 			try {
@@ -19,8 +20,9 @@ public abstract class SingleEntryIterator<T> implements Iterator<T> {
 		return nextGenerated;
 	}
 
+	@Override
 	public T next() {
-		if(nextGenerated) {
+		if (nextGenerated) {
 			nextGenerated = false;
 			return next;
 		}
@@ -28,9 +30,10 @@ public abstract class SingleEntryIterator<T> implements Iterator<T> {
 			return generateNext();
 		}
 	}
-	
+
+	@Override
 	public void remove() {
-		throw new RuntimeException("Method not supported");
+		throw new UnsupportedOperationException();
 	}
 
 	protected abstract T generateNext() throws NoSuchElementException;

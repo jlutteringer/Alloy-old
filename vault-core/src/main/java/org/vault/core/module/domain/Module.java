@@ -7,11 +7,15 @@ import org.vault.base.utilities.configuration.ConfigurationLocation;
 public interface Module {
 	public String getName();
 
+	public String getFriendlyName();
+
 	public ModuleType getType();
 
 	public List<Module> getDependencies();
 
-	public List<ConfigurationLocation> getConfigurationLocations();
+	public List<ConfigurationLocation> getBaseConfigurationLocations();
 
-	public ConfigurationLocation getLoggingConfigurationLocation();
+	public List<ConfigurationLocation> getModuleConfigurationLocations();
+
+	public List<ConfigurationLocation> getLog4jConfigurationLocations();
 }

@@ -8,9 +8,9 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.Stack;
 
-import org.apache.commons.lang.StringUtils;
-import org.vault.base.collections.iterable.V_Iterables;
-import org.vault.base.utilities.function.Generator;
+import org.apache.commons.lang3.StringUtils;
+import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.utilities.Value;
 
 import com.google.common.collect.Lists;
 
@@ -27,41 +27,46 @@ public class Trees {
 		return flattened;
 	}
 
-	public static <T> Iterable<T> iterateBreadthFirst(Tree<T> tree) {
-		final Queue<Tree<T>> bfsQueue = new LinkedList<Tree<T>>();
-		bfsQueue.add(tree);
-
-		return V_Iterables.createFromElementGenerator(new Generator<T>() {
-			@Override
-			public T apply() {
-				Tree<T> tree = bfsQueue.remove();
-				for (Tree<T> subTree : tree.getChildren()) {
-					bfsQueue.add(subTree);
-				}
-				return tree.getHead();
-			}
-		});
+	public static <T> Iterable<T> iterateBreadthFirst(final Tree<T> topLevelTree) {
+		return VIterables.createFromElementSupplier(
+				(queue) -> {
+					try {
+						Tree<T> tree = queue.remove();
+						for (Tree<T> subTree : tree.getChildren()) {
+							queue.add(subTree);
+						}
+						return Value.of(tree.getHead());
+					}
+					catch (NoSuchElementException e) {
+						return Value.none();
+					}
+				},
+				() -> {
+					Queue<Tree<T>> bfsQueue = new LinkedList<Tree<T>>();
+					bfsQueue.add(topLevelTree);
+					return bfsQueue;
+				});
 	}
 
-	public static <T> Iterable<T> iterateDepthFirst(Tree<T> tree) {
-		final Stack<Tree<T>> dfsStack = new Stack<Tree<T>>();
-		dfsStack.push(tree);
-
-		return V_Iterables.createFromElementGenerator(new Generator<T>() {
-			@Override
-			public T apply() {
-				try {
-					Tree<T> tree = dfsStack.pop();
-					for (Tree<T> subTree : tree.getChildren()) {
-						dfsStack.add(subTree);
+	public static <T> Iterable<T> iterateDepthFirst(Tree<T> topLevelTree) {
+		return VIterables.createFromElementSupplier(
+				(stack) -> {
+					try {
+						Tree<T> tree = stack.pop();
+						for (Tree<T> subTree : tree.getChildren()) {
+							stack.add(subTree);
+						}
+						return Value.of(tree.getHead());
 					}
-					return tree.getHead();
-				}
-				catch (EmptyStackException e) {
-					throw new NoSuchElementException();
-				}
-			}
-		});
+					catch (EmptyStackException e) {
+						return Value.none();
+					}
+				},
+				() -> {
+					Stack<Tree<T>> dfsStack = new Stack<Tree<T>>();
+					dfsStack.push(topLevelTree);
+					return dfsStack;
+				});
 	}
 
 	public static <T> String stringify(Tree<T> tree) {

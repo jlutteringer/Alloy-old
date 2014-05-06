@@ -5,7 +5,6 @@ import java.util.Collection;
 import org.vault.base.observer.Listenable;
 import org.vault.base.observer.ListenerRegistry;
 import org.vault.base.observer.Listeners;
-import org.vault.base.utilities.function.Operation.Operation_V1;
 
 public class ListenableCollection<T> extends AbstractCollection<T> implements Listenable<Collection<T>> {
 	private ListenerRegistry<Collection<T>, CollectionListener<T>> listeners;
@@ -35,53 +34,25 @@ public class ListenableCollection<T> extends AbstractCollection<T> implements Li
 
 	@Override
 	public boolean add(final T element) {
-		listeners.apply(new Operation_V1<CollectionListener<T>>() {
-			@Override
-			public void apply(CollectionListener<T> first) {
-				first.onAdd(element);
-			}
-		});
-
+		listeners.apply((listener) -> listener.onAdd(element));
 		return this.getBackingCollection().add(element);
 	}
 
 	@Override
 	public boolean remove(final Object o) {
-		listeners.apply(new Operation_V1<CollectionListener<T>>() {
-			@Override
-			public void apply(CollectionListener<T> first) {
-				first.onRemove(o);
-			}
-		});
-
+		listeners.apply((listener) -> listener.onRemove(o));
 		return this.getBackingCollection().remove(o);
 	}
 
 	@Override
 	public boolean addAll(final Collection<? extends T> c) {
-		listeners.apply(new Operation_V1<CollectionListener<T>>() {
-			@Override
-			public void apply(CollectionListener<T> first) {
-				for (T element : c) {
-					first.onAdd(element);
-				}
-			}
-		});
-
+		listeners.apply((listener) -> c.forEach((element) -> listener.onAdd(element)));
 		return this.addAll(c);
 	}
 
 	@Override
 	public boolean removeAll(final Collection<?> c) {
-		listeners.apply(new Operation_V1<CollectionListener<T>>() {
-			@Override
-			public void apply(CollectionListener<T> first) {
-				for (Object element : c) {
-					first.onRemove(element);
-				}
-			}
-		});
-
+		listeners.apply((listener) -> c.forEach((element) -> listener.onRemove(element)));
 		return this.getBackingCollection().removeAll(c);
 	}
 

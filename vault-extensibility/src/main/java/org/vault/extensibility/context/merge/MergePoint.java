@@ -28,8 +28,8 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
-import org.vault.base.collections.VCollections;
-import org.vault.base.utilities.matcher.Matcher;
+import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.utilities.matcher.Selector;
 import org.vault.base.utilities.tuple.Tuple;
 import org.vault.base.utilities.tuple.Tuple.Pair;
 import org.vault.base.utilities.xpath.XPathUtils;
@@ -107,8 +107,8 @@ public class MergePoint {
 		List<Node> unmatchedPatchNodes = Lists.newArrayList();
 
 		for (Node sourceNode : sourceNodes) {
-			Matcher<Node> matcher = this.getMatcher(sourceNode, handler.getMatcherType());
-			Node matchingNode = VCollections.getSingleResult(matcher.getMatches(patchNodes), true);
+			Selector<Node> matcher = this.getMatcher(sourceNode, handler.getMatcherType());
+			Node matchingNode = VIterables.getSingleResult(matcher.getMatches(patchNodes), true);
 			if (matchingNode != null) {
 				log.debug("Match found: " + matchingNode + " for source node " + sourceNode);
 				matchedNodes.add(Tuple.pair(sourceNode, matchingNode));
@@ -163,7 +163,7 @@ public class MergePoint {
 		return handler;
 	}
 
-	private Matcher<Node> getMatcher(final Node sourceNode, MergeMatcherType type) {
+	private Selector<Node> getMatcher(final Node sourceNode, MergeMatcherType type) {
 		switch (type) {
 		case ID:
 			return new NodeMatcher() {
