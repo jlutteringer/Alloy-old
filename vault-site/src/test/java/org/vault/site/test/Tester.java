@@ -1,6 +1,6 @@
 package org.vault.site.test;
 
-import org.vault.core.bootstrap.CoreApplicationBootstrapper;
+import org.vault.bootstrap.CoreApplicationBootstrapper;
 import org.vault.core.managed.test.TestService;
 import org.vault.extensibility.context.MergeApplicationContext;
 

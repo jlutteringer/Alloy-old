@@ -1,4 +1,4 @@
-package org.vault.core.module.domain;
+package org.vault.base.module.domain;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ public interface Module {
 
 	public ModuleType getType();
 
-	public List<Module> getDependencies();
+	public List<String> getDependencies();
 
 	public List<ConfigurationLocation> getBaseConfigurationLocations();
 

@@ -1,4 +1,4 @@
-package org.vault.core.module.domain;
+package org.vault.base.module.domain;
 
 public enum ModuleType {
 	CORE,

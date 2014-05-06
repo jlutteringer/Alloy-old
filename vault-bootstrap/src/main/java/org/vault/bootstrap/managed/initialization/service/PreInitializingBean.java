@@ -1,4 +1,4 @@
-package org.vault.core.managed.bootstrap.initialization.service;
+package org.vault.bootstrap.managed.initialization.service;
 
 import org.vault.base.spring.beans.InitializingBean;
 

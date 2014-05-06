@@ -20,6 +20,7 @@
 		<module>vault-base</module>
 		<module>vault-extensibility</module>
 		<module>vault-web</module>
+		<module>vault-bootstrap</module>
 	</modules>
 	
 	<build>
@@ -169,6 +170,13 @@
 			<dependency>
 				<groupId>org.vault</groupId>
 				<artifactId>vault-web</artifactId>
+				<version>${vault.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.vault</groupId>
+				<artifactId>vault-bootstrap</artifactId>
 				<version>${vault.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>

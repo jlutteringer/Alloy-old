@@ -1,7 +1,7 @@
 package org.vault.core.test;
 
 import org.junit.Test;
-import org.vault.core.bootstrap.CoreApplicationBootstrapper;
+import org.vault.bootstrap.CoreApplicationBootstrapper;
 import org.vault.core.test.bootstrap.AbstractConfigurationTest;
 import org.vault.extensibility.context.MergeApplicationContext;
 

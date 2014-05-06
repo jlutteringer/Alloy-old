@@ -1,12 +1,12 @@
-package org.vault.core.managed.bootstrap.configuration;
+package org.vault.bootstrap.managed.configuration;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vault.base.collections.tree.Trees;
+import org.vault.base.module.domain.Module;
+import org.vault.base.module.service.ModuleLoader;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
-import org.vault.core.module.domain.Module;
-import org.vault.core.module.service.ModuleLoader;
 
 import com.google.common.collect.Lists;
 

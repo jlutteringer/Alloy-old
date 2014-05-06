@@ -9,15 +9,21 @@ import org.springframework.context.ApplicationContext;
 import org.vault.base.collections.directory.Directories;
 import org.vault.base.collections.directory.Directory;
 import org.vault.base.enviornment.EnvironmentType;
+import org.vault.base.module.domain.Module;
 import org.vault.base.resources.stream.ResourceInputStream;
 import org.vault.base.utilities.configuration.classpath.BaseClasspathResourceConfigurationLocation;
 import org.vault.base.utilities.configuration.classpath.ClasspathResourceConfigurationLocation;
 import org.vault.base.utilities.configuration.classpath.EnvironmentCRCLDecorator;
+import org.vault.base.utilities.configuration.classpath.ModuleRelativeCRCLDecorator;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
 public class Configurations {
+	public static ClasspathResourceConfigurationLocation moduleRelative(ClasspathResourceConfigurationLocation location, Module module) {
+		return new ModuleRelativeCRCLDecorator(location, module);
+	}
+
 	public static ClasspathResourceConfigurationLocation createClasspathLocation(String location) {
 		BaseClasspathResourceConfigurationLocation configLocation = new BaseClasspathResourceConfigurationLocation();
 		configLocation.setResourceLocation(location);

@@ -6,12 +6,16 @@
 		<version>${vault.version}</version>
 	</parent>
   
-	<artifactId>vault-core</artifactId>
-  
- 	<dependencies>
+	<artifactId>vault-bootstrap</artifactId>
+	
+	<dependencies>
 		<dependency>
 			<groupId>org.vault</groupId>
-			<artifactId>vault-bootstrap</artifactId>
+			<artifactId>vault-base</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.vault</groupId>
+			<artifactId>vault-extensibility</artifactId>
 		</dependency>
 	</dependencies>
 </project>

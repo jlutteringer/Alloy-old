@@ -1,14 +1,14 @@
-package org.vault.core.bootstrap;
+package org.vault.bootstrap;
 
 import java.util.List;
 
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.vault.base.module.domain.ModuleHierarchy;
+import org.vault.base.module.service.ModuleLoader;
 import org.vault.base.reflection.VReflection;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
-import org.vault.core.bootstrap.service.Bootstrap;
-import org.vault.core.managed.bootstrap.initialization.service.PreInitializationContext;
-import org.vault.core.module.domain.ModuleHierarchy;
-import org.vault.core.module.service.ModuleLoader;
+import org.vault.bootstrap.managed.initialization.service.PreInitializationContext;
+import org.vault.bootstrap.service.Bootstrap;
 import org.vault.extensibility.context.MergeApplicationContext;
 
 public abstract class AbstractCoreApplicationBootstrapper<T extends MergeApplicationContext> implements Bootstrap<T> {

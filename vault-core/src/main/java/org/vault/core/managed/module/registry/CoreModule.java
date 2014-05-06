@@ -1,7 +1,7 @@
 package org.vault.core.managed.module.registry;
 
 import org.springframework.stereotype.Component;
-import org.vault.core.module.domain.ModuleType;
+import org.vault.base.module.domain.ModuleType;
 import org.vault.core.module.domain.simple.SimpleModule;
 
 @Component

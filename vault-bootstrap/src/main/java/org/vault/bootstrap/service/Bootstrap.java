@@ -1,4 +1,4 @@
-package org.vault.core.bootstrap.service;
+package org.vault.bootstrap.service;
 
 import org.springframework.context.ApplicationContext;
 

@@ -1,4 +1,4 @@
-package org.vault.core.bootstrap;
+package org.vault.bootstrap;
 
 import org.vault.extensibility.context.MergeClasspathXmlApplicationContext;
 

@@ -1,8 +1,6 @@
-package org.vault.core.configuration.classpath;
+package org.vault.base.utilities.configuration.classpath;
 
-import org.vault.base.utilities.configuration.classpath.CRCLDecorator;
-import org.vault.base.utilities.configuration.classpath.ClasspathResourceConfigurationLocation;
-import org.vault.core.module.domain.Module;
+import org.vault.base.module.domain.Module;
 
 public class ModuleRelativeCRCLDecorator extends CRCLDecorator {
 	private Module module;

@@ -1,6 +1,6 @@
 package org.vault.core.module.domain.simple;
 
-import org.vault.core.module.domain.ModuleType;
+import org.vault.base.module.domain.ModuleType;
 
 public class ApplicationModule extends SimpleModule {
 	public ApplicationModule() {

@@ -2,11 +2,11 @@ package org.vault.core.module.domain.simple;
 
 import java.util.List;
 
+import org.vault.base.module.domain.Module;
+import org.vault.base.module.domain.ModuleType;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.base.utilities.configuration.classpath.ClasspathResourceConfigurationLocation;
-import org.vault.core.configuration.classpath.ModuleRelativeCRCLDecorator;
-import org.vault.core.module.domain.Module;
-import org.vault.core.module.domain.ModuleType;
+import org.vault.base.utilities.configuration.classpath.ModuleRelativeCRCLDecorator;
 
 import com.google.common.collect.Lists;
 
@@ -14,8 +14,8 @@ public class SimpleModule implements Module {
 	protected String name;
 	protected String friendlyName;
 	protected ModuleType type = ModuleType.MODULE;
-	protected List<Module> dependencies = Lists.newArrayList();
 
+	protected List<String> dependencies = Lists.newArrayList();
 	protected List<ConfigurationLocation> configurationLocations = Lists.newArrayList();
 	protected List<ConfigurationLocation> log4jConfigurationLocations = Lists.newArrayList();
 
@@ -62,11 +62,11 @@ public class SimpleModule implements Module {
 	}
 
 	@Override
-	public List<Module> getDependencies() {
+	public List<String> getDependencies() {
 		return dependencies;
 	}
 
-	public void setDependencies(List<Module> dependencies) {
+	public void setDependencies(List<String> dependencies) {
 		this.dependencies = dependencies;
 	}
 

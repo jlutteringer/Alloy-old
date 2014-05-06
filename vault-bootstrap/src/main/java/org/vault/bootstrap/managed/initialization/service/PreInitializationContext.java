@@ -1,4 +1,4 @@
-package org.vault.core.managed.bootstrap.initialization.service;
+package org.vault.bootstrap.managed.initialization.service;
 
 public interface PreInitializationContext {
 

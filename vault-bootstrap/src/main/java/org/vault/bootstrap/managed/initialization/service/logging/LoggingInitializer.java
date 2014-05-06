@@ -1,4 +1,4 @@
-package org.vault.core.managed.bootstrap.initialization.service.logging;
+package org.vault.bootstrap.managed.initialization.service.logging;
 
 import java.io.IOException;
 
@@ -8,8 +8,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.vault.base.spring.beans.AbstractInitializingBean;
-import org.vault.core.managed.bootstrap.configuration.logging.LoggingConfigurationManager;
-import org.vault.core.managed.bootstrap.initialization.service.PreInitializingBean;
+import org.vault.bootstrap.managed.configuration.logging.LoggingConfigurationManager;
+import org.vault.bootstrap.managed.initialization.service.PreInitializingBean;
 import org.vault.extensibility.logging.MergeLog4jConfiguration;
 
 import com.google.common.base.Throwables;
