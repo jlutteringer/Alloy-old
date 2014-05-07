@@ -72,8 +72,8 @@ import com.google.common.collect.Lists;
 * @author jfischer
 *
 */
-public class MergeManager implements PatchableConfiguration, ApplicationContextAware {
-	private static final Log LOG = LogFactory.getLog(MergeManager.class);
+public class MergeContext implements PatchableConfiguration, ApplicationContextAware {
+	private static final Log LOG = LogFactory.getLog(MergeContext.class);
 	private static DocumentBuilder builder;
 
 	private ContextualMatcher<MergeHandler, String> contextualNameMatcher = new AbstractContextualMatcher<MergeHandler, String>() {
@@ -101,7 +101,7 @@ public class MergeManager implements PatchableConfiguration, ApplicationContextA
 	private List<MergeHandler> handlers = Lists.newArrayList();
 	private List<ConfigurationLocation> patchLocations = Lists.newArrayList();
 
-	public MergeManager(String defaultHandlerConfiguration, ApplicationContext applicationContext) throws MergeManagerSetupException {
+	public MergeContext(String defaultHandlerConfiguration, ApplicationContext applicationContext) throws MergeManagerSetupException {
 		this.defaultHandlerConfiguration = defaultHandlerConfiguration;
 		this.applicationContext = applicationContext;
 

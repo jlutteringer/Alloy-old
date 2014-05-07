@@ -6,6 +6,7 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vault.base.collections.tree.Tree;
@@ -24,6 +25,7 @@ import com.google.common.collect.Sets;
 
 @Service
 public class CoreModuleLoader implements ModuleLoader {
+	private static final Logger log = Logger.getLogger(CoreModuleLoader.class);
 
 	@Autowired
 	private CoreModule coreModule;
@@ -40,6 +42,7 @@ public class CoreModuleLoader implements ModuleLoader {
 		Map<String, Module> filteredModules = Maps.newHashMap();
 		for (Module module : modules) {
 			if (ModuleType.MODULE.equals(module.getType())) {
+				log.debug("Detected " + module.getFriendlyName() + " module. Adding to configuration.");
 				filteredModules.put(module.getName(), module);
 			}
 		}

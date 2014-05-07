@@ -125,7 +125,7 @@ public class MergeXmlConfigResource {
 	}
 
 	protected ResourceInputStream mergeItems(ResourceInputStream sourceLocationFirst, ResourceInputStream sourceLocationSecond) throws MergeException, MergeManagerSetupException {
-		ResourceInputStream response = new MergeManager(defaultHandlerConfiguration, applicationContext).merge(sourceLocationFirst, sourceLocationSecond);
+		ResourceInputStream response = new MergeContext(defaultHandlerConfiguration, applicationContext).merge(sourceLocationFirst, sourceLocationSecond);
 
 		return response;
 	}

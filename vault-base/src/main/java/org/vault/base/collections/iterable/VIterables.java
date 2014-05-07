@@ -63,6 +63,9 @@ public class VIterables {
 		if (!iterator.hasNext() && !allowEmpty) {
 			throw new RuntimeException("Empty collection passed to get single result with allow empty = false");
 		}
+		else if (!iterator.hasNext()) {
+			return null;
+		}
 
 		T value = iterator.next();
 

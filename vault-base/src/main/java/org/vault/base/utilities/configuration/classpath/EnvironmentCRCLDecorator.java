@@ -1,7 +1,6 @@
 package org.vault.base.utilities.configuration.classpath;
 
 import java.util.List;
-import java.util.function.Function;
 
 import org.springframework.context.ApplicationContext;
 import org.vault.base.collections.directory.Directories;
@@ -23,9 +22,11 @@ public class EnvironmentCRCLDecorator extends CRCLDecorator {
 
 	@Override
 	public String getResourceLocation(String key) {
-		for (EnvironmentType type : this.getEnvironmentTypes()) {
-			if (key.equals(type.getType())) {
-				return String.format(super.getResourceLocation(key), type.toString().toLowerCase());
+		if (key != null) {
+			for (EnvironmentType type : this.getEnvironmentTypes()) {
+				if (key.equals(type.getType())) {
+					return String.format(super.getResourceLocation(key), type.toString().toLowerCase());
+				}
 			}
 		}
 
@@ -33,11 +34,11 @@ public class EnvironmentCRCLDecorator extends CRCLDecorator {
 	}
 
 	@Override
-	protected Directory<String, ResourceInputStream> resolveResourcesIternal(ApplicationContext context, Function<String, String> getResourceLocation) {
+	public Directory<String, ResourceInputStream> resolveResources(ApplicationContext context) {
 		List<Pair<String, ResourceInputStream>> resources = Lists.newArrayList();
 		for (EnvironmentType type : this.getEnvironmentTypes()) {
 			resources.add(Tuple.pair(type.toString().toLowerCase(),
-					Configurations.resolveClasspathResource(String.format(getResourceLocation.apply(null), type.toString().toLowerCase()), context)));
+					Configurations.resolveClasspathResource(String.format(this.getResourceLocation(type.getType()), type.toString().toLowerCase()), context)));
 		}
 
 		return Directories.newKeyedDirectory(resources);

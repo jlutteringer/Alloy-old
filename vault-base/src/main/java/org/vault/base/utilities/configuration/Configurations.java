@@ -39,7 +39,8 @@ public class Configurations {
 	private static List<ResourceInputStream> resolveResources(List<ConfigurationLocation> configurationLocations, ApplicationContext context) {
 		Directory<String, ResourceInputStream> directory = Directories.newDirectory();
 		for (ConfigurationLocation configurationLocation : configurationLocations) {
-			directory.putAll(configurationLocation.resolveResources(context));
+			Directory<String, ResourceInputStream> subDirectory = configurationLocation.resolveResources(context);
+			directory.putAll(subDirectory);
 		}
 
 		return directory.get();

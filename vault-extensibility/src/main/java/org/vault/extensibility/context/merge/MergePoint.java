@@ -107,8 +107,8 @@ public class MergePoint {
 		List<Node> unmatchedPatchNodes = Lists.newArrayList();
 
 		for (Node sourceNode : sourceNodes) {
-			Selector<Node> matcher = this.getMatcher(sourceNode, handler.getMatcherType());
-			Node matchingNode = VIterables.getSingleResult(matcher.getMatches(patchNodes), true);
+			Selector<Node> selector = this.getSelector(sourceNode, handler.getMatcherType());
+			Node matchingNode = VIterables.getSingleResult(selector.getMatches(patchNodes), true);
 			if (matchingNode != null) {
 				log.debug("Match found: " + matchingNode + " for source node " + sourceNode);
 				matchedNodes.add(Tuple.pair(sourceNode, matchingNode));
@@ -163,7 +163,7 @@ public class MergePoint {
 		return handler;
 	}
 
-	private Selector<Node> getMatcher(final Node sourceNode, MergeMatcherType type) {
+	private Selector<Node> getSelector(final Node sourceNode, MergeMatcherType type) {
 		switch (type) {
 		case ID:
 			return new NodeMatcher() {
