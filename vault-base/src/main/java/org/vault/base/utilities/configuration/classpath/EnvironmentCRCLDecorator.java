@@ -2,14 +2,7 @@ package org.vault.base.utilities.configuration.classpath;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationContext;
-import org.vault.base.collections.directory.Directories;
-import org.vault.base.collections.directory.Directory;
 import org.vault.base.enviornment.EnvironmentType;
-import org.vault.base.resources.stream.ResourceInputStream;
-import org.vault.base.utilities.configuration.Configurations;
-import org.vault.base.utilities.tuple.Tuple;
-import org.vault.base.utilities.tuple.Tuple.Pair;
 
 import com.google.common.collect.Lists;
 
@@ -34,14 +27,15 @@ public class EnvironmentCRCLDecorator extends CRCLDecorator {
 	}
 
 	@Override
-	public Directory<String, ResourceInputStream> resolveResources(ApplicationContext context) {
-		List<Pair<String, ResourceInputStream>> resources = Lists.newArrayList();
+	public List<String> getKeys() {
+		List<String> keys = Lists.newArrayList();
+
 		for (EnvironmentType type : this.getEnvironmentTypes()) {
-			resources.add(Tuple.pair(type.toString().toLowerCase(),
-					Configurations.resolveClasspathResource(String.format(this.getResourceLocation(type.getType()), type.toString().toLowerCase()), context)));
+			keys.add(type.getType());
 		}
 
-		return Directories.newKeyedDirectory(resources);
+		keys.addAll(decoratedConfigLocation.getKeys());
+		return keys;
 	}
 
 	private List<EnvironmentType> getEnvironmentTypes() {

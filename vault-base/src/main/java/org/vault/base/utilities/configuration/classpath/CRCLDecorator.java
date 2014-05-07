@@ -1,8 +1,6 @@
 package org.vault.base.utilities.configuration.classpath;
 
-import org.springframework.context.ApplicationContext;
-import org.vault.base.collections.directory.Directory;
-import org.vault.base.resources.stream.ResourceInputStream;
+import java.util.List;
 
 public abstract class CRCLDecorator extends AbstractClasspathResourceConfigurationLocation {
 	protected ClasspathResourceConfigurationLocation decoratedConfigLocation;
@@ -17,7 +15,7 @@ public abstract class CRCLDecorator extends AbstractClasspathResourceConfigurati
 	}
 
 	@Override
-	public Directory<String, ResourceInputStream> resolveResources(ApplicationContext context) {
-		return decoratedConfigLocation.resolveResources(context);
+	public List<String> getKeys() {
+		return decoratedConfigLocation.getKeys();
 	}
 }

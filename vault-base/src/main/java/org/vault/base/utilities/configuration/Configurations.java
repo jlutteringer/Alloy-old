@@ -11,7 +11,7 @@ import org.vault.base.collections.directory.Directory;
 import org.vault.base.enviornment.EnvironmentType;
 import org.vault.base.module.domain.Module;
 import org.vault.base.resources.stream.ResourceInputStream;
-import org.vault.base.utilities.configuration.classpath.BaseClasspathResourceConfigurationLocation;
+import org.vault.base.utilities.configuration.classpath.ConcreteClasspathResourceConfigurationLocation;
 import org.vault.base.utilities.configuration.classpath.ClasspathResourceConfigurationLocation;
 import org.vault.base.utilities.configuration.classpath.EnvironmentCRCLDecorator;
 import org.vault.base.utilities.configuration.classpath.ModuleRelativeCRCLDecorator;
@@ -25,7 +25,7 @@ public class Configurations {
 	}
 
 	public static ClasspathResourceConfigurationLocation createClasspathLocation(String location) {
-		BaseClasspathResourceConfigurationLocation configLocation = new BaseClasspathResourceConfigurationLocation();
+		ConcreteClasspathResourceConfigurationLocation configLocation = new ConcreteClasspathResourceConfigurationLocation();
 		configLocation.setResourceLocation(location);
 		return configLocation;
 	}
