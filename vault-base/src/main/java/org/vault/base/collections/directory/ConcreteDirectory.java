@@ -117,6 +117,19 @@ public class ConcreteDirectory<T, N> implements Directory<T, N> {
 		return indexes.isEmpty();
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("Directory: [");
+		for (DirectoryIndex<T, N> index : this.getIndexes()) {
+			sb.append(index);
+			sb.append(", ");
+		}
+		sb.delete(sb.length() - ", ".length(), sb.length());
+		sb.append("]");
+		return sb.toString();
+	}
+
 	public static class ConcreteDirectoryIndex<T, N> implements DirectoryIndex<T, N> {
 		private T key;
 		private List<DirectoryEntry<T, N>> entries = Lists.newArrayList();
@@ -148,6 +161,20 @@ public class ConcreteDirectory<T, N> implements Directory<T, N> {
 			this.key = key;
 		}
 
+		@Override
+		public String toString() {
+			StringBuilder sb = new StringBuilder();
+			sb.append("Directory Index: {key = ");
+			sb.append(key);
+			sb.append(", entries = [");
+			for (DirectoryEntry<T, N> entry : this.getEntries()) {
+				sb.append(entry.getValue());
+				sb.append(", ");
+			}
+			sb.delete(sb.length() - ", ".length(), sb.length());
+			sb.append("}");
+			return sb.toString();
+		}
 	}
 
 	public static class ConcreteDirectoryEntry<T, N> implements DirectoryEntry<T, N> {

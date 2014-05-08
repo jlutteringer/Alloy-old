@@ -27,6 +27,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.Resource;
+import org.vault.base.collections.iterable.VIterables;
+
+import com.google.common.collect.Lists;
 
 /**
 * @author jfischer
@@ -118,6 +122,14 @@ public class ResourceInputStream extends InputStream {
 	}
 
 	public static ResourceInputStream create(String resourceName, ApplicationContext applicationContext) throws IOException {
-		return new ResourceInputStream(applicationContext.getResource(resourceName).getInputStream(), resourceName);
+		return VIterables.getSingleResult(ResourceInputStream.createList(resourceName, applicationContext));
+	}
+
+	public static List<ResourceInputStream> createList(String matchingResourcePattern, ApplicationContext applicationContext) throws IOException {
+		List<ResourceInputStream> resouces = Lists.newArrayList();
+		for (Resource resource : applicationContext.getResources(matchingResourcePattern)) {
+			resouces.add(new ResourceInputStream(resource.getInputStream(), matchingResourcePattern));
+		}
+		return resouces;
 	}
 }

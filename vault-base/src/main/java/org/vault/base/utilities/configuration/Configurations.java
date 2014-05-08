@@ -1,20 +1,21 @@
 package org.vault.base.utilities.configuration;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.vault.base.collections.directory.Directories;
 import org.vault.base.collections.directory.Directory;
+import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.enviornment.EnvironmentType;
 import org.vault.base.module.domain.Module;
 import org.vault.base.resources.stream.ResourceInputStream;
-import org.vault.base.utilities.configuration.classpath.ConcreteClasspathResourceConfigurationLocation;
 import org.vault.base.utilities.configuration.classpath.ClasspathResourceConfigurationLocation;
-import org.vault.base.utilities.configuration.classpath.EnvironmentCRCLDecorator;
+import org.vault.base.utilities.configuration.classpath.EnvironmentClasspathResouceConfigurationLocation;
 import org.vault.base.utilities.configuration.classpath.ModuleRelativeCRCLDecorator;
+import org.vault.base.utilities.configuration.classpath.OptionalCRCLDecorator;
+import org.vault.base.utilities.configuration.classpath.SingletonClasspathResourceConfigurationLocation;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
@@ -24,14 +25,19 @@ public class Configurations {
 		return new ModuleRelativeCRCLDecorator(location, module);
 	}
 
+	public static ClasspathResourceConfigurationLocation optional(ClasspathResourceConfigurationLocation location) {
+		return new OptionalCRCLDecorator(location);
+	}
+
 	public static ClasspathResourceConfigurationLocation createClasspathLocation(String location) {
-		ConcreteClasspathResourceConfigurationLocation configLocation = new ConcreteClasspathResourceConfigurationLocation();
+		SingletonClasspathResourceConfigurationLocation configLocation = new SingletonClasspathResourceConfigurationLocation();
 		configLocation.setResourceLocation(location);
 		return configLocation;
 	}
 
 	public static ClasspathResourceConfigurationLocation createEnvironmentLocation(String locationTemplate, EnvironmentType currentEnvironment) {
-		EnvironmentCRCLDecorator configLocation = new EnvironmentCRCLDecorator(createClasspathLocation(locationTemplate));
+		EnvironmentClasspathResouceConfigurationLocation configLocation = new EnvironmentClasspathResouceConfigurationLocation();
+		configLocation.setResourceLocation(locationTemplate);
 		configLocation.setCurrentEnvironment(currentEnvironment);
 		return configLocation;
 	}
@@ -69,20 +75,14 @@ public class Configurations {
 	}
 
 	public static ResourceInputStream resolveClasspathResource(String resourceLocation, ApplicationContext context) {
-		ResourceInputStream stream;
-		if (resourceLocation.startsWith("classpath")) {
-			InputStream is = ClasspathResourceConfigurationLocation.class.getClassLoader()
-					.getResourceAsStream(resourceLocation.substring("classpath*:".length(), resourceLocation.length()));
+		return VIterables.getSingleResult(resolveClasspathResources(resourceLocation, context));
+	}
 
-			stream = new ResourceInputStream(is, resourceLocation);
-		} else {
-			try {
-				stream = ResourceInputStream.create(resourceLocation, context);
-			} catch (IOException e) {
-				throw Throwables.propagate(e);
-			}
+	public static List<ResourceInputStream> resolveClasspathResources(String resourceLocation, ApplicationContext context) {
+		try {
+			return ResourceInputStream.createList(resourceLocation, context);
+		} catch (IOException e) {
+			throw Throwables.propagate(e);
 		}
-
-		return stream;
 	}
 }

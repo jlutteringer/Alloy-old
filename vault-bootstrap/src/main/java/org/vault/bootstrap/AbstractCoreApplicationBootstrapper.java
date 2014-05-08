@@ -4,13 +4,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.vault.base.module.domain.ModuleHierarchy;
-import org.vault.base.module.service.ModuleLoader;
 import org.vault.base.reflection.VReflection;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.base.utilities.configuration.Configurations;
 import org.vault.base.utilities.constants.VConfigurationFileConstants;
 import org.vault.base.utilities.logging.Logging;
+import org.vault.bootstrap.managed.context.configuration.ContextConfigurationManager;
 import org.vault.bootstrap.managed.initialization.service.PreInitializationContext;
 import org.vault.bootstrap.service.Bootstrap;
 import org.vault.extensibility.context.MergeApplicationContext;
@@ -44,13 +43,11 @@ public abstract class AbstractCoreApplicationBootstrapper<T extends MergeApplica
 		bootstrapApplicationContext.refresh();
 		bootstrapApplicationContext.start();
 
-		ModuleLoader loader = bootstrapApplicationContext.getBean(ModuleLoader.class);
-
-		ModuleHierarchy moduleHierarchy = loader.getModuleHierarchy();
-		List<ConfigurationLocation> configurationLocations = loader.buildConfigurationLocations(moduleHierarchy);
-
 		PreInitializationContext preInitialization = bootstrapApplicationContext.getBean(PreInitializationContext.class);
 		preInitialization.initialize();
+
+		List<ConfigurationLocation> configurationLocations =
+				bootstrapApplicationContext.getBean(ContextConfigurationManager.class).buildConfigurationLocations();
 
 		bootstrapApplicationContext.close();
 		return configurationLocations;

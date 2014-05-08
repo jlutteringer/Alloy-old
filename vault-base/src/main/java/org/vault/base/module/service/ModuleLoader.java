@@ -4,12 +4,9 @@ import java.util.List;
 
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleHierarchy;
-import org.vault.base.utilities.configuration.ConfigurationLocation;
 
 public interface ModuleLoader {
 	public ModuleHierarchy getModuleHierarchy();
-
-	public List<ConfigurationLocation> buildConfigurationLocations(ModuleHierarchy moduleHierarchy);
 
 	public List<Module> getModulesByKeys(List<String> moduleNames);
 }

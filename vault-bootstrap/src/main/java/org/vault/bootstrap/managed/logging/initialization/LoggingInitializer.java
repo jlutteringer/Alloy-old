@@ -7,8 +7,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.vault.base.spring.beans.AbstractInitializingBean;
 import org.vault.base.utilities.logging.Logging;
-import org.vault.bootstrap.managed.configuration.logging.LoggingConfigurationManager;
 import org.vault.bootstrap.managed.initialization.service.PreInitializingBean;
+import org.vault.bootstrap.managed.logging.configuration.LoggingConfigurationManager;
 import org.vault.bootstrap.managed.logging.merge.LoggingMergeManager;
 
 import com.google.common.base.Throwables;

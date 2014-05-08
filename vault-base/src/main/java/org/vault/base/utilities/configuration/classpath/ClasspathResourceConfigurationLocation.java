@@ -2,10 +2,13 @@ package org.vault.base.utilities.configuration.classpath;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationContext;
+import org.vault.base.collections.directory.Directory;
+import org.vault.base.resources.stream.ResourceInputStream;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 
 public interface ClasspathResourceConfigurationLocation extends ConfigurationLocation {
-	public String getResourceLocation(String key);
+	public Directory<String, String> getResourceLocationDirectory();
 
-	public List<String> getKeys();
+	public List<ResourceInputStream> resolveResouceLocations(String resourceLocation, ApplicationContext context);
 }

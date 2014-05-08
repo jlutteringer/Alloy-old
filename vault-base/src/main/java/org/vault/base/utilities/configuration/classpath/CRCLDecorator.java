@@ -1,6 +1,6 @@
 package org.vault.base.utilities.configuration.classpath;
 
-import java.util.List;
+import org.vault.base.collections.directory.Directory;
 
 public abstract class CRCLDecorator extends AbstractClasspathResourceConfigurationLocation {
 	protected ClasspathResourceConfigurationLocation decoratedConfigLocation;
@@ -10,12 +10,7 @@ public abstract class CRCLDecorator extends AbstractClasspathResourceConfigurati
 	}
 
 	@Override
-	public String getResourceLocation(String key) {
-		return decoratedConfigLocation.getResourceLocation(key);
-	}
-
-	@Override
-	public List<String> getKeys() {
-		return decoratedConfigLocation.getKeys();
+	public Directory<String, String> getResourceLocationDirectory() {
+		return decoratedConfigLocation.getResourceLocationDirectory();
 	}
 }

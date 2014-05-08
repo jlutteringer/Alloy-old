@@ -2,7 +2,6 @@ package org.vault.bootstrap.managed.configuration;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vault.base.collections.tree.Trees;
 import org.vault.base.module.domain.Module;
@@ -12,8 +11,6 @@ import org.vault.base.utilities.configuration.ConfigurationLocation;
 import com.google.common.collect.Lists;
 
 public abstract class ConfigurationManager {
-	private Logger log = Logger.getLogger(this.getClass());
-
 	@Autowired
 	private ModuleLoader moduleLoader;
 
@@ -24,7 +21,6 @@ public abstract class ConfigurationManager {
 			configurationLocations.addAll(getSpecificConfigurationLocations(module));
 		}
 
-		log.debug("Collected configuration locations: " + configurationLocations);
 		return configurationLocations;
 	}
 
