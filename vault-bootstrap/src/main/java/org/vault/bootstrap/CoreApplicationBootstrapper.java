@@ -1,7 +1,7 @@
 package org.vault.bootstrap;
 
-import org.vault.extensibility.context.MergeClasspathXmlApplicationContext;
+import org.vault.extensibility.context.ResourceApplicationContext;
 
-public class CoreApplicationBootstrapper extends AbstractCoreApplicationBootstrapper<MergeClasspathXmlApplicationContext> {
+public class CoreApplicationBootstrapper extends AbstractCoreApplicationBootstrapper<ResourceApplicationContext> {
 
 }

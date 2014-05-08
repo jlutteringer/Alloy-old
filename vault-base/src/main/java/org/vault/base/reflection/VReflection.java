@@ -87,20 +87,19 @@ public class VReflection {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T construct(Class<T> clazz) {
-		Constructor<?> constructor = clazz.getDeclaredConstructors()[0];
-		constructor.setAccessible(true);
+	public static <T> T construct(Class<T> clazz, Object... args) {
+		for (Constructor<?> constructor : clazz.getDeclaredConstructors()) {
+			if (constructor.getParameterTypes().length == args.length) {
+				constructor.setAccessible(true);
 
-		if (constructor.getParameterTypes().length == 0) {
-			try {
-				return (T) constructor.newInstance();
-			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				throw new RuntimeException(e);
+				try {
+					return (T) constructor.newInstance(args);
+				} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					throw new RuntimeException(e);
+				}
 			}
 		}
-		else {
-			throw new RuntimeException("No default constructor for class " + clazz);
-		}
 
+		throw new RuntimeException("No constructor for class " + clazz + " and args " + args);
 	}
 }

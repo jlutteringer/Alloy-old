@@ -15,8 +15,6 @@ import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleHierarchy;
 import org.vault.base.module.domain.ModuleType;
 import org.vault.base.module.service.ModuleLoader;
-import org.vault.bootstrap.managed.context.configuration.ContextConfigurationManager;
-import org.vault.bootstrap.managed.context.merge.ContextMergeManager;
 import org.vault.core.module.domain.simple.ApplicationModule;
 import org.vault.core.module.domain.simple.SimpleModuleHierarchy;
 
@@ -39,17 +37,11 @@ public class CoreModuleLoader implements ModuleLoader {
 	private ModuleHierarchy heirarchy = null;
 
 	@Autowired
-	private ContextMergeManager contextMergeManager;
-
-	@Autowired
-	private ContextConfigurationManager contextConfigurationManager;
-
-	@Autowired
 	private void setModules(List<Module> modules) {
 		Map<String, Module> filteredModules = Maps.newHashMap();
 		for (Module module : modules) {
 			if (ModuleType.MODULE.equals(module.getType())) {
-				log.debug("Detected " + module.getFriendlyName() + " module. Adding to configuration.");
+				log.info("Detected " + module.getFriendlyName() + " module. Adding to configuration.");
 				filteredModules.put(module.getName(), module);
 			}
 		}

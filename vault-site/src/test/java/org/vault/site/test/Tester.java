@@ -1,8 +1,8 @@
 package org.vault.site.test;
 
+import org.springframework.context.support.AbstractRefreshableApplicationContext;
 import org.vault.bootstrap.CoreApplicationBootstrapper;
 import org.vault.core.managed.test.TestService;
-import org.vault.extensibility.context.MergeApplicationContext;
 
 import com.google.common.collect.Lists;
 
@@ -11,7 +11,7 @@ public class Tester {
 		CoreApplicationBootstrapper bootsrap = new CoreApplicationBootstrapper();
 		bootsrap.setBootstrapConfigurationLocation(Lists.newArrayList("vault-bootstrap-applicationContext.xml"));
 
-		MergeApplicationContext context = bootsrap.bootstrap();
+		AbstractRefreshableApplicationContext context = bootsrap.bootstrap();
 		context.refresh();
 		context.start();
 		context.registerShutdownHook();
