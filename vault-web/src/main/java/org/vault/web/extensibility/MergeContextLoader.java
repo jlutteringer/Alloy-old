@@ -26,7 +26,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.WebApplicationContext;
-import org.vault.web.extensibility.context.MergeXmlWebApplicationContext;
 
 /**
 * Performs the actual initialization work for the rootId application context.
@@ -85,13 +84,14 @@ public class MergeContextLoader extends ContextLoader {
 	*/
 	@Override
 	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext) throws BeansException {
-		MergeXmlWebApplicationContext wac = new MergeXmlWebApplicationContext();
-		wac.setServletContext(servletContext);
-		wac.setConfigLocation(servletContext.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM));
-		// TODO
-//		wac.setPatchLocation(servletContext.getInitParameter(PATCH_LOCATION_PARAM));
-
-		customizeContext(servletContext, wac);
-		return wac;
+//		MergeXmlWebApplicationContext wac = new MergeXmlWebApplicationContext();
+//		wac.setServletContext(servletContext);
+//		wac.setConfigLocation(servletContext.getInitParameter(ContextLoader.CONFIG_LOCATION_PARAM));
+//		// TODO
+////		wac.setPatchLocation(servletContext.getInitParameter(PATCH_LOCATION_PARAM));
+//
+//		customizeContext(servletContext, wac);
+//		return wac;
+		return null;
 	}
 }

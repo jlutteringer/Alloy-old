@@ -10,8 +10,9 @@ public class Tester {
 		CoreApplicationBootstrapper bootstrap = new CoreApplicationBootstrapper();
 		bootstrap.setBootstrapConfigurationLocation(Lists.newArrayList("vault-test-bootstrap-applicationContext.xml"));
 		AbstractRefreshableApplicationContext context = bootstrap.bootstrap();
+		bootstrap.stop();
+
 		context.refresh();
 		context.start();
-
 	}
 }
