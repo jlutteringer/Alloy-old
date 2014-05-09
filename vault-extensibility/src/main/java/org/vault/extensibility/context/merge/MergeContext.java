@@ -258,6 +258,10 @@ public class MergeContext implements PatchableConfiguration, ApplicationContextA
 			xmlTransformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			xmlTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
 
+			if (doc1.getDoctype() != null && doc1.getDoctype().getSystemId() != null) {
+				xmlTransformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, doc1.getDoctype().getSystemId());
+			}
+
 			DOMSource source = new DOMSource(doc1);
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(baos));
@@ -357,14 +361,17 @@ public class MergeContext implements PatchableConfiguration, ApplicationContextA
 		return item.toString();
 	}
 
+	@Override
 	public List<ConfigurationLocation> getPatchLocations() {
 		return patchLocations;
 	}
 
+	@Override
 	public void setPatchLocations(List<ConfigurationLocation> patchLocations) {
 		this.patchLocations = patchLocations;
 	}
 
+	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}

@@ -21,6 +21,8 @@
 		<module>vault-extensibility</module>
 		<module>vault-web</module>
 		<module>vault-bootstrap</module>
+		<module>vault-data</module>
+		<module>vault-persistence</module>
 	</modules>
 	
 	<build>

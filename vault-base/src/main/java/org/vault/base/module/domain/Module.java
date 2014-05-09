@@ -18,4 +18,6 @@ public interface Module {
 	public List<ConfigurationLocation> getModuleConfigurationLocations();
 
 	public List<ConfigurationLocation> getLog4jConfigurationLocations();
+
+	public List<ConfigurationLocation> getPropertyConfigurationLocations();
 }

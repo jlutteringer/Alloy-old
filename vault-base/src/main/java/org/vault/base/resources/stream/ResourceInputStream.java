@@ -23,10 +23,12 @@ package org.vault.base.resources.stream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.vault.base.collections.iterable.VIterables;
 
@@ -131,5 +133,17 @@ public class ResourceInputStream extends InputStream {
 			resouces.add(new ResourceInputStream(resource.getInputStream(), matchingResourcePattern));
 		}
 		return resouces;
+	}
+
+	public static Resource toResource(ResourceInputStream stream) {
+		return VIterables.getSingleResult(toResources(Collections.singletonList(stream)), true);
+	}
+
+	public static List<Resource> toResources(List<ResourceInputStream> streams) {
+		List<Resource> resources = Lists.newArrayList();
+		for (ResourceInputStream stream : streams) {
+			resources.add(new InputStreamResource(stream));
+		}
+		return resources;
 	}
 }

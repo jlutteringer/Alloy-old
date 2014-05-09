@@ -8,5 +8,11 @@
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
 		
-	<context:component-scan base-package="org.vault.bootstrap.managed"/>
+	<import resource="classpath:vault-bootstrap-shared-applicationContext.xml" />
+	
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>vault-bootstrap.properties</value>
+		</property>
+	</bean>
 </beans>

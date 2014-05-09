@@ -18,6 +18,7 @@ public class SimpleModule implements Module {
 	protected List<String> dependencies = Lists.newArrayList();
 	protected List<ConfigurationLocation> configurationLocations = Lists.newArrayList();
 	protected List<ConfigurationLocation> log4jConfigurationLocations = Lists.newArrayList();
+	protected List<ConfigurationLocation> propertyConfigurationLocations = Lists.newArrayList();
 
 	@Override
 	public String getName() {
@@ -83,5 +84,10 @@ public class SimpleModule implements Module {
 	@Override
 	public String getFriendlyName() {
 		return friendlyName;
+	}
+
+	@Override
+	public List<ConfigurationLocation> getPropertyConfigurationLocations() {
+		return propertyConfigurationLocations;
 	}
 }

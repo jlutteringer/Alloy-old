@@ -1,7 +1,7 @@
 package org.vault.site.test;
 
 import org.springframework.context.support.AbstractRefreshableApplicationContext;
-import org.vault.bootstrap.CoreApplicationBootstrapper;
+import org.vault.core.bootstrap.CoreApplicationBootstrapper;
 import org.vault.core.managed.test.TestService;
 
 import com.google.common.collect.Lists;
