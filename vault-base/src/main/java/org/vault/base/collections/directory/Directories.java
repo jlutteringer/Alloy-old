@@ -7,7 +7,7 @@ import java.util.function.Function;
 import org.vault.base.collections.directory.ConcreteDirectory.ConcreteDirectoryEntry;
 import org.vault.base.collections.directory.ConcreteDirectory.ConcreteDirectoryIndex;
 import org.vault.base.collections.iterable.VIterables;
-import org.vault.base.utilities.matcher.AbstractMatcher;
+import org.vault.base.utilities.matcher.AbstractSelector;
 import org.vault.base.utilities.matcher.Selector;
 import org.vault.base.utilities.tuple.Tuple.Pair;
 
@@ -15,7 +15,7 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
 public class Directories {
-	static abstract class DirectoryIndexMatcher<T, N> extends AbstractMatcher<DirectoryIndex<T, N>> {
+	static abstract class DirectoryIndexMatcher<T, N> extends AbstractSelector<DirectoryIndex<T, N>> {
 
 	}
 

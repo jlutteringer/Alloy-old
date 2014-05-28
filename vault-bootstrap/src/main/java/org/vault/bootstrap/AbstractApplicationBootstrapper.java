@@ -54,9 +54,6 @@ public abstract class AbstractApplicationBootstrapper<T extends BootstrappedAppl
 
 		Logging.configureLog4j(Configurations.resolveClasspathResource(VConfigurationFileConstants.BOOTSTRAP_LOG4J_RESOURCE, bootstrapApplicationContext));
 
-		bootstrapApplicationContext.refresh();
-		bootstrapApplicationContext.start();
-
 		PreInitializationContext preInitialization = bootstrapApplicationContext.getBean(PreInitializationContext.class);
 		preInitialization.initialize();
 	}

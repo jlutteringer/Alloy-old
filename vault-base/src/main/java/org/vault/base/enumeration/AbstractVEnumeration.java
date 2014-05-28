@@ -4,9 +4,13 @@ import org.vault.base.utilities.object.VObjects;
 
 import com.google.common.base.Optional;
 
-public class AbstractVEnumeration implements VEnumeration {
+public abstract class AbstractVEnumeration implements VEnumeration {
 	private String type;
 	private String friendlyType;
+
+	public AbstractVEnumeration() {
+
+	}
 
 	protected void setType(String type) {
 		this.type = type;

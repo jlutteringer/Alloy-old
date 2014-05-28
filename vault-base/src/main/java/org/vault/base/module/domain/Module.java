@@ -2,9 +2,9 @@ package org.vault.base.module.domain;
 
 import java.util.List;
 
-import org.vault.base.utilities.configuration.ConfigurationLocation;
+import org.vault.base.facets.FacetedObject;
 
-public interface Module {
+public interface Module extends FacetedObject<ModuleFacet> {
 	public String getName();
 
 	public String getFriendlyName();
@@ -12,12 +12,4 @@ public interface Module {
 	public ModuleType getType();
 
 	public List<String> getDependencies();
-
-	public List<ConfigurationLocation> getBaseConfigurationLocations();
-
-	public List<ConfigurationLocation> getModuleConfigurationLocations();
-
-	public List<ConfigurationLocation> getLog4jConfigurationLocations();
-
-	public List<ConfigurationLocation> getPropertyConfigurationLocations();
 }

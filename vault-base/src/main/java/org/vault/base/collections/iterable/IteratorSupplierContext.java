@@ -12,9 +12,9 @@ import org.vault.base.utilities.function.VFunctions;
 import org.vault.base.utilities.matcher.Matcher;
 import org.vault.base.utilities.matcher.Matchers;
 
-public class IteratorSupplierContext<T, N> implements SupplierContext<IteratorSupplierState<T, N>, Value<N>> {
+public class IteratorSupplierContext<T, N extends S, S> implements SupplierContext<IteratorSupplierState<T, N>, Value<N>> {
 	private Iterable<T> iterable;
-	private Matcher<N> matcher = Matchers.matchAll();
+	private Matcher<S> matcher = Matchers.matchAll();
 	private Function<T, Iterator<N>> transformer = VIterables.singletonIteratorTransformer(VFunctions.same());
 
 	public IteratorSupplierContext(Iterable<T> iterable) {
@@ -76,11 +76,11 @@ public class IteratorSupplierContext<T, N> implements SupplierContext<IteratorSu
 		};
 	}
 
-	public Matcher<N> getMatcher() {
+	public Matcher<S> getMatcher() {
 		return matcher;
 	}
 
-	public void setMatcher(Matcher<N> matcher) {
+	public void setMatcher(Matcher<S> matcher) {
 		this.matcher = matcher;
 	}
 
@@ -93,10 +93,10 @@ public class IteratorSupplierContext<T, N> implements SupplierContext<IteratorSu
 	}
 
 	public static class IteratorSupplierState<T, N> {
-		private Iterator<T> primaryIterator;
+		private Iterator<? extends T> primaryIterator;
 		private Iterator<N> secondaryIterator;
 
-		public IteratorSupplierState(Iterator<T> primaryIterator) {
+		public IteratorSupplierState(Iterator<? extends T> primaryIterator) {
 			this.primaryIterator = primaryIterator;
 		}
 
@@ -104,7 +104,7 @@ public class IteratorSupplierContext<T, N> implements SupplierContext<IteratorSu
 			secondaryIterator = null;
 		}
 
-		public Iterator<T> primaryIterator() {
+		public Iterator<? extends T> primaryIterator() {
 			return primaryIterator;
 		}
 

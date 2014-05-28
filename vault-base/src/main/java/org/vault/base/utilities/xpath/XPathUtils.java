@@ -2,7 +2,7 @@ package org.vault.base.utilities.xpath;
 
 import java.util.List;
 
-import org.vault.base.utilities.matcher.AbstractMatcher;
+import org.vault.base.utilities.matcher.AbstractSelector;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,7 +12,7 @@ import org.w3c.dom.Node;
 import com.google.common.collect.Lists;
 
 public class XPathUtils {
-	public static abstract class NodeMatcher extends AbstractMatcher<Node> {
+	public static abstract class NodeMatcher extends AbstractSelector<Node> {
 		// No op
 	}
 

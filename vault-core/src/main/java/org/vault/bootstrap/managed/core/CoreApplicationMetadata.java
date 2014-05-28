@@ -14,7 +14,6 @@ public class CoreApplicationMetadata implements ApplicationMetaData {
 	@Value("${environment}")
 	public void setEnvironment(String environmentString) {
 		this.environment = new Environment();
-		EnvironmentType type = EnvironmentType.DEV;
 		this.environment.setType(VEnumerations.getInstance(environmentString.toUpperCase(), EnvironmentType.class));
 	}
 

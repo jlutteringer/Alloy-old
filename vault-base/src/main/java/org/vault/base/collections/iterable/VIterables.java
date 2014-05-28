@@ -25,19 +25,21 @@ public class VIterables {
 	}
 
 	public static <T, N> Iterable<N> multiplexingIterable(Iterable<T> iterable, Function<T, Iterator<N>> transformer) {
-		IteratorSupplierContext<T, N> context = new IteratorSupplierContext<T, N>(iterable);
+		IteratorSupplierContext<T, N, N> context = new IteratorSupplierContext<>(iterable);
 		context.setTransformer(transformer);
 		return VIterables.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}
 
-	public static <T> Iterable<T> matchingIterable(Iterable<T> iterable, Matcher<T> matcher) {
-		IteratorSupplierContext<T, T> context = new IteratorSupplierContext<T, T>(iterable);
+	public static <T, N extends T> Iterable<N> matchingIterable(Iterable<N> iterable, Matcher<T> matcher) {
+		IteratorSupplierContext<N, N, T> context = new IteratorSupplierContext<>(iterable);
 		context.setMatcher(matcher);
+		context.getPrimarySupplier();
+
 		return VIterables.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}
 
 	public static <T, N> Iterable<N> transform(Iterable<T> iterable, Function<T, N> transformer) {
-		IteratorSupplierContext<T, N> context = new IteratorSupplierContext<T, N>(iterable);
+		IteratorSupplierContext<T, N, N> context = new IteratorSupplierContext<>(iterable);
 		context.setTransformer(VIterables.singletonIteratorTransformer(transformer));
 		return VIterables.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}

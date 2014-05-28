@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-public abstract class AbstractCompositeMatcher<T> extends AbstractMatcher<T> {
+public abstract class AbstractCompositeMatcher<T> extends AbstractSelector<T> {
 	protected List<Selector<T>> internalMatchers = Lists.newArrayList();
 
 	public AbstractCompositeMatcher<T> addInternalMatcher(Selector<T> matcher) {

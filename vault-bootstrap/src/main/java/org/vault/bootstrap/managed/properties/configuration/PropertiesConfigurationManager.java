@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vault.base.application.ApplicationMetaData;
 import org.vault.base.module.domain.Module;
+import org.vault.base.module.domain.PrimaryFacet;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.base.utilities.configuration.Configurations;
 import org.vault.base.utilities.constants.VConfigurationFileConstants;
@@ -20,7 +21,7 @@ public class PropertiesConfigurationManager extends ConfigurationManager impleme
 
 	@Override
 	protected List<ConfigurationLocation> getSpecificConfigurationLocations(Module module) {
-		return module.getPropertyConfigurationLocations();
+		return module.getFacet(PrimaryFacet.class).getPropertyConfigurationLocations();
 	}
 
 	@Override

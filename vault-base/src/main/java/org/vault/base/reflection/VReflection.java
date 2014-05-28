@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.vault.base.utilities.matcher.Matcher;
+
+import com.google.common.collect.Lists;
+
 public class VReflection {
 	public static Class<?> getClass(Type type) {
 		if (type instanceof Class) {
@@ -101,5 +105,18 @@ public class VReflection {
 		}
 
 		throw new RuntimeException("No constructor for class " + clazz + " and args " + args);
+	}
+
+	public static List<Class<?>> getHierarchy(Class<?> clazz, Matcher<Class<?>> filter) {
+		List<Class<?>> hierarchy = Lists.newArrayList();
+		Class<?> currentClazz = clazz;
+
+		while (currentClazz.getSuperclass() != null) {
+			currentClazz = currentClazz.getSuperclass();
+			if (filter.matches(currentClazz) && currentClazz != Object.class) {
+				hierarchy.add(currentClazz);
+			}
+		}
+		return hierarchy;
 	}
 }

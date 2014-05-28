@@ -23,7 +23,7 @@ public class VObjects {
 		if (second == null) {
 			return Optional.of(false);
 		}
-		if (first.getClass() != second.getClass()) {
+		if (first.getClass().isAssignableFrom(second.getClass())) {
 			return Optional.of(false);
 		}
 

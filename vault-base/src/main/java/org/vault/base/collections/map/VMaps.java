@@ -14,4 +14,8 @@ public class VMaps {
 	public static <T, N> Supplier<Map<T, N>> mapSupplier() {
 		return () -> Maps.newHashMap();
 	}
+
+	public static <T, N> Supplier<Map<T, N>> concurrentMapSupplier() {
+		return () -> Maps.newConcurrentMap();
+	}
 }

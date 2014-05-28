@@ -1,6 +1,6 @@
 package org.vault.base.utilities.matcher;
 
-public abstract class AbstractContextualMatcher<T, N> extends AbstractMatcher<T> implements ContextualMatcher<T, N> {
+public abstract class AbstractContextualMatcher<T, N> extends AbstractSelector<T> implements ContextualMatcher<T, N> {
 
 	protected N context;
 
