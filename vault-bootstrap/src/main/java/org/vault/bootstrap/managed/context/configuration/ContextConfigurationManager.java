@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.vault.base.module.domain.Module;
-import org.vault.base.module.domain.PrimaryFacet;
+import org.vault.base.module.domain.PrimaryModuleFacet;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.base.utilities.configuration.Configurations;
 import org.vault.base.utilities.constants.VConfigurationFileConstants;
@@ -15,7 +15,7 @@ import org.vault.bootstrap.managed.configuration.ConfigurationManager;
 public class ContextConfigurationManager extends ConfigurationManager {
 	@Override
 	protected List<ConfigurationLocation> getSpecificConfigurationLocations(Module module) {
-		return module.getFacet(PrimaryFacet.class).getConfigurationLocations();
+		return module.getFacet(PrimaryModuleFacet.class).getConfigurationLocations();
 	}
 
 	@Override

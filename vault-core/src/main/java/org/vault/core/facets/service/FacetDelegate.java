@@ -1,13 +1,9 @@
 package org.vault.core.facets.service;
 
-import org.vault.base.delegator.AbstractDelegate;
-import org.vault.base.utilities.matcher.Matcher;
+import org.vault.base.delegator.Delegate;
+import org.vault.base.facets.Facet;
+import org.vault.base.facets.FacetedObject;
 
-public abstract class FacetDelegate extends AbstractDelegate<Class<?>> {
-	@Override
-	protected Matcher<Class<?>> getInternalMatcher() {
-		return (input) -> input.isAssignableFrom(this.getFacetType());
-	}
-
-	protected abstract Class<?> getFacetType();
+public interface FacetDelegate<T extends Facet> extends Delegate<Class<? extends Facet>> {
+	public <A extends Facet> A getFacet(Class<A> clazz, FacetedObject<?> object);
 }

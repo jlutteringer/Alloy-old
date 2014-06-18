@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.vault.base.utilities.matcher.Matcher;
+import org.vault.base.utilities.matcher.Matchers;
 
 import com.google.common.collect.Lists;
 
@@ -90,6 +91,19 @@ public class VReflection {
 		return typeArgumentsAsClasses;
 	}
 
+	public static List<Class<?>> getHierarchy(Class<?> clazz, Matcher<Class<?>> filter) {
+		List<Class<?>> hierarchy = Lists.newArrayList();
+		Class<?> currentClazz = clazz;
+
+		while (currentClazz.getSuperclass() != null) {
+			currentClazz = currentClazz.getSuperclass();
+			if (filter.matches(currentClazz) && currentClazz != Object.class) {
+				hierarchy.add(currentClazz);
+			}
+		}
+		return hierarchy;
+	}
+
 	@SuppressWarnings("unchecked")
 	public static <T> T construct(Class<T> clazz, Object... args) {
 		for (Constructor<?> constructor : clazz.getDeclaredConstructors()) {
@@ -107,16 +121,18 @@ public class VReflection {
 		throw new RuntimeException("No constructor for class " + clazz + " and args " + args);
 	}
 
-	public static List<Class<?>> getHierarchy(Class<?> clazz, Matcher<Class<?>> filter) {
-		List<Class<?>> hierarchy = Lists.newArrayList();
-		Class<?> currentClazz = clazz;
+	public static <T> List<T> constructAll(List<Class<T>> unfliteredClasses, boolean filter, Object... args) {
+		List<T> concreteInstances = Lists.newArrayList();
 
-		while (currentClazz.getSuperclass() != null) {
-			currentClazz = currentClazz.getSuperclass();
-			if (filter.matches(currentClazz) && currentClazz != Object.class) {
-				hierarchy.add(currentClazz);
-			}
+		Iterable<Class<T>> classes = unfliteredClasses;
+		if (filter) {
+			classes = Matchers.getSelector(ClassType.classTypeMatcher(ClassType.CONCRETE)).getMatches(classes);
 		}
-		return hierarchy;
+
+		for (Class<T> clazz : classes) {
+			concreteInstances.add(construct(clazz, args));
+		}
+
+		return concreteInstances;
 	}
 }

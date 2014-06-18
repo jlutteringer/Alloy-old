@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 
-public interface PrimaryFacet extends ModuleFacet {
+public interface PrimaryModuleFacet extends ModuleFacet {
 	public List<ConfigurationLocation> getConfigurationLocations();
 
 	public List<ConfigurationLocation> getPropertyConfigurationLocations();

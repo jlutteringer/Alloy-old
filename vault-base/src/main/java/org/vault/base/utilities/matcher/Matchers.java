@@ -86,4 +86,8 @@ public class Matchers {
 			return false;
 		}
 	}
+
+	public static <T> Selector<T> getSelector(Matcher<T> matcher) {
+		return new ComposingSelector<T>(matcher);
+	}
 }

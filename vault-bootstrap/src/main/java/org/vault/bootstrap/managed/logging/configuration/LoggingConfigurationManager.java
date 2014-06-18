@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vault.base.application.ApplicationMetaData;
 import org.vault.base.module.domain.Module;
-import org.vault.base.module.domain.PrimaryFacet;
+import org.vault.base.module.domain.PrimaryModuleFacet;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.base.utilities.configuration.Configurations;
 import org.vault.base.utilities.constants.VConfigurationFileConstants;
@@ -20,7 +20,7 @@ public class LoggingConfigurationManager extends ConfigurationManager {
 
 	@Override
 	protected List<ConfigurationLocation> getSpecificConfigurationLocations(Module module) {
-		return module.getFacet(PrimaryFacet.class).getLog4jConfigurationLocations();
+		return module.getFacet(PrimaryModuleFacet.class).getLog4jConfigurationLocations();
 	}
 
 	@Override

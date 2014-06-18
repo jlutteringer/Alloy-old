@@ -49,6 +49,8 @@ public abstract class AbstractApplicationBootstrapper<T extends BootstrappedAppl
 	}
 
 	public void start() {
+		BootstrapUtils.configureEnumerations();
+
 		bootstrapApplicationContext =
 				new ClassPathXmlApplicationContext(getBootstrapConfigurationLocations().toArray(new String[0]));
 

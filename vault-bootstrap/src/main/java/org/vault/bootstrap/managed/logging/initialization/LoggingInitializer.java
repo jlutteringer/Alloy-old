@@ -5,7 +5,8 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.vault.base.spring.beans.AbstractInitializingBean;
+import org.vault.base.domain.phase.Phase;
+import org.vault.base.spring.beans.initialization.AbstractPhasedInitializingBean;
 import org.vault.base.utilities.logging.Logging;
 import org.vault.bootstrap.managed.initialization.service.PreInitializingBean;
 import org.vault.bootstrap.managed.logging.configuration.LoggingConfigurationManager;
@@ -14,7 +15,7 @@ import org.vault.bootstrap.managed.logging.merge.LoggingMergeManager;
 import com.google.common.base.Throwables;
 
 @Component
-public class LoggingInitializer extends AbstractInitializingBean implements PreInitializingBean {
+public class LoggingInitializer extends AbstractPhasedInitializingBean implements PreInitializingBean {
 	@Autowired
 	private LoggingConfigurationManager configurationManager;
 
@@ -30,5 +31,10 @@ public class LoggingInitializer extends AbstractInitializingBean implements PreI
 		} catch (IOException e) {
 			Throwables.propagate(e);
 		}
+	}
+
+	@Override
+	public Phase getPhase() {
+		return Phase.BEGIN;
 	}
 }

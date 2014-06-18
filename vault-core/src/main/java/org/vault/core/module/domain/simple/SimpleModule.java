@@ -5,11 +5,11 @@ import java.util.List;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleFacet;
 import org.vault.base.module.domain.ModuleType;
-import org.vault.core.facets.domain.AbstractFacetedObject;
+import org.vault.core.facets.domain.ProvidedFacetedObject;
 
 import com.google.common.collect.Lists;
 
-public class SimpleModule extends AbstractFacetedObject<ModuleFacet> implements Module {
+public abstract class SimpleModule extends ProvidedFacetedObject<ModuleFacet> implements Module {
 	protected String name;
 	protected String friendlyName;
 	protected ModuleType type = ModuleType.MODULE;

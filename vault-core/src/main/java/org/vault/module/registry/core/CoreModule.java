@@ -2,10 +2,10 @@ package org.vault.module.registry.core;
 
 import org.springframework.stereotype.Component;
 import org.vault.base.module.domain.ModuleType;
-import org.vault.core.module.domain.simple.SimpleModule;
+import org.vault.core.module.domain.simple.ManagedModule;
 
 @Component
-public class CoreModule extends SimpleModule {
+public class CoreModule extends ManagedModule {
 	public CoreModule() {
 		this.name = "vault-core";
 		this.friendlyName = "Core Module";

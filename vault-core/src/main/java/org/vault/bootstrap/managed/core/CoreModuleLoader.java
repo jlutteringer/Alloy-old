@@ -15,7 +15,8 @@ import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleHierarchy;
 import org.vault.base.module.domain.ModuleType;
 import org.vault.base.module.service.ModuleLoader;
-import org.vault.core.module.domain.simple.ApplicationModule;
+import org.vault.core.facets.service.FacetProvider;
+import org.vault.core.module.domain.simple.DefaultApplicationModule;
 import org.vault.core.module.domain.simple.SimpleModuleHierarchy;
 import org.vault.module.registry.core.CoreModule;
 
@@ -31,7 +32,10 @@ public class CoreModuleLoader implements ModuleLoader {
 	private CoreModule coreModule;
 
 	@Autowired(required = false)
-	private ApplicationModule applicationModule;
+	private DefaultApplicationModule applicationModule;
+
+	@Autowired
+	private FacetProvider facetProvider;
 
 	private Map<String, Module> modules;
 
@@ -53,7 +57,7 @@ public class CoreModuleLoader implements ModuleLoader {
 	@PostConstruct
 	private void initialize() {
 		if (applicationModule == null) {
-			applicationModule = new ApplicationModule();
+			applicationModule = new DefaultApplicationModule(facetProvider);
 		}
 
 		heirarchy = new SimpleModuleHierarchy();
