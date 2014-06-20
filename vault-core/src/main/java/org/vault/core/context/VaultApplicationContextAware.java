@@ -3,6 +3,7 @@ package org.vault.core.context;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.vault.bootstrap.context.VaultApplicationContext;
 
 public interface VaultApplicationContextAware extends ApplicationContextAware {
 	@Override

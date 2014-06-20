@@ -1,46 +1,51 @@
 package org.vault.bootstrap;
 
 import java.util.List;
+import java.util.function.Function;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
-import org.vault.base.reflection.VReflection;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.base.utilities.configuration.Configurations;
 import org.vault.base.utilities.constants.VConfigurationFileConstants;
 import org.vault.base.utilities.logging.Logging;
-import org.vault.bootstrap.context.BootstrappedApplicationContext;
+import org.vault.bootstrap.context.VaultApplicationContext;
 import org.vault.bootstrap.managed.context.BootstrappedContextManager;
 import org.vault.bootstrap.managed.context.configuration.ContextConfigurationManager;
 import org.vault.bootstrap.managed.context.merge.ContextMergeManager;
 import org.vault.bootstrap.managed.initialization.service.PreInitializationContext;
 import org.vault.bootstrap.service.Bootstrap;
 
-public abstract class AbstractApplicationBootstrapper<T extends BootstrappedApplicationContext> implements Bootstrap<T> {
-	private static final Logger log = Logger.getLogger(AbstractApplicationBootstrapper.class);
+public class VaultApplicationBootstrapper implements Bootstrap {
+	private static Logger logger = LogManager.getLogger(VaultApplicationBootstrapper.class);
 	private List<String> bootstrapConfigurationLocations;
 
 	private ClassPathXmlApplicationContext bootstrapApplicationContext = null;
 
+	private Function<Resource, VaultApplicationContext> applicationContextCreator;
+
+	public VaultApplicationBootstrapper(Function<Resource, VaultApplicationContext> applicationContextCreator) {
+		this.applicationContextCreator = applicationContextCreator;
+	}
+
 	@Override
-	public T bootstrap() {
+	public VaultApplicationContext bootstrap() {
 		if (bootstrapApplicationContext == null) {
 			this.start();
 		}
 
-		log.debug("Beginning Vault bootstrap...");
+		logger.debug("Beginning Vault bootstrap...");
 
 		List<ConfigurationLocation> configurationLocations = this.bootstrapConfigurationLocations();
-		T applicationContext = this.createMergeContext(this.mergeConfigurations(configurationLocations));
+		VaultApplicationContext applicationContext = this.createMergeContext(this.mergeConfigurations(configurationLocations));
 
 		return applicationContext;
 	}
 
-	@SuppressWarnings("unchecked")
-	protected T createMergeContext(Resource resource) {
-		Class<?> clazz = VReflection.getTypeArguments(AbstractApplicationBootstrapper.class, this.getClass()).get(0);
-		T mergeContext = (T) VReflection.construct(clazz, resource);
+	protected VaultApplicationContext createMergeContext(Resource resource) {
+		VaultApplicationContext mergeContext = applicationContextCreator.apply(resource);
 
 		BootstrappedContextManager bootstrappedContextManager = bootstrapApplicationContext.getBean(BootstrappedContextManager.class);
 		mergeContext.setInitializationContext(bootstrappedContextManager.createBootstrappedContext());
@@ -79,7 +84,7 @@ public abstract class AbstractApplicationBootstrapper<T extends BootstrappedAppl
 		return bootstrapConfigurationLocations;
 	}
 
-	public void setBootstrapConfigurationLocation(List<String> bootstrapConfigurationLocations) {
+	public void setBootstrapConfigurationLocations(List<String> bootstrapConfigurationLocations) {
 		this.bootstrapConfigurationLocations = bootstrapConfigurationLocations;
 	}
 }

@@ -27,7 +27,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.utilities.matcher.Selector;
 import org.vault.base.utilities.tuple.Tuple;
@@ -57,7 +58,7 @@ import com.google.common.collect.Lists;
 *
 */
 public class MergePoint {
-	private static final Logger log = Logger.getLogger(MergePoint.class);
+	private static final Logger log = LogManager.getLogger(MergePoint.class);
 
 	private MergeHandler handler;
 	private Document sourceDoc;

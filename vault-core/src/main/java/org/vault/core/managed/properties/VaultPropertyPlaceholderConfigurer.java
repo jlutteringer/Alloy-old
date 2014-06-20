@@ -9,8 +9,8 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.vault.base.resources.stream.ResourceInputStream;
 import org.vault.base.utilities.configuration.Configurations;
+import org.vault.bootstrap.context.VaultApplicationContext;
 import org.vault.bootstrap.managed.properties.configuration.PropertiesConfigurationManager;
-import org.vault.core.context.VaultApplicationContext;
 import org.vault.core.context.VaultApplicationContextAware;
 
 @Component

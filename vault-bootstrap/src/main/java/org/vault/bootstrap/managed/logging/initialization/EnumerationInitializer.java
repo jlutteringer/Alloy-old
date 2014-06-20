@@ -22,10 +22,10 @@ public class EnumerationInitializer extends AbstractVaultBean implements Initial
 			loaders.forEach((element) -> {
 				element.getEnumerationsToLoad().forEach((enumeration) -> {
 					try {
-						log.debug("Loading enumeration: " + enumeration.getName());
+						logger.debug("Loading enumeration: " + enumeration.getName());
 						Class.forName(enumeration.getName());
 					} catch (Exception e) {
-						log.error("Couldn't load specified enumeration", e);
+						logger.error("Couldn't load specified enumeration", e);
 					}
 				});
 			});

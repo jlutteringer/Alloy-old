@@ -1,7 +1,7 @@
 package org.vault.bootstrap.service;
 
-import org.springframework.context.ApplicationContext;
+import org.vault.bootstrap.context.VaultApplicationContext;
 
-public interface Bootstrap<T extends ApplicationContext> {
-	public T bootstrap();
+public interface Bootstrap {
+	public VaultApplicationContext bootstrap();
 }

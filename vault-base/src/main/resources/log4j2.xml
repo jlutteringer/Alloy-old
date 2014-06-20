@@ -6,7 +6,6 @@
 		</Console>
 	</Appenders>
 	<Loggers>
-		<Logger name="org.vault" level="debug" />
 		<Root level="warn">
 			<AppenderRef ref="STDOUT"/>
 		</Root>
