@@ -1,9 +1,12 @@
 package org.vault.base.collections.iterable;
 
+import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import org.vault.base.collections.lists.VLists;
 import org.vault.base.utilities.Value;
 import org.vault.base.utilities.function.StatefulSupplier;
 import org.vault.base.utilities.matcher.Matcher;
@@ -76,5 +79,11 @@ public class VIterables {
 		}
 
 		return value;
+	}
+
+	public static <T> Iterable<T> reverse(Iterable<T> iterator) {
+		List<T> backingList = VLists.list(iterator);
+		Collections.reverse(backingList);
+		return backingList;
 	}
 }

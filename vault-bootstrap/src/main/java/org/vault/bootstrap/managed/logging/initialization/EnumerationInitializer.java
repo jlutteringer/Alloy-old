@@ -8,10 +8,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 import org.vault.base.enumeration.VEnumerations;
-import org.vault.base.spring.beans.AbstractVaultBean;
+import org.vault.base.spring.beans.VaultBean;
 
 @Component
-public class EnumerationInitializer extends AbstractVaultBean implements InitializingBean, ApplicationContextAware {
+public class EnumerationInitializer extends VaultBean implements InitializingBean, ApplicationContextAware {
 	private ApplicationContext applicationContext;
 
 	@Override
