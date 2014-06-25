@@ -7,34 +7,9 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
 import org.vault.base.spring.beans.VaultBean;
-import org.vault.site.resource.GeneratedResource;
 
 public abstract class AbstractVaultResourceHandler extends VaultBean implements VaultResourceHandler {
 	public static final int DEFAULT_ORDER = 10000;
-
-	/**
-	* @param path
-	* @return booelean determining whether or not this handler is able to handle the given request
-	*/
-	@Override
-	public abstract boolean canHandle(String path);
-
-	/**
-	* @param path
-	* @param locations
-	* @return the Resource representing this file
-	*/
-	@Override
-	public abstract Resource getFileContents(String path, List<Resource> locations);
-
-	/**
-	* @param cachedResource
-	* @param path
-	* @param locations
-	* @return whether or not the given cachedResource needs to be regenerated
-	*/
-	@Override
-	public abstract boolean isCachedResourceExpired(GeneratedResource cachedResource, String path, List<Resource> locations);
 
 	/**
 	* Attempts to retrive the requested resource from cache. If not cached, generates the resource, caches it,

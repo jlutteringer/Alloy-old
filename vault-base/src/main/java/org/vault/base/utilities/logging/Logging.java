@@ -1,8 +1,11 @@
 package org.vault.base.utilities.logging;
 
 import java.io.InputStream;
+import java.io.OutputStream;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.config.Configuration;
 import org.apache.logging.log4j.core.config.ConfigurationFactory.ConfigurationSource;
@@ -15,5 +18,9 @@ public class Logging {
 		LoggerContext ctx = (LoggerContext) LogManager.getContext();
 		ctx.stop();
 		ctx.start(config);
+	}
+
+	public static OutputStream logOStream(Logger logger) {
+		return new LogOutputStream(logger, Level.DEBUG);
 	}
 }

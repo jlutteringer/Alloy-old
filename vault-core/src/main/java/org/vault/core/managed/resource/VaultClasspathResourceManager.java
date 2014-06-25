@@ -6,7 +6,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.vault.base.collections.iterable.VIterables;
@@ -27,12 +26,12 @@ public class VaultClasspathResourceManager {
 	@Autowired
 	private ModuleLoader moduleLoader;
 
-	public List<Resource> getLocations(String baseLocation) {
-		List<Resource> resources = Lists.newArrayList();
+	public List<UrlResource> getLocations(String baseLocation) {
+		List<UrlResource> resources = Lists.newArrayList();
 
 		for (Module module : VIterables.reverse(Trees.iterateDepthFirst(moduleLoader.getModuleHierarchy().getModules()))) {
 			String resolvedLocation = module.getName() + "/" + baseLocation;
-			Resource resource = null;
+			UrlResource resource = null;
 			try {
 				resource = new UrlResource(applicationContext.getClassLoader().getResource(resolvedLocation));
 			} catch (Exception e) {
@@ -48,7 +47,7 @@ public class VaultClasspathResourceManager {
 		return resources;
 	}
 
-	public Resource getResource(String resourceName) {
+	public UrlResource getResource(String resourceName) {
 		return Iterables.getFirst(this.getLocations(resourceName), null);
 	}
 }
