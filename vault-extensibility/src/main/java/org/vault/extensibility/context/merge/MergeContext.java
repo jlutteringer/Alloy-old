@@ -321,7 +321,7 @@ public class MergeContext implements PatchableConfiguration, ApplicationContextA
 
 	private Properties loadProperties() throws IOException {
 		Properties props = new Properties();
-		props.load(ResourceInputStream.create(this.defaultHandlerConfiguration, this.applicationContext));
+		props.load(Configurations.resolveClasspathResource(this.defaultHandlerConfiguration, this.applicationContext).getInputStream());
 
 		List<ResourceInputStream> configurations = Configurations.getConfigurations(this.patchLocations, this.applicationContext);
 		for (ResourceInputStream configuration : configurations) {

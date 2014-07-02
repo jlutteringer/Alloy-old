@@ -1,18 +1,15 @@
 package org.vault.base.collections.tree;
 
 import java.util.Collection;
-import java.util.EmptyStackException;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Queue;
-import java.util.Stack;
 
 import org.apache.commons.lang3.StringUtils;
 import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.utilities.Value;
+import org.vault.base.utilities.tuple.Tuple;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 public class Trees {
 	public static <T> HashTree<T> newHashTree(T head) {
@@ -29,43 +26,32 @@ public class Trees {
 
 	public static <T> Iterable<T> iterateBreadthFirst(final Tree<T> topLevelTree) {
 		return VIterables.createFromElementSupplier(
-				(queue) -> {
-					try {
-						Tree<T> tree = queue.remove();
-						for (Tree<T> subTree : tree.getChildren()) {
-							queue.add(subTree);
+				(context) -> {
+					Tree<T> tree = null;
+					for (Tree<T> elementToProcess : context.getFirst()) {
+						if (context.getSecond().containsAll(elementToProcess.getParents())) {
+							tree = elementToProcess;
+							break;
 						}
-						return Value.of(tree.getHead());
 					}
-					catch (NoSuchElementException e) {
-						return Value.none();
-					}
-				},
-				() -> {
-					Queue<Tree<T>> bfsQueue = new LinkedList<Tree<T>>();
-					bfsQueue.add(topLevelTree);
-					return bfsQueue;
-				});
-	}
 
-	public static <T> Iterable<T> iterateDepthFirst(Tree<T> topLevelTree) {
-		return VIterables.createFromElementSupplier(
-				(stack) -> {
-					try {
-						Tree<T> tree = stack.pop();
-						for (Tree<T> subTree : tree.getChildren()) {
-							stack.add(subTree);
-						}
-						return Value.of(tree.getHead());
-					}
-					catch (EmptyStackException e) {
+					if (tree == null) {
 						return Value.none();
 					}
+
+					context.getFirst().remove(tree);
+					for (Tree<T> subTree : tree.getChildren()) {
+						context.getFirst().add(subTree);
+					}
+
+					context.getSecond().add(tree);
+					return Value.of(tree.getHead());
 				},
 				() -> {
-					Stack<Tree<T>> dfsStack = new Stack<Tree<T>>();
-					dfsStack.push(topLevelTree);
-					return dfsStack;
+					Collection<Tree<T>> elementsToProcess = Sets.newHashSet();
+					Collection<Tree<T>> visitedElements = Sets.newHashSet();
+					elementsToProcess.add(topLevelTree);
+					return Tuple.pair(elementsToProcess, visitedElements);
 				});
 	}
 

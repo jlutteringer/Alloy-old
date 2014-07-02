@@ -4,6 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.function.Function;
+
+import org.springframework.core.io.Resource;
 
 import com.google.common.base.Throwables;
 
@@ -33,5 +36,10 @@ public class VStreams {
 		}
 
 		return sb.toString();
+	}
+
+	public static Function<Resource, InputStream> transformer() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

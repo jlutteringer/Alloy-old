@@ -17,8 +17,9 @@ public abstract class AbstractXmlMergeManager extends AbstractLoggingBean implem
 
 	@Override
 	public Resource getMergedResource(List<ConfigurationLocation> patchLocations) {
+		logger.debug("Unresolved locations: " + patchLocations);
 		List<ResourceInputStream> configurations = Configurations.getConfigurations(patchLocations, applicationContext);
-		logger.debug(configurations);
+		logger.debug("Resolved locations: " + configurations);
 
 		MergeXmlConfigResource foo = new MergeXmlConfigResource(this.getMergeDescriptionLocation(), applicationContext);
 		Resource mergedResource = foo.getMergedConfigResource(configurations);

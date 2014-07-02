@@ -8,9 +8,9 @@ import com.google.common.collect.Lists;
 
 public class HashTree<T> extends AbstractTree<T> {
 	private T head;
-	private List<Tree<T>> leafs = Lists.newArrayList();
+	private List<Tree<T>> children = Lists.newArrayList();
+	private List<Tree<T>> parents = Lists.newArrayList();
 
-	private Tree<T> parent = null;
 	private HashMap<T, Tree<T>> locate = new HashMap<T, Tree<T>>();
 
 	public HashTree(T head) {
@@ -28,23 +28,21 @@ public class HashTree<T> extends AbstractTree<T> {
 	}
 
 	@Override
-	public Tree<T> addChild(T child) {
-		HashTree<T> t = Trees.newHashTree(child);
-		leafs.add(t);
-		t.parent = this;
-		t.locate = this.locate;
-		locate.put(child, t);
-		return t;
+	public Tree<T> addChild(Tree<T> child) {
+		children.add(child);
+		child.getParents().add(this);
+
+		if (child instanceof HashTree) {
+			((HashTree<T>) child).locate = this.locate;
+			locate.put(child.getHead(), child);
+		}
+		return child;
 	}
 
-	public Tree<T> setAsParent(T parentRoot) {
-		HashTree<T> t = Trees.newHashTree(parentRoot);
-		t.leafs.add(this);
-		this.parent = t;
-		t.locate = this.locate;
-		t.locate.put(head, this);
-		t.locate.put(parentRoot, t);
-		return t;
+	@Override
+	public Tree<T> addChild(T child) {
+		HashTree<T> childTree = Trees.newHashTree(child);
+		return this.addChild(childTree);
 	}
 
 	@Override
@@ -58,12 +56,12 @@ public class HashTree<T> extends AbstractTree<T> {
 	}
 
 	@Override
-	public Tree<T> getParent() {
-		return parent;
+	public Collection<Tree<T>> getParents() {
+		return parents;
 	}
 
 	@Override
 	public Collection<Tree<T>> getChildren() {
-		return leafs;
+		return children;
 	}
 }

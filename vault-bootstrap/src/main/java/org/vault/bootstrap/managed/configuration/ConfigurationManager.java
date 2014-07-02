@@ -3,7 +3,6 @@ package org.vault.bootstrap.managed.configuration;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.vault.base.collections.tree.Trees;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.service.ModuleLoader;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
@@ -16,7 +15,7 @@ public abstract class ConfigurationManager {
 
 	public List<ConfigurationLocation> buildConfigurationLocations() {
 		List<ConfigurationLocation> configurationLocations = Lists.newArrayList();
-		for (Module module : Trees.iterateBreadthFirst(moduleLoader.getModuleHierarchy().getModules())) {
+		for (Module module : moduleLoader.getModuleLoadOrder()) {
 			configurationLocations.addAll(getDefaultConfigurationLocations(module));
 			configurationLocations.addAll(getSpecificConfigurationLocations(module));
 		}

@@ -6,12 +6,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.UrlResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.vault.base.collections.iterable.VIterables;
-import org.vault.base.collections.tree.Trees;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.service.ModuleLoader;
+import org.vault.base.utilities.configuration.Configurations;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -26,14 +25,14 @@ public class VaultClasspathResourceManager {
 	@Autowired
 	private ModuleLoader moduleLoader;
 
-	public List<UrlResource> getLocations(String baseLocation) {
-		List<UrlResource> resources = Lists.newArrayList();
+	public List<Resource> getLocations(String baseLocation) {
+		List<Resource> resources = Lists.newArrayList();
 
-		for (Module module : VIterables.reverse(Trees.iterateDepthFirst(moduleLoader.getModuleHierarchy().getModules()))) {
+		for (Module module : Lists.reverse(moduleLoader.getModuleLoadOrder())) {
 			String resolvedLocation = module.getName() + "/" + baseLocation;
-			UrlResource resource = null;
+			Resource resource = null;
 			try {
-				resource = new UrlResource(applicationContext.getClassLoader().getResource(resolvedLocation));
+				resource = Configurations.resolveClasspathResource(resolvedLocation, applicationContext);
 			} catch (Exception e) {
 				// Eat it
 			}
@@ -47,7 +46,7 @@ public class VaultClasspathResourceManager {
 		return resources;
 	}
 
-	public UrlResource getResource(String resourceName) {
+	public Resource getResource(String resourceName) {
 		return Iterables.getFirst(this.getLocations(resourceName), null);
 	}
 }

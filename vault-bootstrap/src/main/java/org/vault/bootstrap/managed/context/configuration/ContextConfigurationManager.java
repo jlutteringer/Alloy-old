@@ -1,6 +1,5 @@
 package org.vault.bootstrap.managed.context.configuration;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -11,6 +10,8 @@ import org.vault.base.utilities.configuration.Configurations;
 import org.vault.base.utilities.constants.VConfigurationFileConstants;
 import org.vault.bootstrap.managed.configuration.ConfigurationManager;
 
+import com.google.common.collect.Lists;
+
 @Service
 public class ContextConfigurationManager extends ConfigurationManager {
 	@Override
@@ -20,8 +21,14 @@ public class ContextConfigurationManager extends ConfigurationManager {
 
 	@Override
 	protected List<ConfigurationLocation> getDefaultConfigurationLocations(Module module) {
-		return Collections.singletonList(
-				Configurations.optional(Configurations.moduleRelative(
-						Configurations.createClasspathLocation(VConfigurationFileConstants.CONTEXT_RESOURCE_DIRECTORY + "/*"), module)));
+		List<ConfigurationLocation> locations = Lists.newArrayList();
+
+		locations.add(Configurations.optional(Configurations.moduleRelative(
+				Configurations.createClasspathLocation("*-applicationContext.xml"), module)));
+
+		locations.add(Configurations.optional(Configurations.moduleRelative(
+				Configurations.createClasspathLocation(VConfigurationFileConstants.CONTEXT_RESOURCE_DIRECTORY + "*-applicationContext.xml"), module)));
+
+		return locations;
 	}
 }

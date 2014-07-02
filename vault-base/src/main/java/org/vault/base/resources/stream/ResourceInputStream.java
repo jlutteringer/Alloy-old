@@ -25,13 +25,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.vault.base.collections.iterable.VIterables;
 
+import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
 
 /**
@@ -123,18 +124,6 @@ public class ResourceInputStream extends InputStream {
 		return is.skip(l);
 	}
 
-	public static ResourceInputStream create(String resourceName, ApplicationContext applicationContext) throws IOException {
-		return VIterables.getSingleResult(ResourceInputStream.createList(resourceName, applicationContext));
-	}
-
-	public static List<ResourceInputStream> createList(String matchingResourcePattern, ApplicationContext applicationContext) throws IOException {
-		List<ResourceInputStream> resouces = Lists.newArrayList();
-		for (Resource resource : applicationContext.getResources(matchingResourcePattern)) {
-			resouces.add(new ResourceInputStream(resource.getInputStream(), matchingResourcePattern));
-		}
-		return resouces;
-	}
-
 	public static Resource toResource(ResourceInputStream stream) {
 		return VIterables.getSingleResult(toResources(Collections.singletonList(stream)), true);
 	}
@@ -145,5 +134,15 @@ public class ResourceInputStream extends InputStream {
 			resources.add(new InputStreamResource(stream));
 		}
 		return resources;
+	}
+
+	public static Function<Resource, ResourceInputStream> transformer() {
+		return (resource) -> {
+			try {
+				return new ResourceInputStream(resource.getInputStream(), resource.getURL().getPath());
+			} catch (IOException e) {
+				throw Throwables.propagate(e);
+			}
+		};
 	}
 }

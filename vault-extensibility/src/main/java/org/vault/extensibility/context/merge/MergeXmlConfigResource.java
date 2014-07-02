@@ -98,7 +98,7 @@ public class MergeXmlConfigResource {
 	}
 
 	protected ResourceInputStream merge(List<ResourceInputStream> sources) throws MergeException, MergeManagerSetupException {
-		if (sources.size() == 1) {
+		if (sources.size() <= 1) {
 			return Iterables.getFirst(sources, null);
 		}
 

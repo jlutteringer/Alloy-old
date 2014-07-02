@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.vault.base.collections.directory.Directories;
 import org.vault.base.collections.directory.Directory;
 import org.vault.base.collections.directory.DirectoryEntry;
+import org.vault.base.collections.lists.VLists;
 import org.vault.base.resources.stream.ResourceInputStream;
 import org.vault.base.utilities.configuration.AbstractConfigurationLocation;
 import org.vault.base.utilities.configuration.Configurations;
@@ -27,7 +28,7 @@ public abstract class AbstractClasspathResourceConfigurationLocation extends Abs
 
 	@Override
 	public List<ResourceInputStream> resolveResouceLocations(String resourceLocation, ApplicationContext context) {
-		return Configurations.resolveClasspathResources(resourceLocation, context);
+		return VLists.transform(Configurations.resolveClasspathResources(resourceLocation, context), ResourceInputStream.transformer());
 	}
 
 	@Override

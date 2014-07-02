@@ -27,7 +27,7 @@ import com.google.common.collect.Sets;
 
 @Service
 public class CoreModuleLoader implements ModuleLoader {
-	private static final Logger log = LogManager.getLogger(CoreModuleLoader.class);
+	private static final Logger logger = LogManager.getLogger(CoreModuleLoader.class);
 
 	@Autowired
 	private CoreModule coreModule;
@@ -47,7 +47,7 @@ public class CoreModuleLoader implements ModuleLoader {
 		Map<String, Module> filteredModules = Maps.newHashMap();
 		for (Module module : modules) {
 			if (ModuleType.MODULE.equals(module.getType())) {
-				log.info("Detected " + module.getFriendlyName() + " module. Adding to configuration.");
+				logger.info("Detected " + module.getFriendlyName() + " module. Adding to configuration.");
 				filteredModules.put(module.getName(), module);
 			}
 		}
@@ -63,11 +63,15 @@ public class CoreModuleLoader implements ModuleLoader {
 
 		heirarchy = new SimpleModuleHierarchy();
 		heirarchy.setModules(this.buildModuleTree());
+
+		logger.debug("Built module hierarchy:");
+		Trees.iterateBreadthFirst(heirarchy.getModules()).forEach((module) -> logger.debug(module));
+		logger.debug("Tree view:\n" + Trees.stringify(heirarchy.getModules()));
 	}
 
 	@Override
-	public ModuleHierarchy getModuleHierarchy() {
-		return heirarchy;
+	public List<Module> getModuleLoadOrder() {
+		return Lists.newArrayList(Trees.iterateBreadthFirst(heirarchy.getModules()));
 	}
 
 	@Override
@@ -83,10 +87,13 @@ public class CoreModuleLoader implements ModuleLoader {
 		Tree<Module> moduleTree = Trees.<Module> newHashTree(coreModule);
 		while (!moduleTree.containsAll(modules.values())) {
 			for (Module module : modules.values()) {
-				Set<Module> dependencies = this.getDependencies(module);
-				if (moduleTree.containsAll(dependencies)) {
-					for (Module dependency : dependencies) {
-						moduleTree.findSubTree(dependency).add(module);
+				if (!moduleTree.contains(module)) {
+					Set<Module> dependencies = this.getDependencies(module);
+					if (moduleTree.containsAll(dependencies)) {
+						Tree<Module> childTree = Trees.newHashTree(module);
+						for (Module dependency : dependencies) {
+							moduleTree.findSubTree(dependency).addChild(childTree);
+						}
 					}
 				}
 			}
