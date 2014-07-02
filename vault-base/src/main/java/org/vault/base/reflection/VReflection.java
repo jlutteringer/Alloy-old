@@ -2,6 +2,7 @@ package org.vault.base.reflection;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
@@ -12,6 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.vault.base.utilities.Container;
+import org.vault.base.utilities.exception.Exceptions;
 import org.vault.base.utilities.matcher.Matcher;
 import org.vault.base.utilities.matcher.Matchers;
 
@@ -134,5 +137,44 @@ public class VReflection {
 		}
 
 		return concreteInstances;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T> T getField(Object object, String fieldName, Class<T> clazz) {
+		Container<T> container = Container.empty();
+		Exceptions.propagate(() -> {
+			Field field = null;
+			Class<?> currentClass = object.getClass();
+			boolean found = false;
+
+			while (field == null && currentClass != null && !found) {
+				Field[] declaredFields = currentClass.getDeclaredFields();
+				for (Field declaredField : declaredFields) {
+					if (fieldName.equals(declaredField.getName())) {
+						field = declaredField;
+						found = true;
+						break;
+					}
+				}
+
+				currentClass = currentClass.getSuperclass();
+			}
+
+			if (!found) {
+				throw new NoSuchFieldException(fieldName);
+			}
+
+			if (!field.isAccessible()) {
+				field.setAccessible(true);
+			}
+			container.setValue((T) field.get(object));
+		});
+
+		return container.getValue();
+	}
+
+	@SuppressWarnings("unchecked")
+	public static <T, N> Map<T, N> getMap(Object object, String fieldName, Class<T> clazz1, Class<N> clazz2) {
+		return getField(object, fieldName, Map.class);
 	}
 }

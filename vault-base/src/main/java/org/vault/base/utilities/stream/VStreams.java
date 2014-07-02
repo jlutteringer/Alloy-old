@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.springframework.core.io.Resource;
@@ -39,7 +40,32 @@ public class VStreams {
 	}
 
 	public static Function<Resource, InputStream> transformer() {
-		// TODO Auto-generated method stub
-		return null;
+		return (resource) -> {
+			try {
+				return resource.getInputStream();
+			} catch (IOException e) {
+				throw Throwables.propagate(e);
+			}
+		};
+	}
+
+	public static <T> void withStream(InputStream stream, Consumer<InputStream> consumer) {
+		withStream(Function.identity(), stream, consumer);
+	}
+
+	public static <T> void withStream(Function<T, InputStream> transformer, T item, Consumer<InputStream> consumer) {
+		InputStream stream = null;
+		try {
+			stream = transformer.apply(item);
+			consumer.accept(stream);
+		} finally {
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (IOException e) {
+					throw Throwables.propagate(e);
+				}
+			}
+		}
 	}
 }

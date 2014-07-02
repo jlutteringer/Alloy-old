@@ -13,7 +13,6 @@ import org.vault.bootstrap.managed.configuration.AbstractMergeContext;
 import org.vault.bootstrap.managed.configuration.ConfigurationManager;
 import org.vault.bootstrap.managed.merge.AbstractXmlMergeManager;
 import org.vault.bootstrap.managed.merge.MergeManager;
-import org.vault.persistence.facets.PersistenceModuleFacet;
 import org.vault.persistence.managed.configuration.PersistenceMergeContext.PersistenceConfigurationManager;
 import org.vault.persistence.managed.configuration.PersistenceMergeContext.PersistenceMergeManager;
 
@@ -28,7 +27,8 @@ public class PersistenceMergeContext extends AbstractMergeContext<PersistenceCon
 
 		@Override
 		protected List<ConfigurationLocation> getSpecificConfigurationLocations(Module module) {
-			return module.getFacet(PersistenceModuleFacet.class).getPersistenceContextConfigurationLocations();
+			// TODO
+			return Lists.newArrayList();
 		}
 
 		@Override
