@@ -10,13 +10,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.vault.base.collections.lists.VLists;
 import org.vault.base.collections.tree.Tree;
 import org.vault.base.collections.tree.Trees;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleHierarchy;
 import org.vault.base.module.domain.ModuleType;
+import org.vault.base.module.domain.Modules;
 import org.vault.base.module.service.ModuleLoader;
 import org.vault.core.facets.service.FacetProvider;
+import org.vault.core.module.domain.simple.ApplicationModule;
 import org.vault.core.module.domain.simple.DefaultApplicationModule;
 import org.vault.core.module.domain.simple.SimpleModuleHierarchy;
 import org.vault.module.registry.core.CoreModule;
@@ -33,7 +36,7 @@ public class CoreModuleLoader implements ModuleLoader {
 	private CoreModule coreModule;
 
 	@Autowired(required = false)
-	private DefaultApplicationModule applicationModule;
+	private ApplicationModule applicationModule;
 
 	@Autowired
 	private FacetProvider facetProvider;
@@ -66,7 +69,6 @@ public class CoreModuleLoader implements ModuleLoader {
 
 		logger.debug("Built module hierarchy:");
 		Trees.iterateBreadthFirst(heirarchy.getModules()).forEach((module) -> logger.debug(module));
-		logger.debug("Tree view:\n" + Trees.stringify(heirarchy.getModules()));
 	}
 
 	@Override
@@ -84,9 +86,11 @@ public class CoreModuleLoader implements ModuleLoader {
 	}
 
 	private Tree<Module> buildModuleTree() {
+		List<Module> modules = this.getAllModules();
+
 		Tree<Module> moduleTree = Trees.<Module> newHashTree(coreModule);
-		while (!moduleTree.containsAll(modules.values())) {
-			for (Module module : modules.values()) {
+		while (!moduleTree.containsAll(modules)) {
+			for (Module module : modules) {
 				if (!moduleTree.contains(module)) {
 					Set<Module> dependencies = this.getDependencies(module);
 					if (moduleTree.containsAll(dependencies)) {
@@ -103,6 +107,10 @@ public class CoreModuleLoader implements ModuleLoader {
 	}
 
 	private Set<Module> getDependencies(Module module) {
+		if (Modules.isApplicationModule(module)) {
+			return Sets.newHashSet(modules.values());
+		}
+
 		Set<Module> dependencies = Sets.newHashSet();
 		Set<Module> implicitDependencies = Sets.<Module> newHashSet(coreModule);
 		for (Module dependency : this.getModulesByKeys(module.getDependencies())) {
@@ -129,5 +137,9 @@ public class CoreModuleLoader implements ModuleLoader {
 			dependencies.addAll(this.getFullDependencyHierarchy(dependency));
 		}
 		return dependencies;
+	}
+
+	private List<Module> getAllModules() {
+		return VLists.list(modules.values(), applicationModule);
 	}
 }

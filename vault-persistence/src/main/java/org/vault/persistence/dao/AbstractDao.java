@@ -5,7 +5,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.vault.base.domain.Identifiable;
 import org.vault.base.spring.beans.VaultBeanT1;
 import org.vault.persistence.utilities.EntityManagers;
@@ -13,7 +12,8 @@ import org.vault.persistence.utilities.Queries;
 import org.vault.persistence.utilities.QueryQualifier;
 
 public class AbstractDao<T extends Identifiable> extends VaultBeanT1<T> implements Dao<T> {
-	@Autowired
+	// TODO
+//	@Autowired
 	private List<EntityManager> potentialEms;
 
 	private EntityManager em;

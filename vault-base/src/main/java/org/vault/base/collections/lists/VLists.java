@@ -16,6 +16,13 @@ public class VLists {
 		return Lists.newArrayList(items);
 	}
 
+	@SafeVarargs
+	public static <T> List<T> list(Iterable<T> items, T... otherItems) {
+		List<T> list = list(otherItems);
+		list.addAll(list(items));
+		return list;
+	}
+
 	public static <T> List<T> list(List<T> list) {
 		if (list == null) {
 			return Lists.newArrayList();
