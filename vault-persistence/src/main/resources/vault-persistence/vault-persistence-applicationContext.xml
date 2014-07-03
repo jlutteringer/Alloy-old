@@ -12,4 +12,12 @@
 		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 
 	<context:component-scan base-package="org.vault.persistence.managed"/>
+	
+	<bean id="vaultJpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+	
+	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" depends-on="vaultCacheManager">
+        <property name="jpaVendorAdapter" ref="vaultJpaVendorAdapter"/>
+        <property name="persistenceUnitManager" ref="vaultPersistenceUnitManager"/>
+        <property name="persistenceUnitName" value="blPU"/>
+    </bean>
 </beans>

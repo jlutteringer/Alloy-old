@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.vault.base.reflection.VReflection;
 import org.vault.persistence.managed.configuration.PersistenceMergeContext;
 
-@Service
+@Service("vaultPersistenceUnitManager")
 public class MergePersistenceUnitManager extends DefaultPersistenceUnitManager {
 	@Autowired
 	private PersistenceMergeContext mergeContext;

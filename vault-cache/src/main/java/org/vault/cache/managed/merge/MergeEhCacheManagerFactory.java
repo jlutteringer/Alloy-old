@@ -7,7 +7,7 @@ import org.springframework.cache.ehcache.EhCacheManagerFactoryBean;
 import org.springframework.stereotype.Service;
 import org.vault.cache.managed.configuration.EhCacheMergeContext;
 
-@Service
+@Service("vaultCacheManager")
 public class MergeEhCacheManagerFactory extends EhCacheManagerFactoryBean {
 	@Autowired
 	private EhCacheMergeContext mergeConfiguration;

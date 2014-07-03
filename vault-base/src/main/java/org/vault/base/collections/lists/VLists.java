@@ -1,8 +1,11 @@
 package org.vault.base.collections.lists;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import org.vault.base.collections.MutableCollections;
 
 import com.google.common.collect.Lists;
 
@@ -18,9 +21,7 @@ public class VLists {
 
 	@SafeVarargs
 	public static <T> List<T> list(Iterable<T> items, T... otherItems) {
-		List<T> list = list(otherItems);
-		list.addAll(list(items));
-		return list;
+		return MutableCollections.add(list(items), otherItems);
 	}
 
 	public static <T> List<T> list(List<T> list) {
@@ -40,5 +41,15 @@ public class VLists {
 			transformedList.add(transformer.apply(item));
 		}
 		return transformedList;
+	}
+
+	public static <T> List<T> add(List<T> list, Iterable<T> items) {
+		List<T> newList = Lists.newArrayList();
+		return MutableCollections.add(newList, items);
+	}
+
+	@SafeVarargs
+	public static <T> List<T> add(List<T> list, T... items) {
+		return add(list, Arrays.asList(items));
 	}
 }
