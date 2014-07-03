@@ -16,6 +16,13 @@ public class VLists {
 		return Lists.newArrayList(items);
 	}
 
+	public static <T> List<T> list(List<T> list) {
+		if (list == null) {
+			return Lists.newArrayList();
+		}
+		return list;
+	}
+
 	public static <T> Supplier<List<T>> listSupplier() {
 		return () -> Lists.newArrayList();
 	}

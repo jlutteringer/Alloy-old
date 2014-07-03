@@ -3,6 +3,7 @@ package org.vault.base.utilities.configuration.classpath;
 import org.vault.base.collections.directory.Directory;
 import org.vault.base.collections.directory.DirectoryEntry;
 import org.vault.base.module.domain.Module;
+import org.vault.base.module.domain.Modules;
 
 public class ModuleRelativeCRCLDecorator extends CRCLDecorator {
 	private Module module;
@@ -16,7 +17,9 @@ public class ModuleRelativeCRCLDecorator extends CRCLDecorator {
 	public Directory<String, String> getResourceLocationDirectory() {
 		Directory<String, String> directory = super.getResourceLocationDirectory();
 		for (DirectoryEntry<String, String> entry : directory.getEntries()) {
-			entry.setValue(module.getName() + "/" + entry.getValue());
+			if (!Modules.isApplicationModule(module)) {
+				entry.setValue(module.getName() + "/" + entry.getValue());
+			}
 		}
 
 		return directory;
