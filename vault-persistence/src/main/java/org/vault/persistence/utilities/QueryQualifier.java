@@ -1,20 +1,23 @@
 package org.vault.persistence.utilities;
 
 public class QueryQualifier {
-	public static final QueryQualifier NULL = null;
+	private String entityName = "entity";
+	private String qualification = null;
+
+	public static final QueryQualifier NULL = new QueryQualifier();
 
 	public String getEntityName() {
-		// TODO Auto-generated method stub
-		return null;
+		return entityName;
 	}
 
 	public boolean hasQualification() {
-		// TODO Auto-generated method stub
-		return false;
+		if (qualification == null) {
+			return false;
+		}
+		return true;
 	}
 
 	public String getQualification() {
-		// TODO Auto-generated method stub
-		return null;
+		return qualification;
 	}
 }

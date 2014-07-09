@@ -35,6 +35,6 @@ public class LoggingInitializer extends AbstractPhasedInitializingBean implement
 
 	@Override
 	public Phase getPhase() {
-		return Phase.BEGIN;
+		return Phase.INITIALIZATION;
 	}
 }

@@ -1,8 +1,12 @@
 package org.vault.persistence.managed;
 
 import java.util.List;
+import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.persistence.spi.PersistenceUnitInfo;
+import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.support.ResourcePatternResolver;
@@ -14,8 +18,16 @@ import org.vault.persistence.managed.configuration.PersistenceMergeContext;
 
 @Service("vaultPersistenceUnitManager")
 public class MergePersistenceUnitManager extends DefaultPersistenceUnitManager {
+	@Resource(name = "vaultDataSources")
+	protected Map<String, DataSource> mergedDataSources;
+
 	@Autowired
 	private PersistenceMergeContext mergeContext;
+
+	@PostConstruct
+	private void initialize() {
+		this.setDataSources(mergedDataSources);
+	}
 
 	@Override
 	public void preparePersistenceUnitInfos() {

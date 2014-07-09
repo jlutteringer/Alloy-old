@@ -5,8 +5,13 @@
              version="2.0">
              
     <persistence-unit name="primary" transaction-type="RESOURCE_LOCAL">
+    	<non-jta-data-source>jdbc/primary</non-jta-data-source>
+    	
+    	<class>org.vault.user.domain.User</class>
+    	
         <exclude-unlisted-classes/>
         <properties>
+        	<property name="hibernate.hbm2ddl.auto" value="update"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.transaction.flush_before_completion" value="false"/>
             <property name="hibernate.cache.region.factory_class" value="org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory"/>

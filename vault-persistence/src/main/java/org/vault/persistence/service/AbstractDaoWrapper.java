@@ -3,6 +3,7 @@ package org.vault.persistence.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.vault.base.domain.Identifiable;
 import org.vault.persistence.dao.Dao;
 import org.vault.persistence.dao.DaoFacade;
@@ -28,6 +29,7 @@ public class AbstractDaoWrapper<T extends Identifiable, N extends Dao<T>> implem
 	}
 
 	@Override
+	@Transactional("primary")
 	public T save(T entity) {
 		return dao.save(entity);
 	}
