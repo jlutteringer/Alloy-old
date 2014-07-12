@@ -18,7 +18,7 @@
 		<property name="entityManagerFactoryBeanName" value="primaryEntityManagerFactory" />
 	</bean>
 	
-    <bean id="preSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
+	<bean id="preSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
         <sec:filter-chain-map request-matcher="ant">
             <sec:filter-chain pattern="/**" filters="
 				primaryOpenEntityManagerInViewFilter,

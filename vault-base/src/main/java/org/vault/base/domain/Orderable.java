@@ -2,9 +2,9 @@ package org.vault.base.domain;
 
 import java.util.Comparator;
 
-public interface Orderable extends Comparable<Orderable> {
-	public int getOrder();
+import org.springframework.core.Ordered;
 
+public interface Orderable extends Comparable<Orderable>, Ordered {
 	@Override
 	public default int compareTo(Orderable o) {
 		return comparator().compare(this, o);

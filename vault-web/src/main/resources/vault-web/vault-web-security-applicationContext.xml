@@ -25,8 +25,8 @@
 		<sec:session-management session-fixation-protection="none" />
 
 		<sec:anonymous username="roleAnonymous" />
-
-        <sec:custom-filter ref="preSecurityFilterChain" before="CHANNEL_FILTER"/>
+		
+		<sec:custom-filter ref="preSecurityFilterChain" before="CHANNEL_FILTER"/>
 		<sec:custom-filter ref="postSecurityFilterChain" after="SWITCH_USER_FILTER"/>
 		
 		<sec:form-login />

@@ -5,6 +5,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -12,15 +13,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.function.Predicate;
 
-import org.vault.base.utilities.Container;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.vault.base.collections.lists.VLists;
 import org.vault.base.utilities.exception.Exceptions;
+import org.vault.base.utilities.function.VPredicates;
 import org.vault.base.utilities.matcher.Matcher;
 import org.vault.base.utilities.matcher.Matchers;
 
 import com.google.common.collect.Lists;
 
 public class VReflection {
+	private static final Logger logger = LogManager.getLogger(VReflection.class);
+
 	public static Class<?> getClass(Type type) {
 		if (type instanceof Class) {
 			return (Class<?>) type;
@@ -140,41 +148,135 @@ public class VReflection {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T getField(Object object, String fieldName, Class<T> clazz) {
-		Container<T> container = Container.empty();
-		Exceptions.propagate(() -> {
-			Field field = null;
-			Class<?> currentClass = object.getClass();
-			boolean found = false;
-
-			while (field == null && currentClass != null && !found) {
-				Field[] declaredFields = currentClass.getDeclaredFields();
-				for (Field declaredField : declaredFields) {
-					if (fieldName.equals(declaredField.getName())) {
-						field = declaredField;
-						found = true;
-						break;
-					}
-				}
-
-				currentClass = currentClass.getSuperclass();
-			}
-
-			if (!found) {
-				throw new NoSuchFieldException(fieldName);
-			}
-
-			if (!field.isAccessible()) {
-				field.setAccessible(true);
-			}
-			container.setValue((T) field.get(object));
+	public static <T> T invoke(Object object, String methodName, Class<T> returnType, Object... arguments) {
+		return Exceptions.propagate(() -> {
+			return (T) getClassMethod(true, object.getClass(), methodName, VClasses.getTypes(arguments))
+					.orElseThrow(() -> new NoSuchMethodException(methodName))
+					.invoke(object, arguments);
 		});
+	}
 
-		return container.getValue();
+	@SuppressWarnings("unchecked")
+	public static <T> T getField(Object object, String fieldName, Class<T> clazz) {
+		return Exceptions.propagate(() -> {
+			return (T) getClassFieldByName(true, object.getClass(), fieldName)
+					.orElseThrow(() -> new NoSuchFieldException(fieldName))
+					.get(object);
+		});
 	}
 
 	@SuppressWarnings("unchecked")
 	public static <T, N> Map<T, N> getMap(Object object, String fieldName, Class<T> clazz1, Class<N> clazz2) {
 		return getField(object, fieldName, Map.class);
+	}
+
+	public static Optional<Method> getClassMethod(boolean makeAccessable, Class<?> clazz, String methodName, List<Class<?>> argumentTypess) {
+		Optional<Class<?>> matchedClass = traverseObjectGraph(clazz, methodClassMatcher(methodName, argumentTypess));
+		if (matchedClass.isPresent()) {
+			Optional<Method> method = getMethodFromClass(matchedClass.get(), methodName, argumentTypess);
+			method.ifPresent((param) -> {
+				if (!param.isAccessible() && makeAccessable) {
+					param.setAccessible(true);
+				}
+			});
+
+			return method;
+		}
+
+		return Optional.empty();
+	}
+
+	public static Optional<Field> getClassFieldByName(boolean makeAccessable, Class<?> clazz, String fieldName) {
+		Optional<Class<?>> matchedClass = traverseObjectGraph(clazz, fieldNameClassMatcher(fieldName));
+		if (matchedClass.isPresent()) {
+			Optional<Field> field = getFieldFromClassByName(matchedClass.get(), fieldName);
+			field.ifPresent((param) -> {
+				if (!param.isAccessible() && makeAccessable) {
+					param.setAccessible(true);
+				}
+			});
+
+			return field;
+		}
+		return Optional.empty();
+	}
+
+	public static Matcher<Class<?>> fieldNameClassMatcher(String fieldName) {
+		return (clazz) -> {
+			if (getFieldFromClassByName(clazz, fieldName).isPresent()) {
+				return true;
+			}
+			return false;
+		};
+	}
+
+	public static Matcher<Class<?>> methodClassMatcher(String methodName, List<Class<?>> argumentTypess) {
+		return (clazz) -> {
+			if (getMethodFromClass(clazz, methodName, argumentTypess).isPresent()) {
+				return true;
+			}
+			return false;
+		};
+	}
+
+	private static Optional<Class<?>> traverseObjectGraph(Class<?> clazz, Matcher<Class<?>> matcher) {
+		Class<?> currentClass = clazz;
+		boolean found = false;
+
+		while (currentClass != null && !found) {
+			if (matcher.matches(currentClass)) {
+				found = true;
+				break;
+			}
+
+			currentClass = currentClass.getSuperclass();
+		}
+
+		return Optional.ofNullable(currentClass);
+	}
+
+	private static Optional<Method> getMethodFromClass(Class<?> clazz, String methodName, List<Class<?>> argumentTypes) {
+		Method[] declaredMethods = clazz.getDeclaredMethods();
+		for (Method declaredMethod : declaredMethods) {
+			Predicate<Method> criteria =
+					VPredicates.and(
+							(method) -> method.getName().equals(methodName),
+							(method) -> {
+								if (method.getParameterTypes().length != argumentTypes.size()) {
+									return false;
+								}
+
+								for (int count = 0; count < method.getParameterTypes().length; count++) {
+									if (!method.getParameterTypes()[count].isAssignableFrom(argumentTypes.get(count))) {
+										return false;
+									}
+								}
+								return true;
+							});
+
+			if (criteria.test(declaredMethod)) {
+				logger.debug(
+						"Found method [" + methodName + "] for class [" + clazz.getSimpleName() + "] with args [" +
+								VLists.transform(argumentTypes, VClasses.stringify()) + "]");
+
+				return Optional.of(declaredMethod);
+			}
+		}
+
+		logger.debug(
+				"Couldn't find method [" + methodName + "] for class [" + clazz.getSimpleName() + "] with args [" +
+						VLists.transform(argumentTypes, VClasses.stringify()) + "]");
+
+		return Optional.empty();
+	}
+
+	private static Optional<Field> getFieldFromClassByName(Class<?> clazz, String fieldName) {
+		Field[] declaredFields = clazz.getDeclaredFields();
+		for (Field declaredField : declaredFields) {
+			if (fieldName.equals(declaredField.getName())) {
+				return Optional.of(declaredField);
+			}
+		}
+		return Optional.empty();
 	}
 }
