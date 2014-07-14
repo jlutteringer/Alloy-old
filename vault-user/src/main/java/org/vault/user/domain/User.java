@@ -1,52 +1,52 @@
 package org.vault.user.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.TableGenerator;
+import java.util.Set;
 
+import org.vault.base.domain.Activatable;
+import org.vault.base.domain.AdditionalFields;
 import org.vault.base.domain.DomainObject;
 
-@Entity
-@Table(name = "VAULT_USER")
-public class User implements DomainObject {
-	private static final long serialVersionUID = -2572842708982205448L;
-
-	public User() {
-		// Do nothing
-	}
-
-	public User(String username) {
-		this.username = username;
-	}
-
-	@Id
-	@GeneratedValue(generator = "UserId", strategy = GenerationType.TABLE)
-	@TableGenerator(name = "UserId", table = "SEQUENCE_GENERATOR", pkColumnName = "ID_NAME", valueColumnName = "ID_VAL", pkColumnValue = "User", allocationSize = 50)
-	@Column(name = "USER_ID")
-	protected Long id;
-
-	@Column(name = "USERNAME")
-	protected String username;
-
-	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
-	}
-
+public interface User extends DomainObject, AdditionalFields, Activatable {
 	@Override
-	public Long getId() {
-		return id;
-	}
+	public Long getId();
 
-	@Override
-	public String toString() {
-		return "[" + id + "] " + username;
-	}
+	public String getUsername();
+
+	public void setUsername(String username);
+
+	public String getName();
+
+	public void setName(String name);
+
+	public String getLogin();
+
+	public void setLogin(String login);
+
+	public String getPassword();
+
+	public void setPassword(String password);
+
+	public String getEmail();
+
+	public void setEmail(String email);
+
+	public Set<Role> getRoles();
+
+	public void setRoles(Set<Role> roles);
+
+	/**
+	* Stores the user's phone number.
+	* @param phone
+	*/
+	public void setPhoneNumber(String phone);
+
+	/**
+	* Returns the users phone number.
+	* @return
+	*/
+	public String getPhoneNumber();
+
+	public Set<Permission> getPermissions();
+
+	public void setPermissions(Set<Permission> permissions);
 }

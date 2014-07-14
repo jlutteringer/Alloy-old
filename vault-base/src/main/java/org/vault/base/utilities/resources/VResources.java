@@ -43,15 +43,13 @@ public class VResources {
 	}
 
 	public static String getPath(Resource resource) {
-		if (resource instanceof UrlResource) {
-			try {
-				return ((UrlResource) resource).getURL().getPath();
-			} catch (IOException e) {
-				throw Throwables.propagate(e);
-			}
+		try {
+			String path = resource.getURL().getPath();
+			logger.debug(String.format("Found path for resource: [%s] path :[%s]", resource, path));
+			return path;
+		} catch (IOException e) {
+			throw Throwables.propagate(e);
 		}
-
-		throw new RuntimeException("Can't get path from resource " + resource);
 	}
 
 	public static Resource getResource(byte[] bytes) {

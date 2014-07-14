@@ -29,6 +29,7 @@
 		<module>vault-admin</module>
 		<module>vault-user</module>
 		<module>vault-template</module>
+		<module>vault-domain</module>
 	</modules>
 	
 	<build>
@@ -69,6 +70,12 @@
 				<plugin>
 					<artifactId>maven-resources-plugin</artifactId>
 					<version>2.4.3</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+			          	<nonFilteredFileExtensions>
+			            	<nonFilteredFileExtension>p12</nonFilteredFileExtension>
+			          	</nonFilteredFileExtensions>
+		          	</configuration>
 					<executions>
 						<execution>
 							<id>replace-pom-placeholder</id>
@@ -212,6 +219,13 @@
 			<dependency>
 				<groupId>org.vault</groupId>
 				<artifactId>vault-cache</artifactId>
+				<version>${vault.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.vault</groupId>
+				<artifactId>vault-domain</artifactId>
 				<version>${vault.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>

@@ -10,6 +10,6 @@ public class UserModule extends ManagedModule {
 	public UserModule() {
 		this.name = "vault-user";
 		this.friendlyName = "User Module";
-		this.dependencies = Lists.newArrayList("vault-persistence");
+		this.dependencies = Lists.newArrayList("vault-persistence", "vault-domain");
 	}
 }

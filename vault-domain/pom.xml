@@ -6,16 +6,12 @@
 		<version>${vault.version}</version>
 	</parent>
   
-	<artifactId>vault-user</artifactId>
+	<artifactId>vault-domain</artifactId>
 	
 	<dependencies>
 		<dependency>
 			<groupId>org.vault</groupId>
 			<artifactId>vault-persistence</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.vault</groupId>
-			<artifactId>vault-domain</artifactId>
 		</dependency>
 	</dependencies>
 </project>

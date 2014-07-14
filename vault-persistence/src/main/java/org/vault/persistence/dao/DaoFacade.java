@@ -7,6 +7,8 @@ import org.vault.base.domain.Identifiable;
 import org.vault.persistence.utilities.QueryQualifier;
 
 public interface DaoFacade<T extends Identifiable> {
+	public T create();
+
 	public T find(Long id);
 
 	public default T find(QueryQualifier qualifier) {

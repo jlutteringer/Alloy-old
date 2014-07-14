@@ -14,6 +14,11 @@ public class AbstractDaoWrapper<T extends Identifiable, N extends Dao<T>> implem
 	protected N dao;
 
 	@Override
+	public T create() {
+		return dao.create();
+	}
+
+	@Override
 	public T find(Long id) {
 		return dao.find(id);
 	}

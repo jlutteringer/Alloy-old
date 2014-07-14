@@ -25,17 +25,24 @@ public class VaultClasspathResourceManager {
 	@Autowired
 	private ModuleLoader moduleLoader;
 
+	public Resource getResourceFromModule(Module module, String resourceLocation) {
+		String resolvedLocation = module.getName() + "/" + resourceLocation;
+		Resource resource = null;
+		try {
+			resource = Configurations.resolveClasspathResource(resolvedLocation, applicationContext);
+		} catch (Exception e) {
+			// Eat it
+		}
+
+		return resource;
+	}
+
 	public List<Resource> getLocations(String baseLocation) {
 		List<Resource> resources = Lists.newArrayList();
 
 		for (Module module : Lists.reverse(moduleLoader.getModuleLoadOrder())) {
 			String resolvedLocation = module.getName() + "/" + baseLocation;
-			Resource resource = null;
-			try {
-				resource = Configurations.resolveClasspathResource(resolvedLocation, applicationContext);
-			} catch (Exception e) {
-				// Eat it
-			}
+			Resource resource = getResourceFromModule(module, baseLocation);
 
 			if (resource != null) {
 				logger.debug("Found resource location " + resolvedLocation + " in " + module);
