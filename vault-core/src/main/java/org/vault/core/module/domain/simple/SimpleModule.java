@@ -1,20 +1,17 @@
 package org.vault.core.module.domain.simple;
 
-import java.util.List;
-
+import org.vault.base.module.domain.DependencyContext;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleFacet;
 import org.vault.base.module.domain.ModuleType;
 import org.vault.core.facets.domain.ProvidedFacetedObject;
-
-import com.google.common.collect.Lists;
 
 public abstract class SimpleModule extends ProvidedFacetedObject<ModuleFacet> implements Module {
 	protected String name;
 	protected String friendlyName;
 	protected ModuleType type = ModuleType.MODULE;
 
-	protected List<String> dependencies = Lists.newArrayList();
+	protected DependencyContext dependencies = new DependencyContext();
 
 	@Override
 	public String getName() {
@@ -35,12 +32,8 @@ public abstract class SimpleModule extends ProvidedFacetedObject<ModuleFacet> im
 	}
 
 	@Override
-	public List<String> getDependencies() {
+	public DependencyContext getDependencies() {
 		return dependencies;
-	}
-
-	public void setDependencies(List<String> dependencies) {
-		this.dependencies = dependencies;
 	}
 
 	@Override

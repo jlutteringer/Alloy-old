@@ -20,22 +20,4 @@
 	<sec:http pattern="/js/**" security="none" />	
 	<sec:http pattern="/favicon.ico" security="none" />	
 	<sec:http pattern="/robots.txt" security="none" />
-	
-	<sec:http>
-		<sec:intercept-url pattern="/login" requires-channel="https"/>
-		<sec:intercept-url pattern="/admin**" requires-channel="https" access="ROLE_ADMIN"/>
-		
-		<sec:session-management session-fixation-protection="none" />
-
-		<sec:anonymous username="roleAnonymous" />
-		
-		<sec:custom-filter ref="preSecurityFilterChain" before="CHANNEL_FILTER"/>
-		<sec:custom-filter ref="postSecurityFilterChain" after="SWITCH_USER_FILTER"/>
-		
-		<sec:form-login />
-  		<sec:logout />
-	</sec:http>
-	
-	<sec:authentication-manager>
-	</sec:authentication-manager>
 </beans>

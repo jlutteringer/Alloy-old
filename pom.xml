@@ -19,7 +19,6 @@
   
 	<modules>
 		<module>vault-core</module>
-		<module>vault-site</module>
 		<module>vault-base</module>
 		<module>vault-extensibility</module>
 		<module>vault-bootstrap</module>
@@ -30,6 +29,11 @@
 		<module>vault-user</module>
 		<module>vault-template</module>
 		<module>vault-domain</module>
+		<module>vault-security</module>
+		<module>vault-boot</module>
+		<module>vault-site</module>
+		<module>vault-site-security</module>
+		<module>vault-site-boot</module>
 	</modules>
 	
 	<build>
@@ -226,6 +230,34 @@
 			<dependency>
 				<groupId>org.vault</groupId>
 				<artifactId>vault-domain</artifactId>
+				<version>${vault.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.vault</groupId>
+				<artifactId>vault-security</artifactId>
+				<version>${vault.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.vault</groupId>
+				<artifactId>vault-site-security</artifactId>
+				<version>${vault.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.vault</groupId>
+				<artifactId>vault-boot</artifactId>
+				<version>${vault.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.vault</groupId>
+				<artifactId>vault-site-boot</artifactId>
 				<version>${vault.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>

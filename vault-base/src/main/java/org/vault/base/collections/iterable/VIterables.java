@@ -33,6 +33,10 @@ public class VIterables {
 		return VIterables.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}
 
+	public static <T> Iterable<T> flatten(Iterable<? extends Iterable<T>> multiIterator) {
+		return VIterables.multiplexingIterable(multiIterator, (interalIterator) -> interalIterator.iterator());
+	}
+
 	public static <T, N extends T> Iterable<N> matchingIterable(Iterable<N> iterable, Matcher<T> matcher) {
 		IteratorSupplierContext<N, N, T> context = new IteratorSupplierContext<>(iterable);
 		context.setMatcher(matcher);

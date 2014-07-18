@@ -1,7 +1,5 @@
 package org.vault.base.module.domain;
 
-import java.util.List;
-
 import org.vault.base.facets.FacetedObject;
 
 public interface Module extends FacetedObject<ModuleFacet> {
@@ -11,5 +9,5 @@ public interface Module extends FacetedObject<ModuleFacet> {
 
 	public ModuleType getType();
 
-	public List<String> getDependencies();
+	public DependencyContext getDependencies();
 }

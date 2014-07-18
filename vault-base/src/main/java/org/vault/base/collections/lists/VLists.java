@@ -1,6 +1,7 @@
 package org.vault.base.collections.lists;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -35,9 +36,9 @@ public class VLists {
 		return () -> Lists.newArrayList();
 	}
 
-	public static <T, N> List<T> transform(List<N> list, Function<N, T> transformer) {
-		List<T> transformedList = Lists.newArrayList();
-		for (N item : list) {
+	public static <T, N> List<N> transform(Collection<T> collection, Function<T, N> transformer) {
+		List<N> transformedList = Lists.newArrayList();
+		for (T item : collection) {
 			transformedList.add(transformer.apply(item));
 		}
 		return transformedList;

@@ -8,9 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.service.ModuleLoader;
 import org.vault.base.utilities.configuration.Configurations;
+import org.vault.base.utilities.resources.VResources;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -45,7 +47,7 @@ public class VaultClasspathResourceManager {
 			Resource resource = getResourceFromModule(module, baseLocation);
 
 			if (resource != null) {
-				logger.debug("Found resource location " + resolvedLocation + " in " + module);
+				logger.debug("Searching resource location " + resolvedLocation + " in " + module);
 				resources.add(resource);
 			}
 		}
@@ -54,6 +56,6 @@ public class VaultClasspathResourceManager {
 	}
 
 	public Resource getResource(String resourceName) {
-		return Iterables.getFirst(this.getLocations(resourceName), null);
+		return VIterables.first(Iterables.filter(this.getLocations(resourceName), VResources::isValidResource));
 	}
 }

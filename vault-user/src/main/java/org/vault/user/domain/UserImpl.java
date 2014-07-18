@@ -3,24 +3,68 @@ package org.vault.user.domain;
 import java.util.Map;
 import java.util.Set;
 
-import javax.persistence.AssociationOverride;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
-import org.vault.domain.entity.AdditionalFieldsEntity;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.vault.base.enumeration.VEnumerations;
+import org.vault.domain.entity.BaseEntity;
+
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 @Entity
-@Table(name = "VAULT_USER")
-@AssociationOverride(name = "additionalFields")
-public class UserImpl extends AdditionalFieldsEntity implements User {
+@Table(name = "user")
+public class UserImpl extends BaseEntity implements User {
 	private static final long serialVersionUID = -2572842708982205448L;
+	private static final String ENTITY_NAME = "user";
+
+	@Id
+	@GeneratedValue(generator = ENTITY_NAME + "Id", strategy = GenerationType.TABLE)
+	@TableGenerator(name = ENTITY_NAME + "Id", table = "sequenceGenerator", pkColumnName = "idName", valueColumnName = "idVal", pkColumnValue = ENTITY_NAME, allocationSize = 50)
+	@Column(name = ENTITY_NAME + "Id")
+	protected Long id;
+
+	@Column(name = "username")
+	protected String username;
+
+	@Column(name = "authentication")
+	protected String authentication;
+
+	@Column(name = "type")
+	protected String type = UserType.NORMAL.getType();
+
+	@ElementCollection
+	@MapKeyColumn(name = "fieldName")
+	@Column(name = "fieldValue")
+	@BatchSize(size = 50)
+	@CollectionTable(name = ENTITY_NAME + "AdditionalFields", joinColumns = @JoinColumn(name = ENTITY_NAME + "Id"))
+	protected Map<String, String> additionalFields = Maps.newHashMap();
+
+	@ManyToMany(targetEntity = RoleImpl.class)
+	@JoinTable(name = "userRoleXref", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "roleId"))
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "vStandardElements")
+	@BatchSize(size = 50)
+	protected Set<Role> roles = Sets.newHashSet();
+
+	@ManyToMany(targetEntity = PermissionImpl.class)
+	@JoinTable(name = "userPermissionXref", joinColumns = @JoinColumn(name = "userId"), inverseJoinColumns = @JoinColumn(name = "permissionId"))
+	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE, region = "vStandardElements")
+	@BatchSize(size = 50)
+	protected Set<Permission> permissions = Sets.newHashSet();
 
 	public UserImpl() {
 		// Do nothing
@@ -30,14 +74,10 @@ public class UserImpl extends AdditionalFieldsEntity implements User {
 		this.username = username;
 	}
 
-	@Id
-	@GeneratedValue(generator = "UserId", strategy = GenerationType.TABLE)
-	@TableGenerator(name = "UserId", table = "SEQUENCE_GENERATOR", pkColumnName = "ID_NAME", valueColumnName = "ID_VAL", pkColumnValue = "User", allocationSize = 50)
-	@Column(name = "USER_ID")
-	protected Long id;
-
-	@Column(name = "USERNAME")
-	protected String username;
+	@Override
+	public Long getId() {
+		return id;
+	}
 
 	@Override
 	public String getUsername() {
@@ -50,114 +90,42 @@ public class UserImpl extends AdditionalFieldsEntity implements User {
 	}
 
 	@Override
-	public Long getId() {
-		return id;
+	public String getAuthentication() {
+		return authentication;
 	}
 
 	@Override
-	public String toString() {
-		return "[" + id + "] " + username;
+	public void setAuthentication(String authentication) {
+		this.authentication = authentication;
 	}
 
 	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+	public UserType getType() {
+		return VEnumerations.getInstance(type, UserType.class);
 	}
 
 	@Override
-	public void setName(String name) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getLogin() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setLogin(String login) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getPassword() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setPassword(String password) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getEmail() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setEmail(String email) {
-		// TODO Auto-generated method stub
-
+	public void setType(UserType type) {
+		this.type = type.getType();
 	}
 
 	@Override
 	public Set<Role> getRoles() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setRoles(Set<Role> roles) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setPhoneNumber(String phone) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getPhoneNumber() {
-		// TODO Auto-generated method stub
-		return null;
+		return roles;
 	}
 
 	@Override
 	public Set<Permission> getPermissions() {
-		// TODO Auto-generated method stub
-		return null;
+		return permissions;
 	}
 
 	@Override
-	public void setPermissions(Set<Permission> permissions) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	@CollectionTable(name = "VAULT_USER_ADDTL_FIELDS", joinColumns = @JoinColumn(name = "USER_ID"))
 	public Map<String, String> getAdditionalFields() {
 		return additionalFields;
 	}
 
 	@Override
-	public boolean isActive() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void setActive(boolean isActive) {
-		// TODO Auto-generated method stub
-
+	public String toString() {
+		return super.toString() + " " + username;
 	}
 }

@@ -16,10 +16,6 @@
 		
 		<mvc:annotation-driven/>
 		
-		<bean name="tomcatEmbeddedServletContainerFactory"  class="org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory"/>
-		<bean name="dispatcherServlet"  class="org.springframework.web.servlet.DispatcherServlet"/>
-		
-
 		<!-- **************************************************************** -->
 		<!--  THYMELEAF-SPECIFIC ARTIFACTS                                    -->
 		<!--  TemplateResolver <- TemplateEngine <- ViewResolver              -->

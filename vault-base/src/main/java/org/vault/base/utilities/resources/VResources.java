@@ -2,12 +2,14 @@ package org.vault.base.utilities.resources;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.util.InMemoryResource;
+import org.vault.base.utilities.exception.Exceptions;
 
 import com.google.common.base.Throwables;
 import com.google.common.io.ByteStreams;
@@ -58,5 +60,18 @@ public class VResources {
 
 	public static Resource getResource(ByteArrayOutputStream os) {
 		return getResource(os.toByteArray());
+	}
+
+	public static InputStream getInputStream(Resource resource) {
+		return Exceptions.propagate(() -> {
+			return resource.getInputStream();
+		});
+	}
+
+	public static boolean isValidResource(Resource resource) {
+		if (resource.exists() && resource.isReadable()) {
+			return true;
+		}
+		return false;
 	}
 }

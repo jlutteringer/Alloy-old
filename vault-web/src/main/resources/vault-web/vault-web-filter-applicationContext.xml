@@ -17,18 +17,4 @@
 	<bean id="primaryOpenEntityManagerInViewFilter" class="org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter">
 		<property name="entityManagerFactoryBeanName" value="primaryEntityManagerFactory" />
 	</bean>
-	
-	<bean id="preSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
-        <sec:filter-chain-map request-matcher="ant">
-            <sec:filter-chain pattern="/**" filters="
-				primaryOpenEntityManagerInViewFilter,
-				vaultPreSecurityFilter"/>
-        </sec:filter-chain-map>
-    </bean>
-
-    <bean id="postSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
-        <sec:filter-chain-map request-matcher="ant">
-            <sec:filter-chain pattern="/**" filters="vaultPostSecurityFilter"/>
-        </sec:filter-chain-map>
-    </bean>
 </beans>

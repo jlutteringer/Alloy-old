@@ -17,6 +17,18 @@ public class Queries {
 		}
 
 		TypedQuery<T> query = em.createQuery(queryString, clazz);
+		if (qualifier.hasQualification()) {
+			qualifier.getParameters().forEach(query::setParameter);
+		}
+
 		return new QueryWrapper<T>(query);
+	}
+
+	public static QueryQualifier where(String query) {
+		return where(null, query);
+	}
+
+	public static QueryQualifier where(String entityName, String qualification) {
+		return new QueryQualifier().setEntityName(entityName).setQualification(qualification);
 	}
 }

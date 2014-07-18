@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.vault.base.enumeration.VEnumeration;
 import org.vault.bootstrap.managed.logging.initialization.AbstractEnumerationLoader;
-import org.vault.web.request.RequestLifecycle;
+import org.vault.site.managed.request.RequestLifecycle;
 
 public class WebEnumerationLoader extends AbstractEnumerationLoader {
 	@Override

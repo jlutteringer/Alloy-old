@@ -35,9 +35,9 @@ public class DatabaseInitializationContext {
 		public void run() {
 			JdbcTemplate primary = new JdbcTemplate(mergedDataSources.get("jdbc/primary"));
 
-			primary.update("CREATE TABLE IF NOT EXISTS `SEQUENCE_GENERATOR` (" +
-					"`ID_NAME` varchar(255) DEFAULT NULL, " +
-					"`ID_VAL` int(11) DEFAULT NULL)");
+			primary.update("CREATE TABLE IF NOT EXISTS `sequenceGenerator` (" +
+					"`idName` varchar(255) DEFAULT NULL, " +
+					"`idVal` int(11) DEFAULT NULL)");
 		}
 	}
 }

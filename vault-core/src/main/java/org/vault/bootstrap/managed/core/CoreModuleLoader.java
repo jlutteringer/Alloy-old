@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.vault.base.collections.lists.VLists;
 import org.vault.base.collections.tree.Tree;
 import org.vault.base.collections.tree.Trees;
+import org.vault.base.module.domain.DependencyContext;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleHierarchy;
 import org.vault.base.module.domain.ModuleType;
@@ -41,17 +42,20 @@ public class CoreModuleLoader implements ModuleLoader {
 	@Autowired
 	private FacetProvider facetProvider;
 
-	private Map<String, Module> modules;
+	@Autowired
+	private DependencyResolver dependencyResolver;
+
+	private Map<Class<? extends Module>, Module> modules;
 
 	private ModuleHierarchy heirarchy = null;
 
 	@Autowired
 	private void setModules(List<Module> modules) {
-		Map<String, Module> filteredModules = Maps.newHashMap();
+		Map<Class<? extends Module>, Module> filteredModules = Maps.newHashMap();
 		for (Module module : modules) {
 			if (ModuleType.MODULE.equals(module.getType())) {
 				logger.info("Detected " + module.getFriendlyName() + " module. Adding to configuration.");
-				filteredModules.put(module.getName(), module);
+				filteredModules.put(module.getClass(), module);
 			}
 		}
 
@@ -77,12 +81,8 @@ public class CoreModuleLoader implements ModuleLoader {
 	}
 
 	@Override
-	public List<Module> getModulesByKeys(List<String> moduleNames) {
-		List<Module> matchedModules = Lists.newArrayList();
-		for (String moduleName : moduleNames) {
-			matchedModules.add(modules.get(moduleName));
-		}
-		return matchedModules;
+	public List<Module> getModulesFromDependencies(DependencyContext dependencies) {
+		return dependencyResolver.resolveDependencies(dependencies.unwrap());
 	}
 
 	private Tree<Module> buildModuleTree() {
@@ -113,11 +113,11 @@ public class CoreModuleLoader implements ModuleLoader {
 
 		Set<Module> dependencies = Sets.newHashSet();
 		Set<Module> implicitDependencies = Sets.<Module> newHashSet(coreModule);
-		for (Module dependency : this.getModulesByKeys(module.getDependencies())) {
+		for (Module dependency : this.getModulesFromDependencies(module.getDependencies())) {
 			implicitDependencies.addAll(getFullDependencyHierarchy(dependency));
 		}
 
-		for (Module dependency : this.getModulesByKeys(module.getDependencies())) {
+		for (Module dependency : this.getModulesFromDependencies(module.getDependencies())) {
 			if (!implicitDependencies.contains(dependency)) {
 				dependencies.add(dependency);
 			}
@@ -132,7 +132,7 @@ public class CoreModuleLoader implements ModuleLoader {
 
 	private Set<Module> getFullDependencyHierarchy(Module module) {
 		Set<Module> dependencies = Sets.newHashSet();
-		for (Module dependency : this.getModulesByKeys(module.getDependencies())) {
+		for (Module dependency : this.getModulesFromDependencies(module.getDependencies())) {
 			dependencies.add(dependency);
 			dependencies.addAll(this.getFullDependencyHierarchy(dependency));
 		}

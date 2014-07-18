@@ -12,6 +12,6 @@ public class AdminLandingController {
 	@RequestMapping("/admin")
 	public String landing() {
 		logger.debug("Hello world");
-		return "test";
+		return "landing";
 	}
 }
