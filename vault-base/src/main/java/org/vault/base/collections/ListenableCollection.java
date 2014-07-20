@@ -6,7 +6,7 @@ import org.vault.base.observer.Listenable;
 import org.vault.base.observer.ListenerRegistry;
 import org.vault.base.observer.Listeners;
 
-public class ListenableCollection<T> extends AbstractCollection<T> implements Listenable<Collection<T>> {
+public class ListenableCollection<T> extends BackedCollection<T> implements Listenable<Collection<T>> {
 	private ListenerRegistry<Collection<T>, CollectionListener<T>> listeners;
 	private Collection<T> collection;
 
@@ -58,7 +58,7 @@ public class ListenableCollection<T> extends AbstractCollection<T> implements Li
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		// TODO implement me
+		// FUTURE
 		return this.getBackingCollection().retainAll(c);
 	}
 

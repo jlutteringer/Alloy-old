@@ -16,7 +16,7 @@ public class TaggedCollection<T> {
 	}
 
 	public void put(T value, List<Tag> tags) {
-		// TODO
+		// FUTURE
 	}
 
 	public T get(Tag... tagSelectors) {
@@ -36,7 +36,7 @@ public class TaggedCollection<T> {
 	}
 
 	public List<TaggedValue<T>> select(List<Tag> tagSelectors, boolean narrow) {
-		// TODO
+		// FUTURE
 		return null;
 	}
 

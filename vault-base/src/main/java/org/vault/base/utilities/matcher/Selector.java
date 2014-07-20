@@ -1,5 +1,7 @@
 package org.vault.base.utilities.matcher;
 
-public interface Selector<T> extends Matcher<T> {
+import java.util.function.Predicate;
+
+public interface Selector<T> extends Predicate<T> {
 	public <N extends T> Iterable<N> getMatches(Iterable<N> input);
 }

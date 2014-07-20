@@ -21,8 +21,7 @@ import org.apache.logging.log4j.Logger;
 import org.vault.base.collections.lists.VLists;
 import org.vault.base.utilities.exception.Exceptions;
 import org.vault.base.utilities.function.VPredicates;
-import org.vault.base.utilities.matcher.Matcher;
-import org.vault.base.utilities.matcher.Matchers;
+import org.vault.base.utilities.matcher.Selectors;
 
 import com.google.common.collect.Lists;
 
@@ -102,13 +101,13 @@ public class VReflection {
 		return typeArgumentsAsClasses;
 	}
 
-	public static List<Class<?>> getHierarchy(Class<?> clazz, Matcher<Class<?>> filter) {
+	public static List<Class<?>> getHierarchy(Class<?> clazz, Predicate<Class<?>> filter) {
 		List<Class<?>> hierarchy = Lists.newArrayList();
 		Class<?> currentClazz = clazz;
 
 		while (currentClazz.getSuperclass() != null) {
 			currentClazz = currentClazz.getSuperclass();
-			if (filter.matches(currentClazz) && currentClazz != Object.class) {
+			if (filter.test(currentClazz) && currentClazz != Object.class) {
 				hierarchy.add(currentClazz);
 			}
 		}
@@ -137,7 +136,7 @@ public class VReflection {
 
 		Iterable<Class<T>> classes = unfliteredClasses;
 		if (filter) {
-			classes = Matchers.getSelector(ClassType.classTypeMatcher(ClassType.CONCRETE)).getMatches(classes);
+			classes = Selectors.getSelector(ClassType.classTypeMatcher(ClassType.CONCRETE)).getMatches(classes);
 		}
 
 		for (Class<T> clazz : classes) {
@@ -201,7 +200,7 @@ public class VReflection {
 		return Optional.empty();
 	}
 
-	public static Matcher<Class<?>> fieldNameClassMatcher(String fieldName) {
+	public static Predicate<Class<?>> fieldNameClassMatcher(String fieldName) {
 		return (clazz) -> {
 			if (getFieldFromClassByName(clazz, fieldName).isPresent()) {
 				return true;
@@ -210,7 +209,7 @@ public class VReflection {
 		};
 	}
 
-	public static Matcher<Class<?>> methodClassMatcher(String methodName, List<Class<?>> argumentTypess) {
+	public static Predicate<Class<?>> methodClassMatcher(String methodName, List<Class<?>> argumentTypess) {
 		return (clazz) -> {
 			if (getMethodFromClass(clazz, methodName, argumentTypess).isPresent()) {
 				return true;
@@ -219,12 +218,12 @@ public class VReflection {
 		};
 	}
 
-	private static Optional<Class<?>> traverseObjectGraph(Class<?> clazz, Matcher<Class<?>> matcher) {
+	private static Optional<Class<?>> traverseObjectGraph(Class<?> clazz, Predicate<Class<?>> matcher) {
 		Class<?> currentClass = clazz;
 		boolean found = false;
 
 		while (currentClass != null && !found) {
-			if (matcher.matches(currentClass)) {
+			if (matcher.test(currentClass)) {
 				found = true;
 				break;
 			}

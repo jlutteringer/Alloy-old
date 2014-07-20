@@ -40,7 +40,7 @@ public class Directories {
 	public static <T, N> Selector<DirectoryIndex<T, N>> getDirectoryIndexKeyMatcher(final T key) {
 		return new DirectoryIndexMatcher<T, N>() {
 			@Override
-			public boolean matches(DirectoryIndex<T, N> input) {
+			public boolean test(DirectoryIndex<T, N> input) {
 				if (Objects.equal(key, input.getKey())) {
 					return true;
 				}

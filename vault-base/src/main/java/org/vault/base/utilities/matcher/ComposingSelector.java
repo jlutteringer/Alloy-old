@@ -1,14 +1,16 @@
 package org.vault.base.utilities.matcher;
 
-public class ComposingSelector<T> extends AbstractSelector<T> {
-	private Matcher<T> matcher;
+import java.util.function.Predicate;
 
-	public ComposingSelector(Matcher<T> matcher) {
-		this.matcher = matcher;
+public class ComposingSelector<T> extends AbstractSelector<T> {
+	private Predicate<T> predicate;
+
+	public ComposingSelector(Predicate<T> predicate) {
+		this.predicate = predicate;
 	}
 
 	@Override
-	public boolean matches(T input) {
-		return matcher.matches(input);
+	public boolean test(T input) {
+		return predicate.test(input);
 	}
 }

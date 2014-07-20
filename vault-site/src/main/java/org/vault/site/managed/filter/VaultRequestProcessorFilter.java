@@ -13,7 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.vault.site.managed.request.RequestLifecycle;
 import org.vault.site.managed.request.RequestProcessorContext;
 
-public abstract class VaultDelegatingFilter extends OncePerRequestFilter {
+public abstract class VaultRequestProcessorFilter extends OncePerRequestFilter {
 	@Autowired
 	private RequestProcessorContext requestProcessorContext;
 

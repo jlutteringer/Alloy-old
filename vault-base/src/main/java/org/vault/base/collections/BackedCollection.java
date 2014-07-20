@@ -3,7 +3,7 @@ package org.vault.base.collections;
 import java.util.Collection;
 import java.util.Iterator;
 
-public abstract class AbstractCollection<T> implements Collection<T> {
+public abstract class BackedCollection<T> implements Collection<T> {
 	public abstract Collection<T> getBackingCollection();
 
 	@Override

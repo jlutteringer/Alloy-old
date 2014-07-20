@@ -1,11 +1,11 @@
 package org.vault.base.delegator;
 
-import org.vault.base.utilities.matcher.Matcher;
+import java.util.function.Predicate;
 
 public abstract class AbstractDelegate<N> implements Delegate<N> {
 	@Override
-	public boolean matches(N delegatee) {
-		return this.getInternalMatcher().matches(delegatee);
+	public boolean test(N delegatee) {
+		return this.getInternalMatcher().test(delegatee);
 	}
 
 	@Override
@@ -13,5 +13,5 @@ public abstract class AbstractDelegate<N> implements Delegate<N> {
 		return 0;
 	}
 
-	protected abstract Matcher<N> getInternalMatcher();
+	protected abstract Predicate<N> getInternalMatcher();
 }

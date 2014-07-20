@@ -34,7 +34,7 @@ public class XPathUtils {
 	public static NodeMatcher getNameNodeMatcher(final Node match) {
 		return new NodeMatcher() {
 			@Override
-			public boolean matches(Node input) {
+			public boolean test(Node input) {
 				if (match.getNodeName().equals(input.getNodeName())) {
 					return true;
 				}

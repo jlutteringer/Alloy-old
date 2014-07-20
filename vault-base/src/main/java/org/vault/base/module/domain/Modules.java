@@ -7,14 +7,4 @@ public class Modules {
 		}
 		return false;
 	}
-
-	public static boolean isPresent(Class<? extends Module> moduleType) {
-		// TODO
-		return false;
-	}
-
-	public static boolean isEnabled(Class<? extends Module> moduleType) {
-		// TODO
-		return false;
-	}
 }

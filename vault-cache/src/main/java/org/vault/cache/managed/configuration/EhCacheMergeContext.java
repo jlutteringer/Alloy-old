@@ -22,7 +22,7 @@ public class EhCacheMergeContext extends AbstractMergeContext<EhCacheConfigurati
 	public static class EhCacheConfigurationManager extends ConfigurationManager {
 		@Override
 		protected List<ConfigurationLocation> getSpecificConfigurationLocations(Module module) {
-			// TODO Auto-generated method stub
+			// FUTURE
 			return Lists.newArrayList();
 		}
 

@@ -4,12 +4,12 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.vault.base.collections.lists.VLists;
 import org.vault.base.utilities.Value;
 import org.vault.base.utilities.function.StatefulSupplier;
-import org.vault.base.utilities.matcher.Matcher;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -28,7 +28,7 @@ public class VIterables {
 	}
 
 	public static <T, N> Iterable<N> multiplexingIterable(Iterable<T> iterable, Function<T, Iterator<N>> transformer) {
-		IteratorSupplierContext<T, N, N> context = new IteratorSupplierContext<>(iterable);
+		IteratorSupplierContext<T, N> context = new IteratorSupplierContext<>(iterable);
 		context.setTransformer(transformer);
 		return VIterables.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}
@@ -37,16 +37,14 @@ public class VIterables {
 		return VIterables.multiplexingIterable(multiIterator, (interalIterator) -> interalIterator.iterator());
 	}
 
-	public static <T, N extends T> Iterable<N> matchingIterable(Iterable<N> iterable, Matcher<T> matcher) {
-		IteratorSupplierContext<N, N, T> context = new IteratorSupplierContext<>(iterable);
-		context.setMatcher(matcher);
-		context.getPrimarySupplier();
-
+	public static <T> Iterable<T> filter(Iterable<T> iterable, Predicate<? super T> filter) {
+		IteratorSupplierContext<T, T> context = new IteratorSupplierContext<>(iterable);
+		context.setFilter(filter);
 		return VIterables.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}
 
 	public static <T, N> Iterable<N> transform(Iterable<T> iterable, Function<T, N> transformer) {
-		IteratorSupplierContext<T, N, N> context = new IteratorSupplierContext<>(iterable);
+		IteratorSupplierContext<T, N> context = new IteratorSupplierContext<>(iterable);
 		context.setTransformer(VIterables.singletonIteratorTransformer(transformer));
 		return VIterables.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}

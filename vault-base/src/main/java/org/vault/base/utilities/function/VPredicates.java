@@ -2,6 +2,8 @@ package org.vault.base.utilities.function;
 
 import java.util.function.Predicate;
 
+import org.vault.base.domain.Identifiable;
+
 public class VPredicates {
 	@SafeVarargs
 	public static <T> Predicate<T> and(Predicate<T>... predicates) {
@@ -16,38 +18,53 @@ public class VPredicates {
 	}
 
 	public static <T> Predicate<T> isDefined() {
-		// TODO Auto-generated method stub
-		return null;
+		return (object) -> {
+			if (object != null) {
+				return true;
+			}
+			return false;
+		};
+	}
+
+	public static <T> Predicate<Predicate<T>> reverse(T element) {
+		return (input) -> input.test(element);
 	}
 
 	public static <T> PredicateBuilder<T> build(Class<T> clazz) {
 		return new PredicateBuilder<T>();
 	}
 
-	public static class PredicateBuilder<T> {
+	public static <T extends Identifiable> Predicate<T> matchId(Long id) {
+		return (identifiable) -> identifiable.getId().equals(id);
+	}
 
+	public static <T> Predicate<T> matchAll() {
+		return (element) -> true;
+	}
+
+	public static class PredicateBuilder<T> {
 		public PredicateBuilder<T> and(Predicate<T> predicate) {
-			// TODO Auto-generated method stub
+			// FUTURE Auto-generated method stub
 			return null;
 		}
 
 		public PredicateBuilder<T> or(Predicate<T> predicate) {
-			// TODO Auto-generated method stub
+			// FUTURE Auto-generated method stub
 			return null;
 		}
 
 		public PredicateBuilder<T> continueIf(Predicate<T> predicate) {
-			// TODO Auto-generated method stub
+			// FUTURE Auto-generated method stub
 			return null;
 		}
 
 		public PredicateBuilder<T> stopIf(Predicate<T> predicate) {
-			// TODO Auto-generated method stub
+			// FUTURE Auto-generated method stub
 			return null;
 		}
 
 		public boolean test(T objectToTest) {
-			// TODO Auto-generated method stub
+			// FUTURE Auto-generated method stub
 			return false;
 		}
 

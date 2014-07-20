@@ -169,7 +169,7 @@ public class MergePoint {
 		case ID:
 			return new NodeMatcher() {
 				@Override
-				public boolean matches(Node input) {
+				public boolean test(Node input) {
 					if (XPathUtils.attributeEqual(sourceNode, input, "id")) {
 						return true;
 					}
@@ -182,7 +182,7 @@ public class MergePoint {
 		case TYPE:
 			return new NodeMatcher() {
 				@Override
-				public boolean matches(Node input) {
+				public boolean test(Node input) {
 					if (sourceNode.getNodeName().equals(input.getNodeName())) {
 						return true;
 					}

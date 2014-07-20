@@ -1,16 +1,13 @@
 package org.vault.base.module.domain;
 
 public class SimpleDependency implements Dependency {
+	private Class<? extends Module> type;
 
-	@Override
-	public boolean hasDependency() {
-		// TODO Auto-generated method stub
-		return false;
+	public Class<? extends Module> getType() {
+		return type;
 	}
 
-	@Override
-	public Class<? extends Module> getDependency() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setType(Class<? extends Module> type) {
+		this.type = type;
 	}
 }

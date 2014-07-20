@@ -27,7 +27,7 @@ public class PersistenceMergeContext extends AbstractMergeContext<PersistenceCon
 
 		@Override
 		protected List<ConfigurationLocation> getSpecificConfigurationLocations(Module module) {
-			// TODO
+			// FUTURE
 			return Lists.newArrayList();
 		}
 

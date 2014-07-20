@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.domain.Orderable;
-import org.vault.base.utilities.matcher.Matchers;
+import org.vault.base.utilities.matcher.Selectors;
 
 public abstract class AbstractDelegator<T extends Delegate<N>, N> implements Delegator<T, N> {
 	@Autowired
@@ -22,7 +22,7 @@ public abstract class AbstractDelegator<T extends Delegate<N>, N> implements Del
 	@Override
 	public T getDelegate(N delegatee) {
 		T delegate = VIterables.first(
-				Matchers.reverseMatcher(delegatee).getMatches(this.getDelegates()));
+				Selectors.reverseSelector(delegatee).getMatches(this.getDelegates()));
 
 		if (delegate == null) {
 			throw new RuntimeException("No matching delegate found for delegatee " + delegatee);

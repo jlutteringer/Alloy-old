@@ -1,15 +1,13 @@
 package org.vault.base.module.domain;
 
-public class ConditionalDependency implements Dependency {
-	@Override
-	public boolean hasDependency() {
-		// TODO Auto-generated method stub
-		return false;
+public class ConditionalDependency extends DependencyDecorator {
+	private Dependency conditionDependency;
+
+	public Dependency getConditionDependency() {
+		return conditionDependency;
 	}
 
-	@Override
-	public Class<? extends Module> getDependency() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setConditionDependency(Dependency conditionDependency) {
+		this.conditionDependency = conditionDependency;
 	}
 }

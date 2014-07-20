@@ -2,6 +2,7 @@ package org.vault.base.collections.iterable;
 
 import java.util.Iterator;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import org.vault.base.collections.iterable.IteratorSupplierContext.IteratorSupplierState;
@@ -9,12 +10,11 @@ import org.vault.base.utilities.Value;
 import org.vault.base.utilities.function.StatefulSupplier;
 import org.vault.base.utilities.function.SupplierContext;
 import org.vault.base.utilities.function.VFunctions;
-import org.vault.base.utilities.matcher.Matcher;
-import org.vault.base.utilities.matcher.Matchers;
+import org.vault.base.utilities.function.VPredicates;
 
-public class IteratorSupplierContext<T, N extends S, S> implements SupplierContext<IteratorSupplierState<T, N>, Value<N>> {
+public class IteratorSupplierContext<T, N> implements SupplierContext<IteratorSupplierState<T, N>, Value<N>> {
 	private Iterable<T> iterable;
-	private Matcher<S> matcher = Matchers.matchAll();
+	private Predicate<? super N> filter = VPredicates.matchAll();
 	private Function<T, Iterator<N>> transformer = VIterables.singletonIteratorTransformer(VFunctions.same());
 
 	public IteratorSupplierContext(Iterable<T> iterable) {
@@ -55,7 +55,7 @@ public class IteratorSupplierContext<T, N extends S, S> implements SupplierConte
 			while (!finished) {
 				if (state.secondaryIterator().hasNext()) {
 					N value = state.secondaryIterator().next();
-					if (matcher.matches(value)) {
+					if (filter.test(value)) {
 						return Value.of(value);
 					}
 				}
@@ -76,12 +76,12 @@ public class IteratorSupplierContext<T, N extends S, S> implements SupplierConte
 		};
 	}
 
-	public Matcher<S> getMatcher() {
-		return matcher;
+	public Predicate<? super N> getFilter() {
+		return filter;
 	}
 
-	public void setMatcher(Matcher<S> matcher) {
-		this.matcher = matcher;
+	public void setFilter(Predicate<? super N> filter) {
+		this.filter = filter;
 	}
 
 	public Function<T, Iterator<N>> getTransformer() {

@@ -1,15 +1,13 @@
 package org.vault.base.module.domain;
 
 public class NameDependency implements Dependency {
-	@Override
-	public boolean hasDependency() {
-		// TODO Auto-generated method stub
-		return false;
+	private String name;
+
+	public String getName() {
+		return name;
 	}
 
-	@Override
-	public Class<? extends Module> getDependency() {
-		// TODO Auto-generated method stub
-		return null;
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -1,14 +1,15 @@
 package org.vault.core.facets.service;
 
+import java.util.function.Predicate;
+
 import org.vault.base.delegator.AbstractDelegate;
 import org.vault.base.facets.Facet;
 import org.vault.base.facets.FacetedObject;
 import org.vault.base.reflection.VReflection;
-import org.vault.base.utilities.matcher.Matcher;
 
 public abstract class AbstractFacetDelegate<T extends N, N extends Facet> extends AbstractDelegate<Class<? extends Facet>> implements FacetDelegate<T> {
 	@Override
-	protected Matcher<Class<? extends Facet>> getInternalMatcher() {
+	protected Predicate<Class<? extends Facet>> getInternalMatcher() {
 		return (input) -> input.isAssignableFrom(this.getFacetType());
 	}
 

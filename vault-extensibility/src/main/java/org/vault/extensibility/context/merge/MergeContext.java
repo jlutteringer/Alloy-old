@@ -52,7 +52,7 @@ import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.resources.stream.ResourceInputStream;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.base.utilities.configuration.Configurations;
-import org.vault.base.utilities.matcher.AbstractContextualMatcher;
+import org.vault.base.utilities.matcher.AbstractContextualSelector;
 import org.vault.base.utilities.matcher.ContextualMatcher;
 import org.vault.extensibility.PatchableConfiguration;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
@@ -76,9 +76,9 @@ public class MergeContext implements PatchableConfiguration, ApplicationContextA
 	private static final Log LOG = LogFactory.getLog(MergeContext.class);
 	private static DocumentBuilder builder;
 
-	private ContextualMatcher<MergeHandler, String> contextualNameMatcher = new AbstractContextualMatcher<MergeHandler, String>() {
+	private ContextualMatcher<MergeHandler, String> contextualNameMatcher = new AbstractContextualSelector<MergeHandler, String>() {
 		@Override
-		public boolean matches(MergeHandler input) {
+		public boolean test(MergeHandler input) {
 			if (this.context.equals(input.getName())) {
 				return true;
 			}

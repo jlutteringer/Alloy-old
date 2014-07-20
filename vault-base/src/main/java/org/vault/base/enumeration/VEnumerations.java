@@ -6,7 +6,7 @@ import java.util.Map;
 import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.collections.lists.VLists;
 import org.vault.base.collections.map.VMaps;
-import org.vault.base.utilities.matcher.Matchers;
+import org.vault.base.utilities.matcher.Selectors;
 
 import com.google.common.base.Throwables;
 
@@ -48,7 +48,7 @@ public class VEnumerations {
 		if (enumerations.containsKey(type)) {
 			try {
 				return (T) VIterables.getSingleResult(
-						Matchers.getSelector((enumeration) -> clazz.isAssignableFrom(enumeration.getClass()))
+						Selectors.getSelector((enumeration) -> clazz.isAssignableFrom(enumeration.getClass()))
 								.getMatches(enumerations.get(type)));
 
 			} catch (Exception e) {

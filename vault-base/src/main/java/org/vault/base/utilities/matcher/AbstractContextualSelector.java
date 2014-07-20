@@ -1,7 +1,6 @@
 package org.vault.base.utilities.matcher;
 
-public abstract class AbstractContextualMatcher<T, N> extends AbstractSelector<T> implements ContextualMatcher<T, N> {
-
+public abstract class AbstractContextualSelector<T, N> extends AbstractSelector<T> implements ContextualMatcher<T, N> {
 	protected N context;
 
 	@Override
@@ -13,7 +12,4 @@ public abstract class AbstractContextualMatcher<T, N> extends AbstractSelector<T
 	public void setContext(N context) {
 		this.context = context;
 	}
-
-	@Override
-	public abstract boolean matches(T input);
 }

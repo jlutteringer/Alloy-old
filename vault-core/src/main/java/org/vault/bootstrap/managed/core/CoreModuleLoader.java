@@ -1,8 +1,8 @@
 package org.vault.bootstrap.managed.core;
 
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -13,61 +13,33 @@ import org.springframework.stereotype.Service;
 import org.vault.base.collections.lists.VLists;
 import org.vault.base.collections.tree.Tree;
 import org.vault.base.collections.tree.Trees;
-import org.vault.base.module.domain.DependencyContext;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleHierarchy;
-import org.vault.base.module.domain.ModuleType;
-import org.vault.base.module.domain.Modules;
 import org.vault.base.module.service.ModuleLoader;
-import org.vault.core.facets.service.FacetProvider;
-import org.vault.core.module.domain.simple.ApplicationModule;
-import org.vault.core.module.domain.simple.DefaultApplicationModule;
+import org.vault.bootstrap.managed.core.DependencyResolver.DependencyResolverState;
 import org.vault.core.module.domain.simple.SimpleModuleHierarchy;
-import org.vault.module.registry.core.CoreModule;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 @Service
 public class CoreModuleLoader implements ModuleLoader {
 	private static final Logger logger = LogManager.getLogger(CoreModuleLoader.class);
 
 	@Autowired
-	private CoreModule coreModule;
-
-	@Autowired(required = false)
-	private ApplicationModule applicationModule;
-
-	@Autowired
-	private FacetProvider facetProvider;
-
-	@Autowired
 	private DependencyResolver dependencyResolver;
 
-	private Map<Class<? extends Module>, Module> modules;
+	@Autowired
+	private ModuleContext moduleContext;
 
 	private ModuleHierarchy heirarchy = null;
 
-	@Autowired
-	private void setModules(List<Module> modules) {
-		Map<Class<? extends Module>, Module> filteredModules = Maps.newHashMap();
-		for (Module module : modules) {
-			if (ModuleType.MODULE.equals(module.getType())) {
-				logger.info("Detected " + module.getFriendlyName() + " module. Adding to configuration.");
-				filteredModules.put(module.getClass(), module);
-			}
-		}
-
-		this.modules = filteredModules;
+	@Override
+	public List<Module> getModuleLoadOrder() {
+		return Lists.newArrayList(Trees.iterateBreadthFirst(heirarchy.getModules()));
 	}
 
 	@PostConstruct
 	private void initialize() {
-		if (applicationModule == null) {
-			applicationModule = new DefaultApplicationModule(facetProvider);
-		}
-
 		heirarchy = new SimpleModuleHierarchy();
 		heirarchy.setModules(this.buildModuleTree());
 
@@ -75,71 +47,26 @@ public class CoreModuleLoader implements ModuleLoader {
 		Trees.iterateBreadthFirst(heirarchy.getModules()).forEach((module) -> logger.debug(module));
 	}
 
-	@Override
-	public List<Module> getModuleLoadOrder() {
-		return Lists.newArrayList(Trees.iterateBreadthFirst(heirarchy.getModules()));
-	}
-
-	@Override
-	public List<Module> getModulesFromDependencies(DependencyContext dependencies) {
-		return dependencyResolver.resolveDependencies(dependencies.unwrap());
-	}
-
 	private Tree<Module> buildModuleTree() {
-		List<Module> modules = this.getAllModules();
+		DependencyResolverState state =
+				dependencyResolver.resolveDependencies(moduleContext.getDependencies(moduleContext.getApplicationModule()));
 
-		Tree<Module> moduleTree = Trees.<Module> newHashTree(coreModule);
-		while (!moduleTree.containsAll(modules)) {
-			for (Module module : modules) {
-				if (!moduleTree.contains(module)) {
-					Set<Module> dependencies = this.getDependencies(module);
-					if (moduleTree.containsAll(dependencies)) {
-						Tree<Module> childTree = Trees.newHashTree(module);
-						for (Module dependency : dependencies) {
-							moduleTree.findSubTree(dependency).addChild(childTree);
-						}
-					}
+		LinkedList<Module> modulesToAdd =
+				Lists.newLinkedList(state.getAll(moduleContext.getApplicationModule().getDependencies()));
+
+		Tree<Module> moduleTree = Trees.newHashTree(moduleContext.getCoreModule());
+
+		while (!modulesToAdd.isEmpty()) {
+			Module module = modulesToAdd.pop();
+			Collection<Module> dependencies = VLists.list(state.getAll(moduleContext.getDependencies(module)));
+			if (moduleTree.containsAll(dependencies)) {
+				Tree<Module> childTree = Trees.newHashTree(module);
+				for (Module dependency : dependencies) {
+					moduleTree.findSubTree(dependency).addChild(childTree);
 				}
 			}
 		}
 
 		return moduleTree;
-	}
-
-	private Set<Module> getDependencies(Module module) {
-		if (Modules.isApplicationModule(module)) {
-			return Sets.newHashSet(modules.values());
-		}
-
-		Set<Module> dependencies = Sets.newHashSet();
-		Set<Module> implicitDependencies = Sets.<Module> newHashSet(coreModule);
-		for (Module dependency : this.getModulesFromDependencies(module.getDependencies())) {
-			implicitDependencies.addAll(getFullDependencyHierarchy(dependency));
-		}
-
-		for (Module dependency : this.getModulesFromDependencies(module.getDependencies())) {
-			if (!implicitDependencies.contains(dependency)) {
-				dependencies.add(dependency);
-			}
-		}
-
-		if (dependencies.isEmpty()) {
-			dependencies.add(coreModule);
-		}
-
-		return dependencies;
-	}
-
-	private Set<Module> getFullDependencyHierarchy(Module module) {
-		Set<Module> dependencies = Sets.newHashSet();
-		for (Module dependency : this.getModulesFromDependencies(module.getDependencies())) {
-			dependencies.add(dependency);
-			dependencies.addAll(this.getFullDependencyHierarchy(dependency));
-		}
-		return dependencies;
-	}
-
-	private List<Module> getAllModules() {
-		return VLists.list(modules.values(), applicationModule);
 	}
 }

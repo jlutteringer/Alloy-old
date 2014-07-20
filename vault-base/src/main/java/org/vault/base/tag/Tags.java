@@ -6,12 +6,12 @@ import java.util.List;
 
 import org.vault.base.tag.TaggedCollection.TaggedValue;
 import org.vault.base.utilities.function.VPredicates;
-import org.vault.base.utilities.matcher.Matchers;
+import org.vault.base.utilities.matcher.Selectors;
 import org.vault.base.utilities.matcher.Selector;
 
 public class Tags {
-	public static Selector<Tag> matcher(Tag selector) {
-		return Matchers.getSelector((tag) -> {
+	public static Selector<Tag> selector(Tag selector) {
+		return Selectors.getSelector((tag) -> {
 			return VPredicates.build(Tag.class)
 					.and((input) -> input.getName().equals(selector.getName()))
 					.continueIf(VPredicates.isDefined())

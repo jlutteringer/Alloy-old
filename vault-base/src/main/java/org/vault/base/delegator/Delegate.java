@@ -1,8 +1,9 @@
 package org.vault.base.delegator;
 
-import org.vault.base.domain.Orderable;
-import org.vault.base.utilities.matcher.Matcher;
+import java.util.function.Predicate;
 
-public interface Delegate<N> extends Matcher<N>, Orderable {
+import org.vault.base.domain.Orderable;
+
+public interface Delegate<N> extends Predicate<N>, Orderable {
 
 }
