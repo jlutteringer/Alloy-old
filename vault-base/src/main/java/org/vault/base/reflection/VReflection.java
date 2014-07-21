@@ -254,7 +254,7 @@ public class VReflection {
 							});
 
 			if (criteria.test(declaredMethod)) {
-				logger.debug(
+				logger.trace(
 						"Found method [" + methodName + "] for class [" + clazz.getSimpleName() + "] with args [" +
 								VLists.transform(argumentTypes, VClasses.stringify()) + "]");
 
@@ -262,7 +262,7 @@ public class VReflection {
 			}
 		}
 
-		logger.debug(
+		logger.trace(
 				"Couldn't find method [" + methodName + "] for class [" + clazz.getSimpleName() + "] with args [" +
 						VLists.transform(argumentTypes, VClasses.stringify()) + "]");
 

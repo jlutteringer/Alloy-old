@@ -1,6 +1,6 @@
 package org.vault.base.module.domain;
 
-public abstract class DependencyDecorator implements Dependency {
+public abstract class DependencyDecorator extends AbstractDependency {
 	protected Dependency targetDependency;
 
 	public Dependency getTargetDependency() {

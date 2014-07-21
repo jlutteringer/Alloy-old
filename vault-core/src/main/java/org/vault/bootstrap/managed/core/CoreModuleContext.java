@@ -27,6 +27,7 @@ import com.google.common.collect.Sets;
 @Service
 public class CoreModuleContext extends VaultBean implements ModuleContext {
 	private Set<Module> modules = Sets.newHashSet();
+
 	@Autowired
 	private CoreModule coreModule;
 
@@ -43,8 +44,8 @@ public class CoreModuleContext extends VaultBean implements ModuleContext {
 	private void setModules(List<Module> modules) {
 		for (Module module : modules) {
 			if (ModuleType.MODULE.equals(module.getType())) {
-				logger.info("Detected " + module.getFriendlyName() + " module. Adding to configuration.");
-				modules.add(module);
+				logger.info("Detected [" + module.getFriendlyName() + "] module");
+				this.modules.add(module);
 			}
 		}
 	}
@@ -52,6 +53,7 @@ public class CoreModuleContext extends VaultBean implements ModuleContext {
 	@PostConstruct
 	private void initialize() {
 		if (applicationModule == null) {
+			logger.info("Registering default application module");
 			applicationModule = new DefaultApplicationModule(facetProvider);
 			applicationModule.getDependencies().addAll(Dependencies.of(modules));
 		}

@@ -31,8 +31,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.utilities.matcher.Selector;
-import org.vault.base.utilities.tuple.Tuple;
 import org.vault.base.utilities.tuple.Tuple.Pair;
+import org.vault.base.utilities.tuple.Tuples;
 import org.vault.base.utilities.xpath.XPathUtils;
 import org.vault.base.utilities.xpath.XPathUtils.NodeMatcher;
 import org.vault.extensibility.context.merge.handlers.AttributeReplaceInsert;
@@ -112,7 +112,7 @@ public class MergePoint {
 			Node matchingNode = VIterables.getSingleResult(selector.getMatches(patchNodes), true);
 			if (matchingNode != null) {
 				log.debug("Match found: " + matchingNode + " for source node " + sourceNode);
-				matchedNodes.add(Tuple.pair(sourceNode, matchingNode));
+				matchedNodes.add(Tuples.of(sourceNode, matchingNode));
 			}
 		}
 

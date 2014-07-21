@@ -49,7 +49,7 @@ public abstract class BackedCollection<T> implements Collection<T> {
 
 	@Override
 	public boolean addAll(Collection<? extends T> c) {
-		return this.addAll(c);
+		return this.getBackingCollection().addAll(c);
 	}
 
 	@Override

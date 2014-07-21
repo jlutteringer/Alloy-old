@@ -3,16 +3,46 @@ package org.vault.base.module.domain;
 import java.util.List;
 
 import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.equality.EqualityContext;
 
 import com.google.common.collect.Lists;
 
 public class Dependencies {
+	private static EqualityContext<Dependency> EQUALITY = new EqualityContext<>();
+	static {
+		EQUALITY.addEquality(NameDependency.class,
+				(first, second) -> first.getName().equals(second.getName()));
+
+		EQUALITY.addEquality(ResolvedDependency.class,
+				(first, second) -> first.getModule().equals(second.getModule()));
+
+		EQUALITY.addEquality(TypeDependency.class,
+				(first, second) -> first.getType().equals(second.getType()));
+
+		EQUALITY.addEquality(WeakDependency.class,
+				(first, second) -> first.getTargetDependency().equals(second.getTargetDependency()));
+
+		EQUALITY.addEquality(ConditionalDependency.class,
+				(first, second) -> first.getTargetDependency().equals(second.getTargetDependency()) &&
+						first.getConditionDependency().equals(second.getConditionDependency()));
+
+		EQUALITY.addEquality(NameDependency.class, ResolvedDependency.class,
+				(first, second) -> first.getName().equals(second.getModule().getName()));
+
+		EQUALITY.addEquality(TypeDependency.class, ResolvedDependency.class,
+				(first, second) -> first.getType().equals(second.getModule().getClass()));
+	}
+
+	public static boolean equals(Dependency first, Dependency second) {
+		return EQUALITY.test(first, second);
+	}
+
 	public static DependencyBuilder1 builder() {
 		return new DependencyBuilder1();
 	}
 
 	public static Dependency of(Class<? extends Module> type) {
-		SimpleDependency dependency = new SimpleDependency();
+		TypeDependency dependency = new TypeDependency();
 		dependency.setType(type);
 		return dependency;
 	}

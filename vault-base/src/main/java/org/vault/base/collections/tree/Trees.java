@@ -6,7 +6,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.utilities.Value;
-import org.vault.base.utilities.tuple.Tuple;
+import org.vault.base.utilities.tuple.Tuples;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -51,7 +51,7 @@ public class Trees {
 					Collection<Tree<T>> elementsToProcess = Sets.newHashSet();
 					Collection<Tree<T>> visitedElements = Sets.newHashSet();
 					elementsToProcess.add(topLevelTree);
-					return Tuple.pair(elementsToProcess, visitedElements);
+					return Tuples.of(elementsToProcess, visitedElements);
 				});
 	}
 

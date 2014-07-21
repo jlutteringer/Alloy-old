@@ -1,6 +1,8 @@
 package org.vault.base.module.domain;
 
-public class NameDependency implements Dependency {
+import org.vault.base.utilities.object.VObjects;
+
+public class NameDependency extends AbstractDependency {
 	private String name;
 
 	public String getName() {
@@ -9,5 +11,15 @@ public class NameDependency implements Dependency {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public int hashCode() {
+		return VObjects.hashCode(name);
+	}
+
+	@Override
+	public String toString() {
+		return "Name: " + name;
 	}
 }

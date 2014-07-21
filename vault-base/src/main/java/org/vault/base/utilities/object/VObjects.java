@@ -1,8 +1,29 @@
 package org.vault.base.utilities.object;
 
-import com.google.common.base.Optional;
+import org.vault.base.utilities.VOptional;
 
 public class VObjects {
+	public static VOptional<Boolean> baseEquals(Object first, Object second) {
+		return baseEquals(first, second, false);
+	}
+
+	public static VOptional<Boolean> baseEquals(Object first, Object second, boolean checkType) {
+		if (first == second) {
+			return VOptional.of(true);
+		}
+		if (second == null) {
+			return VOptional.of(false);
+		}
+
+		if (checkType) {
+			if (!first.getClass().isAssignableFrom(second.getClass())) {
+				return VOptional.of(false);
+			}
+		}
+
+		return VOptional.empty();
+	}
+
 	public static int hashCode(Object... fields) {
 		return hashCode(1, fields);
 	}
@@ -14,20 +35,6 @@ public class VObjects {
 			result = prime * result + ((field == null) ? 0 : field.hashCode());
 		}
 		return result;
-	}
-
-	public static Optional<Boolean> baseEquals(Object first, Object second) {
-		if (first == second) {
-			return Optional.of(true);
-		}
-		if (second == null) {
-			return Optional.of(false);
-		}
-		if (first.getClass().isAssignableFrom(second.getClass())) {
-			return Optional.of(false);
-		}
-
-		return Optional.absent();
 	}
 
 	public static boolean equalIfPresent(Object first, Object second) {

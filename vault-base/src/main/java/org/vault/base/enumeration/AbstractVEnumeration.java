@@ -1,8 +1,7 @@
 package org.vault.base.enumeration;
 
+import org.vault.base.utilities.VOptional;
 import org.vault.base.utilities.object.VObjects;
-
-import com.google.common.base.Optional;
 
 public abstract class AbstractVEnumeration implements VEnumeration {
 	private String type;
@@ -37,7 +36,7 @@ public abstract class AbstractVEnumeration implements VEnumeration {
 
 	@Override
 	public boolean equals(Object obj) {
-		Optional<Boolean> equals = VObjects.baseEquals(this, obj);
+		VOptional<Boolean> equals = VObjects.baseEquals(this, obj, true);
 		if (equals.isPresent()) {
 			return equals.get();
 		}

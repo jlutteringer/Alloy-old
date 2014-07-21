@@ -1,47 +1,21 @@
 package org.vault.base.utilities.tuple;
 
 import java.io.Serializable;
-import java.util.Arrays;
-import java.util.Iterator;
 
 import com.google.common.base.Objects;
 
 public final class Tuple {
 
-	public static final <V1> Single<V1> single(V1 v1) {
-		return of(v1);
-	}
-
-	public static final <V1, V2> Pair<V1, V2> pair(V1 v1, V2 v2) {
-		return of(v1, v2);
-	}
-
-	public static final <V1, V2, V3> Triple<V1, V2, V3> triple(V1 v1, V2 v2, V3 v3) {
-		return of(v1, v2, v3);
-	}
-
-	public static final <V1> Tuple1<V1> of(V1 v1) {
-		return new Tuple1<V1>(v1);
-	}
-
-	public static final <V1, V2> Tuple2<V1, V2> of(V1 v1, V2 v2) {
-		return new Tuple2<V1, V2>(v1, v2);
-	}
-
-	public static final <V1, V2, V3> Tuple3<V1, V2, V3> of(V1 v1, V2 v2, V3 v3) {
-		return new Tuple3<V1, V2, V3>(v1, v2, v3);
-	}
-
-// Alias For Tuple1
-	public static interface Single<V1> extends Iterable<Object> {
+	// Alias For Tuple1
+	public static interface Single<V1> extends Serializable {
 		V1 getFirst();
 	}
 
-	public static class Tuple1<V1> implements Single<V1>, Serializable {
+	public static class Tuple1<V1> implements Single<V1> {
 		private static final long serialVersionUID = 4006475675164664408L;
 		public final V1 _1;
 
-		private Tuple1(V1 v1) {
+		protected Tuple1(V1 v1) {
 			_1 = v1;
 		}
 
@@ -56,11 +30,6 @@ public final class Tuple {
 		}
 
 		@Override
-		public Iterator<Object> iterator() {
-			return Arrays.<Object> asList(_1).iterator();
-		};
-
-		@Override
 		public int hashCode() {
 			final int prime = 31;
 			int result = 0;
@@ -69,8 +38,8 @@ public final class Tuple {
 		}
 	}
 
-// Alias for Tuple2
-	public static interface Pair<V1, V2> extends Single<V1>, Serializable {
+	// Alias for Tuple2
+	public static interface Pair<V1, V2> extends Single<V1> {
 		V2 getSecond();
 	}
 
@@ -78,7 +47,7 @@ public final class Tuple {
 		private static final long serialVersionUID = 7567525698416053358L;
 		public final V2 _2;
 
-		private Tuple2(V1 v1, V2 v2) {
+		protected Tuple2(V1 v1, V2 v2) {
 			super(v1);
 			_2 = v2;
 		}
@@ -92,11 +61,6 @@ public final class Tuple {
 		public String toString() {
 			return String.format("Tuple2(%s,%s)", _1, _2);
 		}
-
-		@Override
-		public Iterator<Object> iterator() {
-			return Arrays.<Object> asList(_1, _2).iterator();
-		};
 
 		@Override
 		public boolean equals(Object obj) {
@@ -140,7 +104,7 @@ public final class Tuple {
 		private static final long serialVersionUID = -6298410011629728265L;
 		public final V3 _3;
 
-		private Tuple3(V1 v1, V2 v2, V3 v3) {
+		protected Tuple3(V1 v1, V2 v2, V3 v3) {
 			super(v1, v2);
 			_3 = v3;
 		}
@@ -153,11 +117,6 @@ public final class Tuple {
 		@Override
 		public String toString() {
 			return String.format("Tuple3(%s,%s,%s)", _1, _2, _3);
-		};
-
-		@Override
-		public Iterator<Object> iterator() {
-			return Arrays.<Object> asList(_1, _2, _3).iterator();
 		};
 	}
 

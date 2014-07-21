@@ -3,9 +3,11 @@ package org.vault.bootstrap.managed.core;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.vault.base.collections.lists.VLists;
 import org.vault.base.collections.tree.Tree;
 import org.vault.base.collections.tree.Trees;
+import org.vault.base.module.domain.Dependency;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleHierarchy;
 import org.vault.base.module.service.ModuleLoader;
@@ -51,6 +54,11 @@ public class CoreModuleLoader implements ModuleLoader {
 		DependencyResolverState state =
 				dependencyResolver.resolveDependencies(moduleContext.getDependencies(moduleContext.getApplicationModule()));
 
+		logger.debug("Dependency resolver state:");
+		for (Entry<Dependency, Module> entry : state.getEntries()) {
+			logger.printf(Level.DEBUG, "Dependency [%s] => Module [%s]", entry.getKey(), entry.getValue());
+		}
+
 		LinkedList<Module> modulesToAdd =
 				Lists.newLinkedList(state.getAll(moduleContext.getApplicationModule().getDependencies()));
 
@@ -58,12 +66,17 @@ public class CoreModuleLoader implements ModuleLoader {
 
 		while (!modulesToAdd.isEmpty()) {
 			Module module = modulesToAdd.pop();
+			logger.debug("Considering module [" + module + "] to add to hierarchy");
 			Collection<Module> dependencies = VLists.list(state.getAll(moduleContext.getDependencies(module)));
 			if (moduleTree.containsAll(dependencies)) {
 				Tree<Module> childTree = Trees.newHashTree(module);
 				for (Module dependency : dependencies) {
 					moduleTree.findSubTree(dependency).addChild(childTree);
 				}
+			}
+			else {
+				logger.debug("Dependencies " + dependencies + " have not yet been parsed, readding to queue");
+				modulesToAdd.add(module);
 			}
 		}
 
