@@ -14,8 +14,8 @@ public class VConfigurationFileConstants {
 
 	public static final String BOOTSTRAP_SCAN_BASE_PACKAGE = "org.vault.bootstrap.managed";
 
-	private static final String LOGGING_FILE_STRUCTIRE = "log4j-%s.xml";
-	private static final String PROPERTIES_FILE_STRUCTIRE = "%s.properties";
+	public static final String LOGGING_FILE_STRUCTIRE = "log4j-%s.xml";
+	public static final String PROPERTIES_FILE_STRUCTURE = "%s.properties";
 	public static final String PERSISTENCE_FILE_STRUCTURE = "%s-persistence.xml";
 
 	public static String getLogFileStructure() {
@@ -23,6 +23,6 @@ public class VConfigurationFileConstants {
 	}
 
 	public static String getPropertyFileStructure() {
-		return PROPERTIES_DIRECTORY + PROPERTIES_FILE_STRUCTIRE;
+		return PROPERTIES_DIRECTORY + PROPERTIES_FILE_STRUCTURE;
 	}
 }

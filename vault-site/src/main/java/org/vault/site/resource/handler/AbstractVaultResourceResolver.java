@@ -6,11 +6,9 @@ import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
-import org.vault.base.spring.beans.VaultBean;
+import org.vault.base.request.Path;
 
-public abstract class AbstractVaultResourceHandler extends VaultBean implements VaultResourceHandler {
-	public static final int DEFAULT_ORDER = 10000;
-
+public abstract class AbstractVaultResourceResolver extends AbstractResourceHandler implements VaultResourceResolver {
 	/**
 	* Attempts to retrive the requested resource from cache. If not cached, generates the resource, caches it,
 	* and then returns it
@@ -20,7 +18,7 @@ public abstract class AbstractVaultResourceHandler extends VaultBean implements 
 	* @return the generated resource
 	*/
 	@Override
-	public Resource getResource(final String path, final List<Resource> locations) {
+	public Resource getResource(final Path path, final List<Resource> locations) {
 		Resource r = getFileContents(path, locations);
 		return r;
 	}
@@ -32,10 +30,10 @@ public abstract class AbstractVaultResourceHandler extends VaultBean implements 
 	* @param locations
 	* @return the resource from the file system, classpath, etc, if it exists
 	*/
-	protected Resource getRawResource(String path, List<Resource> locations) {
+	protected Resource getRawResource(Path path, List<Resource> locations) {
 		for (Resource location : locations) {
 			try {
-				Resource resource = location.createRelative(path);
+				Resource resource = location.createRelative(path.getPath());
 				if (resource.exists() && resource.isReadable()) {
 					return resource;
 				}
@@ -62,10 +60,5 @@ public abstract class AbstractVaultResourceHandler extends VaultBean implements 
 				writer.close();
 			}
 		}
-	}
-
-	@Override
-	public int getOrder() {
-		return DEFAULT_ORDER;
 	}
 }

@@ -11,6 +11,7 @@ import org.vault.base.collections.lists.VLists;
 import org.vault.base.utilities.Value;
 import org.vault.base.utilities.function.StatefulSupplier;
 
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
@@ -87,5 +88,15 @@ public class VIterables {
 		List<T> backingList = VLists.list(iterator);
 		Collections.reverse(backingList);
 		return backingList;
+	}
+
+	public static <T> boolean compareElements(Iterable<T> first, Iterable<T> second, boolean orderMatters) {
+		if (orderMatters) {
+			// FUTURE
+			throw new RuntimeException();
+		}
+		else {
+			return HashMultiset.create(first).equals(HashMultiset.create(second));
+		}
 	}
 }

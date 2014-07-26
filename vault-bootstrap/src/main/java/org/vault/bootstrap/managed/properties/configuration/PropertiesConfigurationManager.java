@@ -1,6 +1,5 @@
 package org.vault.bootstrap.managed.properties.configuration;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +13,8 @@ import org.vault.base.utilities.constants.VConfigurationFileConstants;
 import org.vault.bootstrap.context.BootstrappedContextBean;
 import org.vault.bootstrap.managed.configuration.ConfigurationManager;
 
+import com.google.common.collect.Lists;
+
 @Service
 public class PropertiesConfigurationManager extends ConfigurationManager implements BootstrappedContextBean {
 	@Autowired
@@ -26,9 +27,15 @@ public class PropertiesConfigurationManager extends ConfigurationManager impleme
 
 	@Override
 	protected List<ConfigurationLocation> getDefaultConfigurationLocations(Module module) {
-		return Collections.singletonList(
-				Configurations.optional(
-						Configurations.moduleRelative(
-								Configurations.createEnvironmentLocation(VConfigurationFileConstants.getPropertyFileStructure(), application.getEnvironment().getType()), module)));
+		List<ConfigurationLocation> locations = Lists.newArrayList();
+
+		locations.add(Configurations.optional(Configurations.moduleRelative(
+				Configurations.createEnvironmentLocation(VConfigurationFileConstants.PROPERTIES_FILE_STRUCTURE, application.getEnvironment().getType()), module)));
+
+		locations.add(Configurations.optional(Configurations.moduleRelative(
+				Configurations.createEnvironmentLocation(
+						VConfigurationFileConstants.PROPERTIES_DIRECTORY + VConfigurationFileConstants.PROPERTIES_FILE_STRUCTURE, application.getEnvironment().getType()), module)));
+
+		return locations;
 	}
 }

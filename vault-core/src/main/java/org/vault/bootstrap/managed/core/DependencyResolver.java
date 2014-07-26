@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.function.Predicate;
+import java.util.Set;
 
+import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.vault.base.collections.VCollections;
 import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.delegator.AbstractDelegator;
 import org.vault.base.delegator.ClassTypeDelegate;
@@ -22,9 +24,11 @@ import org.vault.base.module.domain.ResolvedDependency;
 import org.vault.base.module.domain.TypeDependency;
 import org.vault.base.module.domain.WeakDependency;
 import org.vault.base.spring.beans.VaultBean;
+import org.vault.base.utilities.function.Condition;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 @Component
 public class DependencyResolver extends VaultBean {
@@ -33,22 +37,12 @@ public class DependencyResolver extends VaultBean {
 
 	public DependencyResolverState resolveDependencies(Iterable<Dependency> dependencies) {
 		LinkedList<Dependency> dependenciesToResolve = Lists.newLinkedList(dependencies);
-		DependencyResolverState state = new DependencyResolverState(this);
+		DependencyResolverState state = new DependencyResolverState();
 
-		Predicate<Collection<Dependency>> condition = (inputs) -> {
-			for (Dependency input : inputs) {
-				if (!this.isOptional(input)) {
-					return true;
-				}
-			}
-
-			return false;
-		};
-
-		while (condition.test(dependenciesToResolve)) {
+		Condition hasChanged = VCollections.monitor(dependenciesToResolve).hasChanged();
+		while (!dependenciesToResolve.isEmpty() && hasChanged.test()) {
 			Dependency dependency = dependenciesToResolve.pop();
 			DependencyResolution resolution = this.resolveDependency(state, dependency);
-
 			dependenciesToResolve.addAll(resolution.getDependenciesToResolve());
 		}
 
@@ -63,28 +57,36 @@ public class DependencyResolver extends VaultBean {
 
 		logger.debug("Attempting to resolve dependency [" + dependency + "]...");
 
-		DependencyResolution resolution = delegator.getDelegate(dependency).getResolution(state, dependency);
-		if (resolution.getResolvedModule() != null) {
-			logger.debug("Resolved dependency [" + dependency + "] to module [" + resolution.getResolvedModule() + "]");
-			state.put(dependency, resolution.getResolvedModule());
+		try {
+			DependencyResolution resolution = delegator.getDelegate(dependency).getResolution(state, dependency);
+			if (resolution.getResolvedModule() != null) {
+				logger.debug("Resolved dependency [" + dependency + "] to module [" + resolution.getResolvedModule() + "]");
+				state.put(dependency, resolution.getResolvedModule());
 
-			for (Dependency subDependency : resolution.getResolvedModule().getDependencies()) {
-				if (!state.containsDependency(subDependency)) {
-					logger.debug("Adding sub-dependency to resolve: [" + subDependency + "]");
-					resolution.getDependenciesToResolve().add(subDependency);
+				for (Dependency subDependency : resolution.getResolvedModule().getDependencies()) {
+					if (!state.containsDependency(subDependency)) {
+						logger.debug("Adding sub-dependency to resolve: [" + subDependency + "]");
+						resolution.getDependenciesToResolve().add(subDependency);
+					}
 				}
 			}
-		}
-		else {
-			logger.debug("Unable to resolve dependency [" + dependency + "] - readding to queue");
-			resolution.getDependenciesToResolve().add(dependency);
-		}
+			else {
+				logger.debug("Unable to resolve dependency [" + dependency + "]");
+				resolution.getDependenciesToResolve().add(dependency);
+			}
 
-		return resolution;
-	}
+			return resolution;
 
-	public boolean isOptional(Dependency dependency) {
-		return delegator.getDelegate(dependency).isOptional();
+		} catch (DependencyResolutionException e) {
+			if (dependency.isOptional()) {
+				logger.printf(Level.DEBUG, "Unable to resolve optional dependency [%s] - we're skipping it", dependency);
+				state.getUnresolvableDependencies().add(dependency);
+				return new DependencyResolution(dependency);
+			}
+			else {
+				throw e;
+			}
+		}
 	}
 
 	@Component
@@ -99,10 +101,6 @@ public class DependencyResolver extends VaultBean {
 		@SuppressWarnings("unchecked")
 		public DependencyResolution getResolution(DependencyResolverState state, Dependency dependency) {
 			return this.getModuleInternal(state, (T) dependency);
-		}
-
-		public boolean isOptional() {
-			return false;
 		}
 
 		public abstract DependencyResolution getModuleInternal(DependencyResolverState state, T dependency);
@@ -136,17 +134,24 @@ public class DependencyResolver extends VaultBean {
 	static class WeakDependencyDelegate extends DependencyDelegate<WeakDependency> {
 		@Override
 		public DependencyResolution getModuleInternal(DependencyResolverState state, WeakDependency dependency) {
-			if (state.containsDependency(dependency.getTargetDependency())) {
+			List<Dependency> dependenciesToResolve = Lists.newArrayList();
+			boolean pendingDependencyResolution = false;
+
+			if (state.shouldAttemptResolution(dependency.getTargetDependency())) {
+				pendingDependencyResolution = true;
+				dependenciesToResolve.add(dependency.getTargetDependency());
+			}
+
+			if (pendingDependencyResolution) {
+				return new DependencyResolution(dependency, dependenciesToResolve);
+			}
+
+			if (state.hasRequiredDependencyForModule(state.get(dependency.getTargetDependency()))) {
 				return new DependencyResolution(dependency, state.get(dependency.getTargetDependency()));
 			}
 			else {
 				return new DependencyResolution(dependency);
 			}
-		}
-
-		@Override
-		public boolean isOptional() {
-			return true;
 		}
 	}
 
@@ -154,22 +159,33 @@ public class DependencyResolver extends VaultBean {
 	static class ConditionalDependencyDelegate extends DependencyDelegate<ConditionalDependency> {
 		@Override
 		public DependencyResolution getModuleInternal(DependencyResolverState state, ConditionalDependency dependency) {
-			if (state.containsDependency(dependency.getConditionDependency())) {
-				if (state.containsDependency(dependency.getTargetDependency())) {
-					return new DependencyResolution(dependency, state.get(dependency.getTargetDependency()));
-				}
-				else {
-					return new DependencyResolution(dependency, dependency.getTargetDependency());
-				}
+			List<Dependency> dependenciesToResolve = Lists.newArrayList();
+			boolean pendingDependencyResolution = false;
+
+			if (state.shouldAttemptResolution(dependency.getConditionDependency())) {
+				logger.printf(Level.DEBUG, "For dependency [%s] dependency [%s] must be resolved first", dependency, dependency.getConditionDependency());
+				pendingDependencyResolution = true;
+				dependenciesToResolve.add(dependency.getConditionDependency());
+			}
+			if (state.shouldAttemptResolution(dependency.getTargetDependency())) {
+				logger.printf(Level.DEBUG, "For dependency [%s] dependency [%s] must be resolved first", dependency, dependency.getTargetDependency());
+				pendingDependencyResolution = true;
+				dependenciesToResolve.add(dependency.getTargetDependency());
+			}
+
+			if (pendingDependencyResolution) {
+				return new DependencyResolution(dependency, dependenciesToResolve);
+			}
+
+			Module module = state.get(dependency.getConditionDependency());
+			logger.printf(Level.DEBUG, "All pending dependencies handled for dependency [%s]", dependency);
+			if (state.hasRequiredDependencyForModule(module)) {
+				return new DependencyResolution(dependency, state.get(dependency.getTargetDependency()));
 			}
 			else {
+				logger.printf(Level.DEBUG, "Must have required dependency for module [%s] to resolve dependency [%s]", module, dependency);
 				return new DependencyResolution(dependency);
 			}
-		}
-
-		@Override
-		public boolean isOptional() {
-			return true;
 		}
 	}
 
@@ -179,8 +195,12 @@ public class DependencyResolver extends VaultBean {
 		private List<Dependency> dependenciesToResolve = Lists.newArrayList();
 
 		public DependencyResolution(Dependency resolvingDependency, Dependency... dependenciesToResolve) {
+			this(resolvingDependency, Arrays.asList(dependenciesToResolve));
+		}
+
+		public DependencyResolution(Dependency resolvingDependency, Collection<Dependency> dependenciesToResolve) {
 			this.resolvingDependency = resolvingDependency;
-			this.dependenciesToResolve.addAll(Arrays.asList(dependenciesToResolve));
+			this.dependenciesToResolve.addAll(dependenciesToResolve);
 		}
 
 		public DependencyResolution(Dependency resolvingDependency, Module resolvedModule) {
@@ -193,7 +213,7 @@ public class DependencyResolver extends VaultBean {
 			return resolvedModule;
 		}
 
-		public Dependency getResolvingDependency() {
+		public Dependency getRootResolvingDependency() {
 			return resolvingDependency;
 		}
 
@@ -203,15 +223,33 @@ public class DependencyResolver extends VaultBean {
 	}
 
 	public static class DependencyResolverState {
-		private DependencyResolver dependencyResolver;
 		private HashMap<Dependency, Module> backingMap = Maps.newHashMap();
-
-		public DependencyResolverState(DependencyResolver dependencyResolver) {
-			this.dependencyResolver = dependencyResolver;
-		}
+		private Set<Dependency> unresolvableDependencies = Sets.newHashSet();
 
 		public boolean containsDependency(Dependency dependency) {
 			return backingMap.containsKey(dependency);
+		}
+
+		public boolean hasRequiredDependencyForModule(Module module) {
+			if (module == null) {
+				return false;
+			}
+
+			for (Entry<Dependency, Module> entry : backingMap.entrySet()) {
+				if (entry.getValue().equals(module)) {
+					if (!entry.getKey().isOptional()) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+
+		public boolean shouldAttemptResolution(Dependency dependency) {
+			if (!this.containsDependency(dependency) && !this.getUnresolvableDependencies().contains(dependency)) {
+				return true;
+			}
+			return false;
 		}
 
 		public void put(Dependency dependency, Module module) {
@@ -227,7 +265,7 @@ public class DependencyResolver extends VaultBean {
 				if (this.containsDependency(dependency)) {
 					return true;
 				} else {
-					if (!dependencyResolver.isOptional(dependency)) {
+					if (!dependency.isOptional()) {
 						throw new DependencyResolutionException("Required dependency " + dependency + " not found in state");
 					}
 					return false;
@@ -237,6 +275,10 @@ public class DependencyResolver extends VaultBean {
 
 		public Collection<Entry<Dependency, Module>> getEntries() {
 			return backingMap.entrySet();
+		}
+
+		public Set<Dependency> getUnresolvableDependencies() {
+			return unresolvableDependencies;
 		}
 	}
 }

@@ -9,4 +9,8 @@ public class VCollections {
 		listenableCollection.getListeners().add(listener);
 		return listenableCollection;
 	}
+
+	public static <T> CollectionMonitor<T> monitor(Collection<T> collection) {
+		return new CollectionMonitor<T>(collection);
+	}
 }

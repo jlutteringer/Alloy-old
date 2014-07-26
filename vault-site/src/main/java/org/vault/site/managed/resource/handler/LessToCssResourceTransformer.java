@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
+import org.vault.base.request.Path;
 import org.vault.base.utilities.resources.VResources;
 import org.vault.site.managed.resource.less.VaultLessCompiler;
 import org.vault.site.resource.handler.AbstractVaultResourceTransformer;
@@ -14,7 +15,7 @@ public class LessToCssResourceTransformer extends AbstractVaultResourceTransform
 	private VaultLessCompiler lessCompiler;
 
 	@Override
-	public boolean canHandle(String path, Resource resource) {
+	public boolean canHandle(Path path, Resource resource) {
 		if (resource instanceof UrlResource) {
 			if (VResources.getPath(resource).endsWith(".less")) {
 				return true;
@@ -24,7 +25,7 @@ public class LessToCssResourceTransformer extends AbstractVaultResourceTransform
 	}
 
 	@Override
-	public Resource transform(String path, Resource resource) {
+	public Resource transform(Path path, Resource resource) {
 		return lessCompiler.compile((UrlResource) resource);
 	}
 }

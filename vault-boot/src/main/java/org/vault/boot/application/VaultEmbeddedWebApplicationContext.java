@@ -47,6 +47,7 @@ public class VaultEmbeddedWebApplicationContext extends XmlEmbeddedWebApplicatio
 
 	@Override
 	protected Collection<ServletContextInitializer> getServletContextInitializerBeans() {
+		logger.debug("Gathering servlet context initializer beans...");
 		Set<ServletContextInitializer> initializers = new LinkedHashSet<ServletContextInitializer>();
 		Set<Servlet> servletRegistrations = new LinkedHashSet<Servlet>();
 		Set<Filter> filterRegistrations = new LinkedHashSet<Filter>();
@@ -61,6 +62,7 @@ public class VaultEmbeddedWebApplicationContext extends XmlEmbeddedWebApplicatio
 			}
 			if (initializer instanceof FilterRegistrationBean) {
 				FilterRegistrationBean filter = (FilterRegistrationBean) initializer;
+				logger.debug("Detected FilterRegistrationBean [" + filter + "] adding to filter registrations");
 				filterRegistrations.add(getFilter(filter));
 			}
 			if (initializer instanceof ServletListenerRegistrationBean) {

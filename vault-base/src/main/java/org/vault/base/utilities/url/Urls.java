@@ -43,4 +43,8 @@ public class Urls {
 
 		return url;
 	}
+
+	public static boolean isVersioned(String url, String version) {
+		return url.contains("/" + version);
+	}
 }

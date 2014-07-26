@@ -12,12 +12,12 @@ public class RequestContextInitializer extends AbstractRequestProcessor {
 	}
 
 	@Override
-	public Phase getPhase() {
-		return Phase.INITIALIZATION;
+	public RequestLifecycle getRequestLifecycle() {
+		return RequestLifecycle.PRE_SECURITY;
 	}
 
 	@Override
-	public RequestLifecycle getRequestLifecycle() {
-		return RequestLifecycle.PRE_SECURITY;
+	public Phase getLifecyclePhase() {
+		return Phase.INITIALIZATION;
 	}
 }

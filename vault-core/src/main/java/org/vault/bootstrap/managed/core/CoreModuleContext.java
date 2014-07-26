@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.collections.lists.VLists;
 import org.vault.base.exception.DependencyResolutionException;
 import org.vault.base.module.domain.Dependencies;
@@ -43,7 +44,7 @@ public class CoreModuleContext extends VaultBean implements ModuleContext {
 	@Autowired
 	private void setModules(List<Module> modules) {
 		for (Module module : modules) {
-			if (ModuleType.MODULE.equals(module.getType())) {
+			if (ModuleType.MODULE.equals(module.getType()) || ModuleType.PATCH.equals(module.getType())) {
 				logger.info("Detected [" + module.getFriendlyName() + "] module");
 				this.modules.add(module);
 			}
@@ -55,7 +56,11 @@ public class CoreModuleContext extends VaultBean implements ModuleContext {
 		if (applicationModule == null) {
 			logger.info("Registering default application module");
 			applicationModule = new DefaultApplicationModule(facetProvider);
-			applicationModule.getDependencies().addAll(Dependencies.of(modules));
+
+			// The default application module depends on all modules with a type of module
+			applicationModule.getDependencies().addAll(
+					Dependencies.of(
+							VIterables.filter(modules, (module) -> module.getType().equals(ModuleType.MODULE))));
 		}
 	}
 
@@ -82,7 +87,7 @@ public class CoreModuleContext extends VaultBean implements ModuleContext {
 			}
 		}
 
-		throw new DependencyResolutionException("Unable to resolve module from type [" + type + "]");
+		throw new DependencyResolutionException("Unable to find module of type " + type);
 	}
 
 	@Override
@@ -93,7 +98,7 @@ public class CoreModuleContext extends VaultBean implements ModuleContext {
 			}
 		}
 
-		throw new DependencyResolutionException("Unable to resolve module from name [" + name + "]");
+		throw new DependencyResolutionException("Unable to find module with name " + name);
 	}
 
 	@Override

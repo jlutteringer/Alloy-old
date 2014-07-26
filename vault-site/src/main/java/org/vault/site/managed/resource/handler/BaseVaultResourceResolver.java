@@ -3,25 +3,22 @@ package org.vault.site.managed.resource.handler;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.vault.base.request.Path;
 import org.vault.base.utilities.url.Urls;
-import org.vault.site.resource.handler.AbstractVaultResourceHandler;
+import org.vault.site.resource.handler.AbstractVaultResourceResolver;
 
 @Component
-public class BaseVaultResourceHandler extends AbstractVaultResourceHandler {
-	@Value("${project.version}")
-	private String version;
-
+public class BaseVaultResourceResolver extends AbstractVaultResourceResolver {
 	@Override
-	public boolean canHandle(String path) {
+	public boolean canHandle(Path path) {
 		return true;
 	}
 
 	@Override
-	public Resource getFileContents(String path, List<Resource> locations) {
-		String unversionedPath = Urls.unVersion(path, version);
+	public Resource getFileContents(Path path, List<Resource> locations) {
+		String unversionedPath = Urls.unVersion(path.getPath(), this.getVersion());
 
 		for (Resource location : locations) {
 			try {

@@ -27,13 +27,13 @@
 		<module>vault-web</module>
 		<module>vault-admin</module>
 		<module>vault-user</module>
-		<module>vault-template</module>
 		<module>vault-domain</module>
 		<module>vault-security</module>
 		<module>vault-boot</module>
 		<module>vault-site</module>
 		<module>vault-site-security</module>
 		<module>vault-site-boot</module>
+		<module>vault-angular</module>
 	</modules>
 	
 	<build>
@@ -258,6 +258,13 @@
 			<dependency>
 				<groupId>org.vault</groupId>
 				<artifactId>vault-site-boot</artifactId>
+				<version>${vault.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.vault</groupId>
+				<artifactId>vault-angular</artifactId>
 				<version>${vault.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>

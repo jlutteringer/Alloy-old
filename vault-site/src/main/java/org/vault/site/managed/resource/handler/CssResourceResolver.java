@@ -2,29 +2,26 @@ package org.vault.site.managed.resource.handler;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.vault.base.request.Path;
 import org.vault.base.utilities.resources.VResources;
 import org.vault.base.utilities.url.Urls;
-import org.vault.site.resource.handler.AbstractVaultResourceHandler;
+import org.vault.site.resource.handler.AbstractVaultResourceResolver;
 
 @Component
-public class CssResourceHandler extends AbstractVaultResourceHandler {
-	@Value("${project.version}")
-	private String version;
-
+public class CssResourceResolver extends AbstractVaultResourceResolver {
 	@Override
-	public boolean canHandle(String path) {
-		if (path.endsWith(".css")) {
+	public boolean canHandle(Path path) {
+		if (path.getPath().endsWith(".css")) {
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public Resource getFileContents(String path, List<Resource> locations) {
-		String cssPath = Urls.unVersion(path, version);
+	public Resource getFileContents(Path path, List<Resource> locations) {
+		String cssPath = Urls.unVersion(path.getPath(), this.getVersion());
 		String lessPath = cssPath.replace(".css", ".less");
 
 		for (Resource location : locations) {

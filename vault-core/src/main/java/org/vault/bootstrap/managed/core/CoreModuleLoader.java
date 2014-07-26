@@ -62,21 +62,27 @@ public class CoreModuleLoader implements ModuleLoader {
 		LinkedList<Module> modulesToAdd =
 				Lists.newLinkedList(state.getAll(moduleContext.getApplicationModule().getDependencies()));
 
+		modulesToAdd.add(moduleContext.getApplicationModule());
+
 		Tree<Module> moduleTree = Trees.newHashTree(moduleContext.getCoreModule());
 
 		while (!modulesToAdd.isEmpty()) {
 			Module module = modulesToAdd.pop();
-			logger.debug("Considering module [" + module + "] to add to hierarchy");
-			Collection<Module> dependencies = VLists.list(state.getAll(moduleContext.getDependencies(module)));
-			if (moduleTree.containsAll(dependencies)) {
-				Tree<Module> childTree = Trees.newHashTree(module);
-				for (Module dependency : dependencies) {
-					moduleTree.findSubTree(dependency).addChild(childTree);
+			if (!moduleTree.contains(module)) {
+				logger.debug("Considering module [" + module + "] to add to hierarchy");
+				Collection<Module> dependencies = VLists.list(state.getAll(moduleContext.getDependencies(module)));
+				if (moduleTree.containsAll(dependencies)) {
+					Tree<Module> childTree = Trees.newHashTree(module);
+					for (Module dependency : dependencies) {
+						moduleTree.findSubTree(dependency).addChild(childTree);
+					}
 				}
-			}
-			else {
-				logger.debug("Dependencies " + dependencies + " have not yet been parsed, readding to queue");
-				modulesToAdd.add(module);
+				else {
+					dependencies.removeAll(moduleTree);
+					logger.debug("Dependencies " + dependencies + " have not yet been parsed, readding to queue");
+					modulesToAdd.addAll(dependencies);
+					modulesToAdd.add(module);
+				}
 			}
 		}
 

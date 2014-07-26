@@ -3,12 +3,12 @@ package org.vault.base.module.domain;
 import java.util.List;
 
 import org.vault.base.collections.iterable.VIterables;
-import org.vault.base.equality.EqualityContext;
+import org.vault.base.equality.MatchContext;
 
 import com.google.common.collect.Lists;
 
 public class Dependencies {
-	private static EqualityContext<Dependency> EQUALITY = new EqualityContext<>();
+	private static MatchContext<Dependency> EQUALITY = new MatchContext<>();
 	static {
 		EQUALITY.addEquality(NameDependency.class,
 				(first, second) -> first.getName().equals(second.getName()));
@@ -33,7 +33,7 @@ public class Dependencies {
 				(first, second) -> first.getType().equals(second.getModule().getClass()));
 	}
 
-	public static boolean equals(Dependency first, Dependency second) {
+	public static boolean matches(Dependency first, Dependency second) {
 		return EQUALITY.test(first, second);
 	}
 
@@ -51,6 +51,10 @@ public class Dependencies {
 		NameDependency dependency = new NameDependency();
 		dependency.setName(name);
 		return dependency;
+	}
+
+	public static Dependency weak(String name) {
+		return Dependencies.decorate(of(name), new WeakDependency());
 	}
 
 	public static List<Dependency> of(Iterable<Module> modules) {
@@ -85,7 +89,7 @@ public class Dependencies {
 		}
 
 		public DependencyBuilder2 conditional(Dependency includeIfPresent) {
-			ConditionalDependency decoratedDependency = Dependencies.decorate(includeIfPresent, new ConditionalDependency());
+			ConditionalDependency decoratedDependency = Dependencies.decorate(dependency, new ConditionalDependency());
 			decoratedDependency.setConditionDependency(includeIfPresent);
 			this.dependency = decoratedDependency;
 			return this;

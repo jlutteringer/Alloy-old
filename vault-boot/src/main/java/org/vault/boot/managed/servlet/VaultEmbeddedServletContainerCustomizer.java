@@ -27,6 +27,9 @@ public class VaultEmbeddedServletContainerCustomizer extends VaultBean implement
 	@Value("${port.https}")
 	private Long httpsPort;
 
+	@Value("${https.enable}")
+	private boolean enableHttps;
+
 	@Autowired
 	private VaultClasspathResourceManager resourceManager;
 
@@ -37,19 +40,21 @@ public class VaultEmbeddedServletContainerCustomizer extends VaultBean implement
 	public void customize(ConfigurableEmbeddedServletContainer container) {
 		TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
 
-		Connector connector = new Connector(Http11NioProtocol.class.getName());
-		connector.setPort(httpsPort.intValue());
-		connector.setSecure(true);
-		connector.setScheme("https");
+		if (enableHttps) {
+			Connector connector = new Connector(Http11NioProtocol.class.getName());
+			connector.setPort(httpsPort.intValue());
+			connector.setSecure(true);
+			connector.setScheme("https");
 
-		Http11NioProtocol proto = (Http11NioProtocol) connector.getProtocolHandler();
-		proto.setSSLEnabled(true);
-		proto.setKeystoreFile(VResources.getPath(resourceManager.getResourceFromModule(bootModule, keystoreFile)));
-		proto.setKeystorePass(keystorePass);
-		proto.setKeystoreType("PKCS12");
-		proto.setKeyAlias("tomcat");
+			Http11NioProtocol proto = (Http11NioProtocol) connector.getProtocolHandler();
+			proto.setSSLEnabled(true);
+			proto.setKeystoreFile(VResources.getPath(resourceManager.getResourceFromModule(bootModule, keystoreFile)));
+			proto.setKeystorePass(keystorePass);
+			proto.setKeystoreType("PKCS12");
+			proto.setKeyAlias("tomcat");
 
-		tomcat.addAdditionalTomcatConnectors(connector);
+			tomcat.addAdditionalTomcatConnectors(connector);
+		}
 
 		tomcat.addConnectorCustomizers((defaultConnector) -> defaultConnector.setPort(httpPort.intValue()));
 	}

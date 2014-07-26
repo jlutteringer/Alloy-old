@@ -15,8 +15,8 @@ import org.vault.base.utilities.tuple.Tuples;
 
 import com.google.common.collect.Maps;
 
-public class EqualityContext<T> {
-	private static final Logger logger = LogManager.getLogger(EqualityContext.class);
+public class MatchContext<T> {
+	private static final Logger logger = LogManager.getLogger(MatchContext.class);
 	private Map<BiGroup<Object>, Pair<BiGroup<Object>, EqualityTest<Object, Object>>> backingMap = Maps.newHashMap();
 
 	public boolean test(T first, T second) {

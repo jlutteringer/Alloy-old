@@ -3,6 +3,7 @@ package org.vault.base.reflection;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 
@@ -27,5 +28,16 @@ public class VClasses {
 
 	public static Function<Class<?>, String> stringify() {
 		return (clazz) -> clazz.getName();
+	}
+
+	public static Predicate<Object> exclude(List<Class<?>> excludedClasses) {
+		return (object) -> {
+			for (Class<?> clazz : excludedClasses) {
+				if (clazz.isAssignableFrom(object.getClass())) {
+					return false;
+				}
+			}
+			return true;
+		};
 	}
 }

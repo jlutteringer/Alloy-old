@@ -13,8 +13,8 @@
 		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
 		http://www.springframework.org/schema/context
 		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
-
-	<context:component-scan base-package="org.vault.site.security..managed"/>
+	
+	<context:component-scan base-package="org.vault.site.security.managed"/>
 	
 	<sec:http use-expressions="true">
 		<sec:intercept-url pattern="/login" requires-channel="https"/>
@@ -29,7 +29,9 @@
   		
   		<sec:form-login login-page="/login"
 			login-processing-url="/j_spring_security_check"
-			default-target-url="/admin" />
+			default-target-url="/admin"
+			username-parameter="username"
+			password-parameter="password" />
 			
 		<sec:logout invalidate-session="true" logout-success-url="/" />
 	</sec:http>
@@ -42,7 +44,7 @@
 
     <bean id="postSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
         <sec:filter-chain-map request-matcher="ant">
-            <sec:filter-chain pattern="/**" filters="vaultPostSecurityFilter"/>
+            <sec:filter-chain pattern="/*" filters="vaultPostSecurityFilter"/>
         </sec:filter-chain-map>
     </bean>
 </beans>

@@ -1,6 +1,6 @@
 package org.vault.base.domain.phase;
 
-import org.vault.base.domain.Orderable;
+import org.vault.base.domain.order.Orderable;
 import org.vault.base.enumeration.AbstractVEnumeration;
 import org.vault.base.enumeration.VEnumerations;
 

@@ -17,4 +17,10 @@
 	<bean id="primaryOpenEntityManagerInViewFilter" class="org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter">
 		<property name="entityManagerFactoryBeanName" value="primaryEntityManagerFactory" />
 	</bean>
+	
+	<bean class="org.vault.site.filter.VaultFilterProxy">
+		<constructor-arg ref="primaryOpenEntityManagerInViewFilter" />
+		<property name="requestLifecycle"  value="PRE_SECURITY"/>
+		<property name="lifecyclePhase"  value="PRE_INITIALIZATION"/>
+	</bean>
 </beans>
