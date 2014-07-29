@@ -17,21 +17,24 @@
 * limitations under the License.
 * #L%
 */
-package org.vault.site.managed.resource.service;
+package org.vault.site.managed.resource.service.bundle;
 
-import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.core.io.Resource;
+import org.vault.site.resource.bundle.Bundle;
 
 public interface ResourceBundlingService {
-	public boolean hasBundleForResource(String path);
+	public boolean hasBundleForResource(String location);
 
-	public Resource getBundleForResource(String path, List<Resource> locations);
+	public boolean hasBundleForName(String name);
 
-	public Map<String, Collection<Resource>> getBundles();
+	public String getBundleNameForResource(String location);
 
-	public String registerBundle(String bundleName, List<String> files, VaultResourceHttpRequestHandler handler) throws IOException;
+	public Resource resolveBundleForName(String location);
+
+	public Map<String, Collection<String>> getBundles();
+
+	public void registerBundle(Bundle bundle);
 }

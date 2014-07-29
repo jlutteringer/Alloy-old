@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.service.ModuleLoader;
+import org.vault.base.resource.VResources;
 import org.vault.base.utilities.configuration.Configurations;
-import org.vault.base.utilities.resources.VResources;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

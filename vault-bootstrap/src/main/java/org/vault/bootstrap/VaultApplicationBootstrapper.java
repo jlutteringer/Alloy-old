@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
-import org.vault.base.resources.stream.ResourceInputStream;
+import org.vault.base.resource.ResourceInputStream;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.base.utilities.configuration.Configurations;
 import org.vault.base.utilities.constants.VConfigurationFileConstants;

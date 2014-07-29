@@ -2,12 +2,16 @@ package org.vault.site.managed.resource.service;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +23,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
+import org.vault.base.domain.order.Orderable;
 import org.vault.base.request.Path;
+import org.vault.site.resource.handler.VaultPathTransformer;
+
+import com.google.common.collect.Lists;
 
 @Service("resourceHttpRequestHandler")
 public class VaultResourceHttpRequestHandler extends ResourceHttpRequestHandler {
@@ -27,6 +35,14 @@ public class VaultResourceHttpRequestHandler extends ResourceHttpRequestHandler 
 
 	@Autowired
 	private VaultResourceResolverService resourceResolver;
+
+	@Autowired
+	protected List<VaultPathTransformer> pathTransformers = Lists.newArrayList();
+
+	@PostConstruct
+	public void init() {
+		Collections.sort(pathTransformers, Orderable.comparator());
+	}
 
 	@Override
 	public void handleRequest(HttpServletRequest request, HttpServletResponse response)
@@ -87,16 +103,27 @@ public class VaultResourceHttpRequestHandler extends ResourceHttpRequestHandler 
 	 */
 	@Override
 	protected Resource getResource(HttpServletRequest request) {
-		String path = request.getServletPath();
+		Path path = Path.of(request.getServletPath());
 
-		if (!StringUtils.hasText(path) || isInvalidPath(path)) {
+		if (!StringUtils.hasText(path.getPath()) || isInvalidPath(path.getPath())) {
 			if (logger.isDebugEnabled()) {
 				logger.debug("Ignoring invalid resource path [" + path + "]");
 			}
 			return null;
 		}
 
-		return resourceResolver.getResource(Path.of(path));
+		for (VaultPathTransformer transformer : pathTransformers) {
+			logger.printf(Level.DEBUG, "Applying transformer [%s] to path [%s]", transformer, path);
+			if (transformer.canHandle(path)) {
+				path = transformer.transform(path);
+				logger.printf(Level.DEBUG, "Transformer transformed path to [%s]", path);
+			}
+			else {
+				logger.debug("Transformer does not apply to path");
+			}
+		}
+
+		return resourceResolver.getResource(path);
 	}
 
 	protected String getContextName(HttpServletRequest request) {

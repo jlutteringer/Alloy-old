@@ -7,7 +7,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.vault.base.resources.stream.ResourceInputStream;
+import org.vault.base.resource.ResourceInputStream;
 import org.vault.base.utilities.configuration.Configurations;
 import org.vault.bootstrap.context.VaultApplicationContext;
 import org.vault.bootstrap.managed.properties.configuration.PropertiesConfigurationManager;

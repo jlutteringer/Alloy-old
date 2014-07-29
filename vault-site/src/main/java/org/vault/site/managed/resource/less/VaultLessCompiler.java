@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.vault.base.utilities.resources.VResources;
+import org.vault.base.resource.VResources;
 import org.vault.core.managed.resource.VaultClasspathResourceManager;
 
 import com.google.common.base.Throwables;

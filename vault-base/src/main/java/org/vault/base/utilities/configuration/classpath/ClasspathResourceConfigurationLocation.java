@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.context.ApplicationContext;
 import org.vault.base.collections.directory.Directory;
-import org.vault.base.resources.stream.ResourceInputStream;
+import org.vault.base.resource.ResourceInputStream;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 
 public interface ClasspathResourceConfigurationLocation extends ConfigurationLocation {

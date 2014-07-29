@@ -33,7 +33,7 @@ import org.springframework.beans.FatalBeanException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
-import org.vault.base.resources.stream.ResourceInputStream;
+import org.vault.base.resource.ResourceInputStream;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
 import org.vault.extensibility.context.merge.exceptions.MergeManagerSetupException;
 

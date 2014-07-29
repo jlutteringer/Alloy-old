@@ -13,7 +13,7 @@ import org.vault.base.collections.directory.Directory;
 import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.enviornment.EnvironmentType;
 import org.vault.base.module.domain.Module;
-import org.vault.base.resources.stream.ResourceInputStream;
+import org.vault.base.resource.ResourceInputStream;
 import org.vault.base.utilities.configuration.classpath.ClasspathResourceConfigurationLocation;
 import org.vault.base.utilities.configuration.classpath.EnvironmentClasspathResouceConfigurationLocation;
 import org.vault.base.utilities.configuration.classpath.ModuleRelativeCRCLDecorator;

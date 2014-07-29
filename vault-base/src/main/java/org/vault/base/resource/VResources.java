@@ -1,4 +1,4 @@
-package org.vault.base.utilities.resources;
+package org.vault.base.resource;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -9,7 +9,9 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.util.InMemoryResource;
+import org.vault.base.closeable.VCloseables;
 import org.vault.base.utilities.exception.Exceptions;
+import org.vault.base.utilities.function.ExceptionConsumer;
 
 import com.google.common.base.Throwables;
 import com.google.common.io.ByteStreams;
@@ -66,6 +68,10 @@ public class VResources {
 		return Exceptions.propagate(() -> {
 			return resource.getInputStream();
 		});
+	}
+
+	public static void getInputStream(Resource resource, ExceptionConsumer<InputStream> consumer) {
+		VCloseables.with(getInputStream(resource), consumer);
 	}
 
 	public static boolean isValidResource(Resource resource) {

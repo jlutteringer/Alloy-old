@@ -8,8 +8,8 @@ import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletCont
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.stereotype.Component;
+import org.vault.base.resource.VResources;
 import org.vault.base.spring.beans.VaultBean;
-import org.vault.base.utilities.resources.VResources;
 import org.vault.core.managed.resource.VaultClasspathResourceManager;
 import org.vault.module.registry.boot.BootModule;
 

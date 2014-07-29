@@ -7,7 +7,7 @@ import org.vault.base.collections.directory.Directories;
 import org.vault.base.collections.directory.Directory;
 import org.vault.base.collections.directory.DirectoryEntry;
 import org.vault.base.collections.lists.VLists;
-import org.vault.base.resources.stream.ResourceInputStream;
+import org.vault.base.resource.ResourceInputStream;
 import org.vault.base.utilities.configuration.AbstractConfigurationLocation;
 import org.vault.base.utilities.configuration.Configurations;
 

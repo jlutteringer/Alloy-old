@@ -1,5 +1,7 @@
 package org.vault.base.request;
 
+import com.google.common.base.Objects;
+
 public class Path {
 	private String rawPath;
 	private String path;
@@ -25,5 +27,10 @@ public class Path {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	@Override
+	public String toString() {
+		return Objects.toStringHelper(this.getClass()).add("rawPath", rawPath).add("path", path).toString();
 	}
 }

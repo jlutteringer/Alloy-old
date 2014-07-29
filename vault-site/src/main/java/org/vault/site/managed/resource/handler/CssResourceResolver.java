@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.vault.base.request.Path;
-import org.vault.base.utilities.resources.VResources;
+import org.vault.base.resource.VResources;
 import org.vault.base.utilities.url.Urls;
 import org.vault.site.resource.handler.AbstractVaultResourceResolver;
 

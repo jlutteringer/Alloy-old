@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.vault.base.request.Path;
-import org.vault.site.managed.resource.service.ResourceBundlingService;
+import org.vault.site.managed.resource.service.bundle.ResourceBundlingService;
 import org.vault.site.resource.handler.AbstractVaultResourceResolver;
 
 public class BundleResourceResolver extends AbstractVaultResourceResolver {
@@ -19,7 +19,7 @@ public class BundleResourceResolver extends AbstractVaultResourceResolver {
 
 	@Override
 	public Resource getFileContents(Path path, List<Resource> locations) {
-		return resourceBundlingService.getBundleForResource(path.getPath(), locations);
+		return resourceBundlingService.resolveBundleForName(path.getPath());
 	}
 
 	@Override

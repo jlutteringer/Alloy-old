@@ -9,7 +9,7 @@ import org.springframework.core.io.Resource;
 import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
-import org.vault.base.utilities.resources.VResources;
+import org.vault.base.resource.VResources;
 import org.vault.core.managed.resource.VaultClasspathResourceManager;
 
 public class VaultTemplateResolver extends TemplateResolver {
