@@ -14,8 +14,9 @@ import org.vault.base.utilities.function.VPredicates;
 
 public class IteratorSupplierContext<T, N> implements SupplierContext<IteratorSupplierState<T, N>, Value<N>> {
 	private Iterable<T> iterable;
+
 	private Predicate<? super N> filter = VPredicates.matchAll();
-	private Function<T, Iterator<N>> transformer = VIterables.singletonIteratorTransformer(VFunctions.same());
+	private Function<T, Iterator<N>> transformer = VIterables.singletonIteratorTransformer(VFunctions.cast());
 
 	public IteratorSupplierContext(Iterable<T> iterable) {
 		this.iterable = iterable;

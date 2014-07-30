@@ -9,7 +9,9 @@ import java.util.function.Supplier;
 
 import org.vault.base.collections.lists.VLists;
 import org.vault.base.utilities.Value;
+import org.vault.base.utilities.function.Equalitor;
 import org.vault.base.utilities.function.StatefulSupplier;
+import org.vault.base.utilities.function.VPredicates;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Iterables;
@@ -36,6 +38,20 @@ public class VIterables {
 
 	public static <T> Iterable<T> flatten(Iterable<? extends Iterable<T>> multiIterator) {
 		return VIterables.multiplexingIterable(multiIterator, (interalIterator) -> interalIterator.iterator());
+	}
+
+	public static <T> Iterable<T> unique(Iterable<T> iterable, Equalitor<T> equality) {
+		return filter(iterable, VPredicates.matchSeen(equality));
+	}
+
+	public static <T> boolean contains(Iterable<T> iterable, T item, Equalitor<T> equality) {
+		for (T element : iterable) {
+			if (equality.apply(item, element)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public static <T> Iterable<T> filter(Iterable<T> iterable, Predicate<? super T> filter) {

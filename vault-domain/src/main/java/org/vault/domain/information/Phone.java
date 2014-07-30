@@ -1,8 +1,8 @@
 package org.vault.domain.information;
 
-import org.vault.base.domain.Activatable;
-import org.vault.base.domain.Defaultable;
-import org.vault.base.domain.DomainObject;
+import org.vault.base.object.Activatable;
+import org.vault.base.object.Defaultable;
+import org.vault.base.object.DomainObject;
 
 public interface Phone extends DomainObject, Activatable, Defaultable {
 	public String getPhoneNumber();

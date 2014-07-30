@@ -18,14 +18,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.vault.base.resource.VResources;
-import org.vault.core.managed.resource.VaultClasspathResourceManager;
+import org.vault.core.managed.resource.VaultResourceManager;
 
 import com.google.common.base.Throwables;
 
 @Service
 public class VaultLessCompiler {
 	@Autowired
-	private VaultClasspathResourceManager resourceManager;
+	private VaultResourceManager resourceManager;
 
 	public Resource compile(UrlResource less) {
 		try {
@@ -45,9 +45,9 @@ public class VaultLessCompiler {
 
 			engine.getBindings(ScriptContext.ENGINE_SCOPE).put("arguments", args);
 
-			streams.add(resourceManager.getResource("resources/js/less/less-nashorn.js").getInputStream());
-			streams.add(resourceManager.getResource("resources/js/less/less.js").getInputStream());
-			streams.add(resourceManager.getResource("resources/js/less/lessc.js").getInputStream());
+			streams.add(resourceManager.getResource("assets/js/less/less-nashorn.js").getInputStream());
+			streams.add(resourceManager.getResource("assets/js/less/less.js").getInputStream());
+			streams.add(resourceManager.getResource("assets/js/less/lessc.js").getInputStream());
 
 			InputStreamReader reader = new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)));
 			engine.eval(reader);

@@ -152,4 +152,9 @@ public class VaultResourceHttpRequestHandler extends ResourceHttpRequestHandler 
 
 		return (SecurityContext) ctxFromSession;
 	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		// No op
+	}
 }

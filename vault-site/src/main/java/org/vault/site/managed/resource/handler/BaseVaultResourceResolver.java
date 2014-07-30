@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.vault.base.request.Path;
-import org.vault.base.utilities.url.Urls;
+import org.vault.base.url.VUrls;
 import org.vault.site.resource.handler.AbstractVaultResourceResolver;
 
 @Component
@@ -18,7 +18,7 @@ public class BaseVaultResourceResolver extends AbstractVaultResourceResolver {
 
 	@Override
 	public Resource getFileContents(Path path, List<Resource> locations) {
-		String unversionedPath = Urls.unVersion(path.getPath(), this.getVersion());
+		String unversionedPath = VUrls.unVersion(path.getPath(), this.getVersion());
 
 		for (Resource location : locations) {
 			try {

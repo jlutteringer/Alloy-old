@@ -8,8 +8,8 @@ import org.vault.base.spring.beans.VaultBean;
 import com.google.common.collect.Lists;
 
 public abstract class AbstractConfigurationResolver<T, N> extends VaultBean implements ConfigurationResolver<N> {
-	@Autowired
-	private List<ConfigurationProvider<T>> configurationProviders;
+	@Autowired(required = false)
+	private List<ConfigurationProvider<T>> configurationProviders = Lists.newArrayList();
 
 	@Override
 	public List<N> getResolvedItems() {

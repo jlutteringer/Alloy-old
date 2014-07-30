@@ -1,4 +1,4 @@
-package org.vault.base.domain;
+package org.vault.base.object;
 
 import java.io.Serializable;
 import java.util.Date;

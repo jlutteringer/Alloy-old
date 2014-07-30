@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.vault.base.domain.order.Orderable;
 import org.vault.base.request.Path;
 import org.vault.base.spring.beans.VaultBean;
-import org.vault.core.managed.resource.VaultClasspathResourceManager;
+import org.vault.core.managed.resource.VaultResourceManager;
 import org.vault.site.resource.handler.VaultResourceResolver;
 import org.vault.site.resource.handler.VaultResourceTransformer;
 
@@ -27,7 +27,7 @@ public class VaultResourceResolverService extends VaultBean {
 	protected List<VaultResourceTransformer> transformers = Lists.newArrayList();
 
 	@Autowired
-	private VaultClasspathResourceManager resourceManager;
+	private VaultResourceManager resourceManager;
 
 	@PostConstruct
 	public void init() {
@@ -67,6 +67,6 @@ public class VaultResourceResolverService extends VaultBean {
 
 	@SuppressWarnings("unchecked")
 	private List<Resource> getLocations() {
-		return (List<Resource>) (List<?>) resourceManager.getLocations("resources");
+		return (List<Resource>) (List<?>) resourceManager.getResources("resources");
 	}
 }

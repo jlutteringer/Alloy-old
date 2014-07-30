@@ -3,7 +3,7 @@ package org.vault.domain.embedded;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import org.vault.base.domain.Flagged;
+import org.vault.base.object.Flagged;
 
 @Embeddable
 public class EmbeddedFlags implements Flagged {

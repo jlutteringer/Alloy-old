@@ -1,8 +1,8 @@
-package org.vault.base.utilities.url;
+package org.vault.base.url;
 
 import org.apache.commons.lang3.StringUtils;
 
-public class Urls {
+public class VUrls {
 	private static String VERSION_TAG = "${version}";
 
 	public static String version(String url, String version) {

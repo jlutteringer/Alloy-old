@@ -10,4 +10,9 @@ public class VStrings {
 		// FUTURE
 		return string;
 	}
+
+	public static Stringifier stringify(Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

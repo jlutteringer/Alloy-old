@@ -3,7 +3,7 @@ package org.vault.base.utilities.matcher;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.vault.base.domain.Identifiable;
+import org.vault.base.object.Identifiable;
 import org.vault.base.utilities.function.VPredicates;
 
 import com.google.common.collect.Lists;

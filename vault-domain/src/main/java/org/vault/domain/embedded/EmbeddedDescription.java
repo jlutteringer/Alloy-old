@@ -3,7 +3,7 @@ package org.vault.domain.embedded;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-import org.vault.base.domain.Describeable;
+import org.vault.base.object.Describeable;
 
 @Embeddable
 public class EmbeddedDescription implements Describeable {

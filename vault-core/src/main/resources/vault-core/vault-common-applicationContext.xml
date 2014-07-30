@@ -21,7 +21,8 @@
 		http://www.springframework.org/schema/security/spring-security-3.2.xsd" >
 		
 		<aop:config/>
-		
 		<import resource="classpath:vault-bootstrap-shared-applicationContext.xml" />
+		
 		<context:component-scan base-package="org.vault.core.managed"/>
+		<bean class="org.vault.base.spring.applicationContext.Spring" />
 </beans>

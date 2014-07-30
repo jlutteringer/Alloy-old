@@ -1,30 +1,49 @@
 package org.vault.base.resource;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.util.InMemoryResource;
+import org.vault.base.classpath.VClassPath;
 import org.vault.base.closeable.VCloseables;
+import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.lists.VLists;
+import org.vault.base.file.VFiles;
+import org.vault.base.spring.applicationContext.Spring;
 import org.vault.base.utilities.exception.Exceptions;
 import org.vault.base.utilities.function.ExceptionConsumer;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.Lists;
 import com.google.common.io.ByteStreams;
 
 public class VResources {
 	private static final Logger logger = LogManager.getLogger(VResources.class);
+
+	public static boolean exists(Resource resource) {
+		if (resource != null && resource.exists()) {
+			return true;
+		}
+		return false;
+	}
 
 	public static Resource findExistingRelative(Resource location, String relativePath) {
 		try {
 			logger.debug("Trying relative path [" + relativePath + "] against base location: " + location);
 
 			UrlResource resource = (UrlResource) location.createRelative(relativePath);
-			if (resource.exists() && resource.isReadable()) {
+			if (exists(resource)) {
 				logger.debug("Found matching resource: " + resource);
 				return resource;
 			}
@@ -79,5 +98,50 @@ public class VResources {
 			return true;
 		}
 		return false;
+	}
+
+	public static Resource getResource(String resourceLocation, ApplicationContext context) {
+		return VIterables.getSingleResult(getResources(resourceLocation, context));
+	}
+
+	public static List<Resource> getResources(String resourceLocation, ApplicationContext context) {
+		logger.trace("Resolving classpath resource at: [" + resourceLocation + "]");
+		return Exceptions.propagate(() -> Lists.newArrayList(context.getResources(resourceLocation)));
+	}
+
+	public static List<Resource> getConcreteResources(Resource resource) {
+		logger.printf(Level.DEBUG, "Retrieving concrete file resources for resource [%s]", resource);
+		List<File> files = Lists.newArrayList();
+		LinkedList<File> filesToProcess = Lists.newLinkedList();
+		filesToProcess.add(new File(getPath(resource)));
+
+		while (!filesToProcess.isEmpty()) {
+			File file = filesToProcess.pop();
+			if (!file.isDirectory()) {
+				files.add(file);
+			}
+			else {
+				filesToProcess.addAll(Arrays.asList(file.listFiles()));
+			}
+		}
+
+		List<Resource> concreteFileResources = VLists.transform(
+				getResourcePaths(VFiles.getPaths(files)), (path) -> getResource(path, Spring.getCurrentApplicationContext()));
+
+		logger.debug("Retrieved concrete file resources " + concreteFileResources);
+		return concreteFileResources;
+	}
+
+	public static Iterable<String> getResourcePaths(Iterable<String> paths) {
+		List<String> classpathEntries = VClassPath.getClasspathEntries();
+		return VIterables.transform(paths, (path) -> {
+			for (String classpathEntry : classpathEntries) {
+				if (path.startsWith(classpathEntry)) {
+					return path.replace(classpathEntry, "");
+				}
+			}
+
+			return path;
+		});
 	}
 }

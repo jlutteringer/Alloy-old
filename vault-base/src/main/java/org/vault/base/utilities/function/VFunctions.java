@@ -16,7 +16,7 @@ public class VFunctions {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T, N> Function<T, N> same() {
+	public static <T, N> Function<T, N> cast() {
 		return (value) -> ((N) value);
 	}
 }

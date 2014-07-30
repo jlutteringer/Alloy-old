@@ -50,6 +50,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.vault.base.collections.iterable.VIterables;
 import org.vault.base.resource.ResourceInputStream;
+import org.vault.base.resource.VResources;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
 import org.vault.base.utilities.configuration.Configurations;
 import org.vault.base.utilities.matcher.AbstractContextualSelector;
@@ -321,7 +322,7 @@ public class MergeContext implements PatchableConfiguration, ApplicationContextA
 
 	private Properties loadProperties() throws IOException {
 		Properties props = new Properties();
-		props.load(Configurations.resolveClasspathResource(this.defaultHandlerConfiguration, this.applicationContext).getInputStream());
+		props.load(VResources.getResource(this.defaultHandlerConfiguration, this.applicationContext).getInputStream());
 
 		List<ResourceInputStream> configurations = Configurations.getConfigurations(this.patchLocations, this.applicationContext);
 		for (ResourceInputStream configuration : configurations) {

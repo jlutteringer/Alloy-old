@@ -2,8 +2,8 @@ package org.vault.user.domain;
 
 import java.util.Set;
 
-import org.vault.base.domain.AdditionalFields;
-import org.vault.base.domain.DomainObject;
+import org.vault.base.object.AdditionalFields;
+import org.vault.base.object.DomainObject;
 
 public interface User extends DomainObject, AdditionalFields {
 	@Override

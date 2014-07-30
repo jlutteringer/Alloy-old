@@ -5,7 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.vault.base.domain.Identifiable;
+import org.vault.base.object.Identifiable;
 import org.vault.base.reflection.VReflection;
 import org.vault.base.spring.beans.VaultBeanT1;
 import org.vault.persistence.managed.entities.EntityManagerContext;

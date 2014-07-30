@@ -15,6 +15,10 @@ public class MinifyingResourceTransformer extends AbstractVaultResourceTransform
 
 	@Override
 	public boolean canHandle(Path path, Resource resource) {
+		if (!resourceMinificationService.getEnabled()) {
+			return false;
+		}
+
 		if (path.getPath().endsWith(".css") || path.getPath().endsWith(".js")) {
 			return true;
 		}

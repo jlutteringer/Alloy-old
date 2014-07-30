@@ -8,8 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 import org.vault.base.resource.ResourceInputStream;
+import org.vault.base.resource.VResources;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
-import org.vault.base.utilities.configuration.Configurations;
 import org.vault.base.utilities.constants.VConfigurationFileConstants;
 import org.vault.base.utilities.logging.Logging;
 import org.vault.bootstrap.context.VaultApplicationContext;
@@ -59,7 +59,7 @@ public class VaultApplicationBootstrapper implements Bootstrap {
 
 		BootstrapUtils.configureEnumerations();
 		Logging.configureLog4j(
-				ResourceInputStream.transformer().apply(Configurations.resolveClasspathResource(VConfigurationFileConstants.BOOTSTRAP_LOG4J_RESOURCE, bootstrapApplicationContext)));
+				ResourceInputStream.transformer().apply(VResources.getResource(VConfigurationFileConstants.BOOTSTRAP_LOG4J_RESOURCE, bootstrapApplicationContext)));
 
 		bootstrapApplicationContext.setConfigLocations(getBootstrapConfigurationLocations().toArray(new String[0]));
 		bootstrapApplicationContext.refresh();

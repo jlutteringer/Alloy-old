@@ -48,6 +48,7 @@ public class ResourceBundlingServiceImpl extends VaultBean implements ResourceBu
 	public Resource resolveBundleForName(String name) {
 		return Exceptions.propagate(() -> {
 			byte[] result = VCloseables.withResult(new ByteArrayOutputStream(), (baos) -> {
+				logger.debug("Creating bundle for resources " + bundles.get(name));
 				for (String resourceLocation : bundles.get(name)) {
 					Resource resource = resourceResolver.getResource(Path.of(resourceLocation));
 
@@ -67,6 +68,10 @@ public class ResourceBundlingServiceImpl extends VaultBean implements ResourceBu
 				return baos.toByteArray();
 			});
 
+			if (logger.isTraceEnabled()) {
+				logger.trace("Created bundle:");
+				logger.trace(new String(result));
+			}
 			return new GeneratedResource(result, name);
 		});
 	}

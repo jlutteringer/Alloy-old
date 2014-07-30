@@ -10,7 +10,7 @@ import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletCon
 import org.springframework.stereotype.Component;
 import org.vault.base.resource.VResources;
 import org.vault.base.spring.beans.VaultBean;
-import org.vault.core.managed.resource.VaultClasspathResourceManager;
+import org.vault.core.managed.resource.VaultResourceManager;
 import org.vault.module.registry.boot.BootModule;
 
 @Component
@@ -31,7 +31,7 @@ public class VaultEmbeddedServletContainerCustomizer extends VaultBean implement
 	private boolean enableHttps;
 
 	@Autowired
-	private VaultClasspathResourceManager resourceManager;
+	private VaultResourceManager resourceManager;
 
 	@Autowired
 	private BootModule bootModule;

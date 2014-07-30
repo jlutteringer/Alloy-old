@@ -1,8 +1,12 @@
 package org.vault.base.utilities.function;
 
+import java.util.List;
 import java.util.function.Predicate;
 
-import org.vault.base.domain.Identifiable;
+import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.object.Identifiable;
+
+import com.google.common.collect.Lists;
 
 public class VPredicates {
 	@SafeVarargs
@@ -40,6 +44,17 @@ public class VPredicates {
 
 	public static <T> Predicate<T> matchAll() {
 		return (element) -> true;
+	}
+
+	public static <T> Predicate<T> matchSeen(Equalitor<T> equality) {
+		List<T> seen = Lists.newArrayList();
+		return (element) -> {
+			if (VIterables.contains(seen, element, equality)) {
+				return false;
+			}
+			seen.add(element);
+			return true;
+		};
 	}
 
 	public static class PredicateBuilder<T> {

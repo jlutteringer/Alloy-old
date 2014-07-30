@@ -10,11 +10,11 @@ import org.thymeleaf.TemplateProcessingParameters;
 import org.thymeleaf.resourceresolver.IResourceResolver;
 import org.thymeleaf.templateresolver.TemplateResolver;
 import org.vault.base.resource.VResources;
-import org.vault.core.managed.resource.VaultClasspathResourceManager;
+import org.vault.core.managed.resource.VaultResourceManager;
 
 public class VaultTemplateResolver extends TemplateResolver {
 	@Autowired
-	private VaultClasspathResourceManager resourceManager;
+	private VaultResourceManager resourceManager;
 
 	public VaultTemplateResolver() {
 		super();

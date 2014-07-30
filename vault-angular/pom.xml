@@ -11,7 +11,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.vault</groupId>
-			<artifactId>vault-core</artifactId>
+			<artifactId>vault-site</artifactId>
 		</dependency>
 	</dependencies>
 </project>
