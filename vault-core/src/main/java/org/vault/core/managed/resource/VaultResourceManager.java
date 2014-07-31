@@ -70,9 +70,7 @@ public class VaultResourceManager {
 	}
 
 	public List<String> getConcreteVisibleResourcePaths(String baseLocation) {
-		return VLists.transform(this.getConcreteResources(baseLocation), (resource) -> {
-			return convertToVisiblePath(baseLocation, resource.getPath());
-		});
+		return VLists.transform(this.getConcreteResources(baseLocation), (resource) -> convertToVisiblePath(baseLocation, resource.getPath()));
 	}
 
 	public boolean visiblyEqual(String baseLocation, Resource path1, Resource path2) {
