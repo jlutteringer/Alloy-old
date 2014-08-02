@@ -2,8 +2,8 @@ package org.vault.boot.application;
 
 import java.util.List;
 
-import org.vault.bootstrap.VaultApplicationBootstrapper;
-import org.vault.bootstrap.context.VaultApplicationContext;
+import org.alloy.bootstrap.AlloyBootstrapper;
+import org.alloy.bootstrap.context.AlloyApplicationContext;
 
 import com.google.common.collect.Lists;
 
@@ -16,9 +16,9 @@ public class VaultApplication {
 	}
 
 	public void run() {
-		VaultApplicationBootstrapper bootstrap = new VaultApplicationBootstrapper(VaultEmbeddedWebApplicationContext::new);
+		AlloyBootstrapper bootstrap = new AlloyBootstrapper(VaultEmbeddedWebApplicationContext::new);
 		bootstrap.setBootstrapConfigurationLocations(bootstrapApplicationContexts);
-		VaultApplicationContext context = bootstrap.bootstrap();
+		AlloyApplicationContext context = bootstrap.bootstrap();
 		bootstrap.stop();
 
 		context.refresh();

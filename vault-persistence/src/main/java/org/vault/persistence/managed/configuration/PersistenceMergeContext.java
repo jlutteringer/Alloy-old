@@ -2,6 +2,10 @@ package org.vault.persistence.managed.configuration;
 
 import java.util.List;
 
+import org.alloy.forge.configuration.ConfigurationManager;
+import org.alloy.forge.merge.AbstractMergeContext;
+import org.alloy.forge.merge.AbstractXmlMergeManager;
+import org.alloy.forge.merge.MergeManager;
 import org.alloy.metal.application.ApplicationMetaData;
 import org.alloy.metal.configuration.ConfigurationLocation;
 import org.alloy.metal.configuration._Configuration;
@@ -9,10 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.vault.base.module.domain.Module;
 import org.vault.base.utilities.constants.AlloyConfigurationConstants;
-import org.vault.bootstrap.managed.configuration.AbstractMergeContext;
-import org.vault.bootstrap.managed.configuration.ConfigurationManager;
-import org.vault.bootstrap.managed.merge.AbstractXmlMergeManager;
-import org.vault.bootstrap.managed.merge.MergeManager;
 import org.vault.persistence.managed.configuration.PersistenceMergeContext.PersistenceConfigurationManager;
 import org.vault.persistence.managed.configuration.PersistenceMergeContext.PersistenceMergeManager;
 

@@ -11,6 +11,8 @@ import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.Servlet;
 
+import org.alloy.bootstrap.context.AlloyApplicationContext;
+import org.alloy.bootstrap.context.BootstrappedContext;
 import org.alloy.metal.reflection._Reflection;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
@@ -20,10 +22,8 @@ import org.springframework.boot.context.embedded.XmlEmbeddedWebApplicationContex
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.vault.bootstrap.context.BootstrappedContext;
-import org.vault.bootstrap.context.VaultApplicationContext;
 
-public class VaultEmbeddedWebApplicationContext extends XmlEmbeddedWebApplicationContext implements VaultApplicationContext {
+public class VaultEmbeddedWebApplicationContext extends XmlEmbeddedWebApplicationContext implements AlloyApplicationContext {
 	private BootstrappedContext initializationContext;
 
 	public VaultEmbeddedWebApplicationContext(Resource resource) {

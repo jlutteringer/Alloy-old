@@ -2,6 +2,8 @@ package org.vault.core.managed.properties;
 
 import java.util.List;
 
+import org.alloy.bootstrap.context.AlloyApplicationContext;
+import org.alloy.forge.managed.configuration.PropertiesConfigurationManager;
 import org.alloy.metal.configuration._Configuration;
 import org.alloy.metal.resource.ResourceInputStream;
 import org.springframework.beans.BeansException;
@@ -9,13 +11,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.vault.bootstrap.context.VaultApplicationContext;
-import org.vault.bootstrap.managed.properties.configuration.PropertiesConfigurationManager;
 import org.vault.core.context.VaultApplicationContextAware;
 
 @Component
 public class VaultPropertyPlaceholderConfigurer extends PropertyPlaceholderConfigurer implements VaultApplicationContextAware, InitializingBean {
-	private VaultApplicationContext applicationContext;
+	private AlloyApplicationContext applicationContext;
 
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -27,7 +27,7 @@ public class VaultPropertyPlaceholderConfigurer extends PropertyPlaceholderConfi
 	}
 
 	@Override
-	public void setApplicationContext(VaultApplicationContext applicationContext) throws BeansException {
+	public void setApplicationContext(AlloyApplicationContext applicationContext) throws BeansException {
 		this.applicationContext = applicationContext;
 	}
 }

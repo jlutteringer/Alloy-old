@@ -19,6 +19,7 @@
   
 	<modules>
 		<module>metal</module>
+		<module>forge</module>
 		<module>vault-core</module>
 		<module>vault-extensibility</module>
 		<module>vault-bootstrap</module>
@@ -167,6 +168,13 @@
 			<dependency>
 				<groupId>org.alloy</groupId>
 				<artifactId>metal</artifactId>
+				<version>${alloy.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.alloy</groupId>
+				<artifactId>forge</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
