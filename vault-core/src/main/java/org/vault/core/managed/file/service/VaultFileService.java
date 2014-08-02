@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
-import org.vault.core.managed.file.domain.FileWorkArea;
+import org.vault.core.file.FileWorkArea;
 
 public interface VaultFileService {
 	/**

@@ -4,14 +4,14 @@ import java.util.List;
 
 import org.alloy.forge.configuration.ConfigurationManager;
 import org.alloy.forge.context.BootstrappedBean;
+import org.alloy.forge.module.Module;
+import org.alloy.forge.module.PrimaryModuleFacet;
 import org.alloy.metal.application.ApplicationMetaData;
+import org.alloy.metal.configuration.AlloyConfigurationConstants;
 import org.alloy.metal.configuration.ConfigurationLocation;
 import org.alloy.metal.configuration._Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vault.base.module.domain.Module;
-import org.vault.base.module.domain.PrimaryModuleFacet;
-import org.vault.base.utilities.constants.AlloyConfigurationConstants;
 
 import com.google.common.collect.Lists;
 

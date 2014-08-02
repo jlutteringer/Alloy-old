@@ -2,8 +2,8 @@ package org.alloy.forge.managed.merge;
 
 import org.alloy.forge.merge.AbstractXmlMergeManager;
 import org.alloy.forge.merge.MergeManager;
+import org.alloy.metal.configuration.AlloyConfigurationConstants;
 import org.springframework.stereotype.Component;
-import org.vault.base.utilities.constants.AlloyConfigurationConstants;
 
 public interface LoggingMergeManager extends MergeManager {
 	@Component

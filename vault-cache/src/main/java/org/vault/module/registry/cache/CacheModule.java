@@ -1,7 +1,7 @@
 package org.vault.module.registry.cache;
 
+import org.alloy.forge.module.ManagedModule;
 import org.springframework.stereotype.Component;
-import org.vault.core.module.domain.simple.ManagedModule;
 
 @Component
 public class CacheModule extends ManagedModule {

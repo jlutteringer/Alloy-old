@@ -1,6 +1,6 @@
 package org.vault.core.managed.system.properties.service;
 
-import org.vault.core.managed.system.properties.domain.SystemPropertyFieldType;
+import org.alloy.metal.system.SystemPropertyFieldType;
 
 public interface SystemPropertiesService {
 	/**

@@ -17,7 +17,7 @@ import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.function._Predicate;
 import org.alloy.metal.utilities._Exception;
 import org.apache.logging.log4j.LogManager;
@@ -256,7 +256,7 @@ public class _Reflection {
 			if (criteria.test(declaredMethod)) {
 				logger.trace(
 						"Found method [" + methodName + "] for class [" + clazz.getSimpleName() + "] with args [" +
-								_Lists.transform(argumentTypes, _Class.stringify()) + "]");
+								_List.transform(argumentTypes, _Class.stringify()) + "]");
 
 				return Optional.of(declaredMethod);
 			}
@@ -264,7 +264,7 @@ public class _Reflection {
 
 		logger.trace(
 				"Couldn't find method [" + methodName + "] for class [" + clazz.getSimpleName() + "] with args [" +
-						_Lists.transform(argumentTypes, _Class.stringify()) + "]");
+						_List.transform(argumentTypes, _Class.stringify()) + "]");
 
 		return Optional.empty();
 	}

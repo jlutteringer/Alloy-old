@@ -1,8 +1,8 @@
 package org.vault.core.managed.system.properties.service;
 
+import org.alloy.metal.system.SystemPropertyFieldType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vault.core.managed.system.properties.domain.SystemPropertyFieldType;
 
 @Service("systemPropertiesService")
 public class SimpleSystemPropertiesService implements SystemPropertiesService {

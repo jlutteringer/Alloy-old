@@ -4,12 +4,12 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
+import org.alloy.forge.module.Module;
 import org.alloy.metal.collections.directory.Directory;
 import org.alloy.metal.collections.directory._Directory;
 import org.alloy.metal.environment.EnvironmentType;
 import org.alloy.metal.resource.ResourceInputStream;
 import org.springframework.context.ApplicationContext;
-import org.vault.base.module.domain.Module;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;

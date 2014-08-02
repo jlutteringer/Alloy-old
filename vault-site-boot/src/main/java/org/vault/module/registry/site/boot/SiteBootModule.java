@@ -1,9 +1,9 @@
 package org.vault.module.registry.site.boot;
 
+import org.alloy.forge.module.Dependencies;
+import org.alloy.forge.module.ManagedModule;
+import org.alloy.forge.module.ModuleType;
 import org.springframework.stereotype.Component;
-import org.vault.base.module.domain.Dependencies;
-import org.vault.base.module.domain.ModuleType;
-import org.vault.core.module.domain.simple.ManagedModule;
 
 @Component
 public class SiteBootModule extends ManagedModule {

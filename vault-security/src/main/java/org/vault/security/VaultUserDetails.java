@@ -2,7 +2,7 @@ package org.vault.security;
 
 import java.util.Collection;
 
-import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.collections.lists._List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.vault.user.domain.User;
@@ -17,7 +17,7 @@ public class VaultUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return _Lists.transform(user.getPermissions(), SecurityUtils::createAuthority);
+		return _List.transform(user.getPermissions(), SecurityUtils::createAuthority);
 	}
 
 	@Override

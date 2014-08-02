@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.function.NullableValue;
 import org.alloy.metal.function.StatefulSupplier;
 import org.alloy.metal.function._Predicate;
@@ -109,7 +109,7 @@ public class _Iterable {
 	}
 
 	public static <T> Iterable<T> reverse(Iterable<T> iterator) {
-		List<T> backingList = _Lists.list(iterator);
+		List<T> backingList = _List.list(iterator);
 		Collections.reverse(backingList);
 		return backingList;
 	}

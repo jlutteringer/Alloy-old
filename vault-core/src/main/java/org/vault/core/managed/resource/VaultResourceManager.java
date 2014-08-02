@@ -2,8 +2,10 @@ package org.vault.core.managed.resource;
 
 import java.util.List;
 
+import org.alloy.forge.module.Module;
+import org.alloy.forge.module.ModuleLoader;
 import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.function._Function;
 import org.alloy.metal.resource._Resource;
 import org.alloy.metal.utilities._Exception;
@@ -15,8 +17,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.vault.base.module.domain.Module;
-import org.vault.base.module.service.ModuleLoader;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -66,11 +66,11 @@ public class VaultResourceManager {
 
 	public List<ClassPathResource> getConcreteResources(String baseLocation) {
 		Iterable<List<Resource>> resources = _Iterable.transform(getResources(baseLocation), _Resource::getConcreteResources);
-		return _Lists.list(_Iterable.transform(_Iterable.unique(_Iterable.flatten(resources), (first, second) -> visiblyEqual(baseLocation, first, second)), _Function.cast()));
+		return _List.list(_Iterable.transform(_Iterable.unique(_Iterable.flatten(resources), (first, second) -> visiblyEqual(baseLocation, first, second)), _Function.cast()));
 	}
 
 	public List<String> getConcreteVisibleResourcePaths(String baseLocation) {
-		return _Lists.transform(this.getConcreteResources(baseLocation), (resource) -> convertToVisiblePath(baseLocation, resource.getPath()));
+		return _List.transform(this.getConcreteResources(baseLocation), (resource) -> convertToVisiblePath(baseLocation, resource.getPath()));
 	}
 
 	public boolean visiblyEqual(String baseLocation, Resource path1, Resource path2) {

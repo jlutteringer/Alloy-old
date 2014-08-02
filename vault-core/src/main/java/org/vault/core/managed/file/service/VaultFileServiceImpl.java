@@ -17,9 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.vault.core.managed.file.domain.FileServiceException;
-import org.vault.core.managed.file.domain.FileWorkArea;
-import org.vault.core.managed.file.domain.GloballySharedInputStream;
+import org.vault.core.file.FileServiceException;
+import org.vault.core.file.FileWorkArea;
+import org.vault.core.file.GloballySharedInputStream;
 
 @Service
 public class VaultFileServiceImpl extends AlloyBean implements VaultFileService {

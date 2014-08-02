@@ -9,6 +9,7 @@ import org.alloy.forge.managed.configuration.ContextConfigurationManager;
 import org.alloy.forge.managed.context.BootstrappedContextManager;
 import org.alloy.forge.managed.initialization.PreInitializationContext;
 import org.alloy.forge.managed.merge.ContextMergeManager;
+import org.alloy.metal.configuration.AlloyConfigurationConstants;
 import org.alloy.metal.configuration.ConfigurationLocation;
 import org.alloy.metal.logging._Logging;
 import org.alloy.metal.resource.ResourceInputStream;
@@ -17,7 +18,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
-import org.vault.base.utilities.constants.AlloyConfigurationConstants;
 
 public class AlloyBootstrapper {
 	private static Logger logger = LogManager.getLogger(AlloyBootstrapper.class);

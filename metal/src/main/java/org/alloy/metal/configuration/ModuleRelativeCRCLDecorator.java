@@ -1,9 +1,9 @@
 package org.alloy.metal.configuration;
 
+import org.alloy.forge.module.Module;
+import org.alloy.forge.module.Modules;
 import org.alloy.metal.collections.directory.Directory;
 import org.alloy.metal.collections.directory.DirectoryEntry;
-import org.vault.base.module.domain.Module;
-import org.vault.base.module.domain.Modules;
 
 public class ModuleRelativeCRCLDecorator extends CRCLDecorator {
 	private Module module;

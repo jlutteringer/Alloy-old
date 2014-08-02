@@ -1,8 +1,8 @@
 package org.vault.module.registry.web;
 
+import org.alloy.forge.module.Dependencies;
+import org.alloy.forge.module.ManagedModule;
 import org.springframework.stereotype.Component;
-import org.vault.base.module.domain.Dependencies;
-import org.vault.core.module.domain.simple.ManagedModule;
 import org.vault.module.registry.security.SecurityModule;
 import org.vault.module.registry.site.SiteModule;
 import org.vault.module.registry.site.security.SiteSecurityModule;

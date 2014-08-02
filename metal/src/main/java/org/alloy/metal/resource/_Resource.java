@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.function.ExceptionConsumer;
 import org.alloy.metal.reflection._ClassPath;
 import org.alloy.metal.spring.Spring;
@@ -125,7 +125,7 @@ public class _Resource {
 			}
 		}
 
-		List<Resource> concreteFileResources = _Lists.transform(
+		List<Resource> concreteFileResources = _List.transform(
 				getResourcePaths(_File.getPaths(files)), (path) -> getResource(path, Spring.getCurrentApplicationContext()));
 
 		logger.debug("Retrieved concrete file resources " + concreteFileResources);

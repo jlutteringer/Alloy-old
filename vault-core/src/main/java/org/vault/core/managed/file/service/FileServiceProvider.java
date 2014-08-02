@@ -22,8 +22,8 @@ package org.vault.core.managed.file.service;
 import java.io.File;
 import java.util.List;
 
-import org.vault.core.managed.file.domain.FileApplicationType;
-import org.vault.core.managed.file.domain.FileWorkArea;
+import org.vault.core.file.FileApplicationType;
+import org.vault.core.file.FileWorkArea;
 
 /**
 * Interface to be implemented by a FileProvider. This could be a local FileProvider or a remote service like Amazon S3.

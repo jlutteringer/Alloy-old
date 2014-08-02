@@ -3,7 +3,7 @@ package org.alloy.metal.collections.directory;
 import java.util.List;
 
 import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.function._Function;
 
 import com.google.common.collect.Iterables;
@@ -30,12 +30,12 @@ public class ConcreteDirectory<T, N> implements Directory<T, N> {
 		Iterable<DirectoryIndex<T, N>> matchingValues =
 				_Iterable.filter(indexes, _Directory.getDirectoryIndexKeyMatcher(key));
 
-		return _Lists.list(_Directory.unwrapValues(matchingValues));
+		return _List.list(_Directory.unwrapValues(matchingValues));
 	}
 
 	@Override
 	public List<N> get() {
-		return _Lists.list(_Directory.unwrapValues(indexes));
+		return _List.list(_Directory.unwrapValues(indexes));
 	}
 
 	@Override
@@ -43,12 +43,12 @@ public class ConcreteDirectory<T, N> implements Directory<T, N> {
 		Iterable<DirectoryIndex<T, N>> matchingValues =
 				_Iterable.filter(indexes, _Directory.getDirectoryIndexKeyMatcher(key));
 
-		return _Lists.list(_Directory.unwrapEntries(matchingValues));
+		return _List.list(_Directory.unwrapEntries(matchingValues));
 	}
 
 	@Override
 	public List<DirectoryEntry<T, N>> getEntries() {
-		return _Lists.list(_Directory.unwrapEntries(indexes));
+		return _List.list(_Directory.unwrapEntries(indexes));
 	}
 
 	@Override
@@ -56,12 +56,12 @@ public class ConcreteDirectory<T, N> implements Directory<T, N> {
 		Iterable<DirectoryIndex<T, N>> matchingValues =
 				_Iterable.filter(indexes, _Directory.getDirectoryIndexKeyMatcher(key));
 
-		return _Lists.list(matchingValues);
+		return _List.list(matchingValues);
 	}
 
 	@Override
 	public List<DirectoryIndex<T, N>> getIndexes() {
-		return _Lists.list(indexes);
+		return _List.list(indexes);
 	}
 
 	@Override

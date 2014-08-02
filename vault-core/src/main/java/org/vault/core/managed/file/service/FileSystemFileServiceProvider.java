@@ -10,9 +10,9 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import org.vault.core.managed.file.domain.FileApplicationType;
-import org.vault.core.managed.file.domain.FileServiceException;
-import org.vault.core.managed.file.domain.FileWorkArea;
+import org.vault.core.file.FileApplicationType;
+import org.vault.core.file.FileServiceException;
+import org.vault.core.file.FileWorkArea;
 
 @Service
 public class FileSystemFileServiceProvider extends AlloyBean implements FileServiceProvider {

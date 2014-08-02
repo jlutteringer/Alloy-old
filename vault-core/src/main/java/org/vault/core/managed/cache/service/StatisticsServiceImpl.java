@@ -27,7 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.naming.SelfNaming;
 import org.springframework.jmx.support.ObjectNameManager;
 import org.springframework.stereotype.Service;
-import org.vault.core.managed.cache.domain.CacheStat;
+import org.vault.core.cache.CacheStat;
 import org.vault.core.managed.system.time.domain.SystemTime;
 
 @Service

@@ -5,14 +5,14 @@ import java.util.List;
 
 import org.alloy.metal.ant._Ant;
 import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.collections.lists._List;
+import org.alloy.metal.extensibility.AbstractConfigurationResolver;
 import org.alloy.metal.spring.delegator.AbstractDelegator;
 import org.alloy.metal.spring.delegator.ClassTypeDelegate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vault.base.configuration.AbstractConfigurationResolver;
 import org.vault.core.managed.resource.VaultResourceManager;
 import org.vault.site.resource.bundle.Bundle;
 import org.vault.site.resource.bundle.configuration.AntPathConfigurationComponent;
@@ -32,7 +32,7 @@ public class BundleConfigurationResolver extends AbstractConfigurationResolver<B
 
 	@Override
 	protected List<Bundle> resolveItems(List<BundleConfiguration> configurations) {
-		List<Bundle> bundles = _Lists.list();
+		List<Bundle> bundles = _List.list();
 		configurations.forEach((configuration) -> {
 			Bundle bundle = new Bundle(configuration.getName());
 			configuration.getComponents().forEach((component) -> {
@@ -78,7 +78,7 @@ public class BundleConfigurationResolver extends AbstractConfigurationResolver<B
 			Iterable<String> concreteResourcePaths = resourceManager.getConcreteVisibleResourcePaths("resources");
 			logger.debug("For concrete resource paths: " + concreteResourcePaths);
 
-			List<String> matchingPaths = _Lists.list(_Iterable.filter(concreteResourcePaths, _Ant.pathMatcher(configuration.getPattern())));
+			List<String> matchingPaths = _List.list(_Iterable.filter(concreteResourcePaths, _Ant.pathMatcher(configuration.getPattern())));
 			logger.debug("Found matching paths: " + matchingPaths);
 			return matchingPaths;
 		}

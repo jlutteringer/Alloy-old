@@ -2,10 +2,10 @@ package org.alloy.forge.configuration;
 
 import java.util.List;
 
+import org.alloy.forge.module.Module;
+import org.alloy.forge.module.ModuleLoader;
 import org.alloy.metal.configuration.ConfigurationLocation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.vault.base.module.domain.Module;
-import org.vault.base.module.service.ModuleLoader;
 
 import com.google.common.collect.Lists;
 
