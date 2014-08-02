@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.iterable._Iterable;
 
 import com.google.common.collect.Lists;
 
@@ -28,7 +28,7 @@ public class TaggedCollection<T> {
 	}
 
 	public TaggedValue<T> getTaggedValue(List<Tag> tagSelectors) {
-		return VIterables.getSingleResult(select(tagSelectors), true);
+		return _Iterable.getSingleResult(select(tagSelectors), true);
 	}
 
 	public List<TaggedValue<T>> select(List<Tag> tagSelectors) {

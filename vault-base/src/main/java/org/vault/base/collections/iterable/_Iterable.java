@@ -7,7 +7,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.collections.lists._Lists;
 import org.vault.base.utilities.Value;
 import org.vault.base.utilities.function.Equalitor;
 import org.vault.base.utilities.function.StatefulSupplier;
@@ -17,13 +17,13 @@ import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
-public class VIterables {
+public class _Iterable {
 	public static <T> Iterable<T> createFromIteratorGenerator(Supplier<Iterator<T>> supplier) {
 		return new GeneratingIterable<T>(supplier);
 	}
 
 	public static <T, N> Iterable<T> createFromElementSupplier(StatefulSupplier<N, Value<T>> supplier, Supplier<N> stateGenerator) {
-		return VIterables.createFromIteratorGenerator(VIterables.createIteratorGeneratorFromElementGenerator(supplier, stateGenerator));
+		return _Iterable.createFromIteratorGenerator(_Iterable.createIteratorGeneratorFromElementGenerator(supplier, stateGenerator));
 	}
 
 	private static <T, N> Supplier<Iterator<T>> createIteratorGeneratorFromElementGenerator(StatefulSupplier<N, Value<T>> supplier, Supplier<N> stateGenerator) {
@@ -33,11 +33,11 @@ public class VIterables {
 	public static <T, N> Iterable<N> multiplexingIterable(Iterable<T> iterable, Function<T, Iterator<N>> transformer) {
 		IteratorSupplierContext<T, N> context = new IteratorSupplierContext<>(iterable);
 		context.setTransformer(transformer);
-		return VIterables.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
+		return _Iterable.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}
 
 	public static <T> Iterable<T> flatten(Iterable<? extends Iterable<T>> multiIterator) {
-		return VIterables.multiplexingIterable(multiIterator, (interalIterator) -> interalIterator.iterator());
+		return _Iterable.multiplexingIterable(multiIterator, (interalIterator) -> interalIterator.iterator());
 	}
 
 	public static <T> Iterable<T> unique(Iterable<T> iterable, Equalitor<T> equality) {
@@ -57,13 +57,13 @@ public class VIterables {
 	public static <T> Iterable<T> filter(Iterable<T> iterable, Predicate<? super T> filter) {
 		IteratorSupplierContext<T, T> context = new IteratorSupplierContext<>(iterable);
 		context.setFilter(filter);
-		return VIterables.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
+		return _Iterable.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}
 
 	public static <T, N> Iterable<N> transform(Iterable<T> iterable, Function<T, N> transformer) {
 		IteratorSupplierContext<T, N> context = new IteratorSupplierContext<>(iterable);
-		context.setTransformer(VIterables.singletonIteratorTransformer(transformer));
-		return VIterables.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
+		context.setTransformer(_Iterable.singletonIteratorTransformer(transformer));
+		return _Iterable.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -79,7 +79,7 @@ public class VIterables {
 	}
 
 	public static <T> T getSingleResult(Iterable<T> iterable) {
-		return VIterables.getSingleResult(iterable, false);
+		return _Iterable.getSingleResult(iterable, false);
 	}
 
 	public static <T> T getSingleResult(Iterable<T> iterable, boolean allowEmpty) {
@@ -101,7 +101,7 @@ public class VIterables {
 	}
 
 	public static <T> Iterable<T> reverse(Iterable<T> iterator) {
-		List<T> backingList = VLists.list(iterator);
+		List<T> backingList = _Lists.list(iterator);
 		Collections.reverse(backingList);
 		return backingList;
 	}

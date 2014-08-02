@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.context.ApplicationContext;
-import org.vault.base.collections.directory.Directories;
+import org.vault.base.collections.directory._Directory;
 import org.vault.base.collections.directory.Directory;
 import org.vault.base.enviornment.EnvironmentType;
 import org.vault.base.module.domain.Module;
@@ -42,7 +42,7 @@ public class Configurations {
 	}
 
 	private static List<ResourceInputStream> resolveResources(List<ConfigurationLocation> configurationLocations, ApplicationContext context) {
-		Directory<String, ResourceInputStream> directory = Directories.newDirectory();
+		Directory<String, ResourceInputStream> directory = _Directory.newDirectory();
 		for (ConfigurationLocation configurationLocation : configurationLocations) {
 			Directory<String, ResourceInputStream> subDirectory = configurationLocation.resolveResources(context);
 			directory.putAll(subDirectory);

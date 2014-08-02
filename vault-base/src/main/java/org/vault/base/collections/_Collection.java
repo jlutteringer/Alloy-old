@@ -2,7 +2,7 @@ package org.vault.base.collections;
 
 import java.util.Collection;
 
-public class VCollections {
+public class _Collection {
 	public static <T> Collection<T> listenableCollection(Collection<T> target, CollectionListener<T> listener) {
 		ListenableCollection<T> listenableCollection = new ListenableCollection<>();
 		listenableCollection.setCollection(target);

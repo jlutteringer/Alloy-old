@@ -7,9 +7,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vault.base.ant.Ant;
-import org.vault.base.collections.iterable.VIterables;
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.ant._Ant;
+import org.vault.base.collections.iterable._Iterable;
+import org.vault.base.collections.lists._Lists;
 import org.vault.base.configuration.AbstractConfigurationResolver;
 import org.vault.base.delegator.AbstractDelegator;
 import org.vault.base.delegator.ClassTypeDelegate;
@@ -32,7 +32,7 @@ public class BundleConfigurationResolver extends AbstractConfigurationResolver<B
 
 	@Override
 	protected List<Bundle> resolveItems(List<BundleConfiguration> configurations) {
-		List<Bundle> bundles = VLists.list();
+		List<Bundle> bundles = _Lists.list();
 		configurations.forEach((configuration) -> {
 			Bundle bundle = new Bundle(configuration.getName());
 			configuration.getComponents().forEach((component) -> {
@@ -78,7 +78,7 @@ public class BundleConfigurationResolver extends AbstractConfigurationResolver<B
 			Iterable<String> concreteResourcePaths = resourceManager.getConcreteVisibleResourcePaths("resources");
 			logger.debug("For concrete resource paths: " + concreteResourcePaths);
 
-			List<String> matchingPaths = VLists.list(VIterables.filter(concreteResourcePaths, Ant.pathMatcher(configuration.getPattern())));
+			List<String> matchingPaths = _Lists.list(_Iterable.filter(concreteResourcePaths, _Ant.pathMatcher(configuration.getPattern())));
 			logger.debug("Found matching paths: " + matchingPaths);
 			return matchingPaths;
 		}

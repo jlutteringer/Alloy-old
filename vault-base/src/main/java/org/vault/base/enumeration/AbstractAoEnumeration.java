@@ -3,11 +3,11 @@ package org.vault.base.enumeration;
 import org.vault.base.utilities.VOptional;
 import org.vault.base.utilities.object.VObjects;
 
-public abstract class AbstractVEnumeration implements VEnumeration {
+public abstract class AbstractAoEnumeration implements AoEnumeration {
 	private String type;
 	private String friendlyType;
 
-	public AbstractVEnumeration() {
+	public AbstractAoEnumeration() {
 
 	}
 
@@ -41,7 +41,7 @@ public abstract class AbstractVEnumeration implements VEnumeration {
 			return equals.get();
 		}
 
-		AbstractVEnumeration other = (AbstractVEnumeration) obj;
+		AbstractAoEnumeration other = (AbstractAoEnumeration) obj;
 		if (!this.getType().equals(other.getType())) {
 			return false;
 		}

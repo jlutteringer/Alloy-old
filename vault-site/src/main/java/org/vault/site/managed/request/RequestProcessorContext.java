@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.vault.base.collections.lists.MutableLists;
-import org.vault.base.collections.map.VMaps;
+import org.vault.base.collections.map._Map;
 
 import com.google.common.collect.Multimap;
 
 @Service
 public class RequestProcessorContext {
-	private Multimap<RequestLifecycle, RequestProcessor> processorMap = VMaps.newMultiMap();
+	private Multimap<RequestLifecycle, RequestProcessor> processorMap = _Map.newMultiMap();
 
 	@Autowired(required = false)
 	private void setRequestProcessors(List<RequestProcessor> requestProcessors) {

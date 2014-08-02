@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.iterable._Iterable;
 import org.vault.base.domain.order.Orderable;
 import org.vault.base.utilities.matcher.Selectors;
 
@@ -21,7 +21,7 @@ public abstract class AbstractDelegator<T extends Delegate<N>, N> implements Del
 
 	@Override
 	public T getDelegate(N delegatee) {
-		T delegate = VIterables.first(
+		T delegate = _Iterable.first(
 				Selectors.reverseSelector(delegatee).getMatches(this.getDelegates()));
 
 		if (delegate == null) {

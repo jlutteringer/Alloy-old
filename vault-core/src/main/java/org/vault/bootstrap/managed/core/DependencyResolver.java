@@ -11,8 +11,8 @@ import java.util.Set;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vault.base.collections.VCollections;
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections._Collection;
+import org.vault.base.collections.iterable._Iterable;
 import org.vault.base.delegator.AbstractDelegator;
 import org.vault.base.delegator.ClassTypeDelegate;
 import org.vault.base.exception.DependencyResolutionException;
@@ -39,7 +39,7 @@ public class DependencyResolver extends VaultBean {
 		LinkedList<Dependency> dependenciesToResolve = Lists.newLinkedList(dependencies);
 		DependencyResolverState state = new DependencyResolverState();
 
-		Condition hasChanged = VCollections.monitor(dependenciesToResolve).hasChanged();
+		Condition hasChanged = _Collection.monitor(dependenciesToResolve).hasChanged();
 		while (!dependenciesToResolve.isEmpty() && hasChanged.test()) {
 			Dependency dependency = dependenciesToResolve.pop();
 			DependencyResolution resolution = this.resolveDependency(state, dependency);
@@ -261,7 +261,7 @@ public class DependencyResolver extends VaultBean {
 		}
 
 		public Iterable<Module> getAll(Iterable<Dependency> dependencies) {
-			return VIterables.transform(VIterables.filter(dependencies, (dependency) -> {
+			return _Iterable.transform(_Iterable.filter(dependencies, (dependency) -> {
 				if (this.containsDependency(dependency)) {
 					return true;
 				} else {

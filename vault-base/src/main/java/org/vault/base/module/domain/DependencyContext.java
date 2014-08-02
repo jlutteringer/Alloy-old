@@ -2,11 +2,11 @@ package org.vault.base.module.domain;
 
 import java.util.List;
 
-import org.vault.base.collections.CollectionMonad;
+import org.vault.base.collections.CollectionBuilder;
 
 import com.google.common.collect.Lists;
 
-public class DependencyContext extends CollectionMonad<List<Dependency>, Dependency> {
+public class DependencyContext extends CollectionBuilder<List<Dependency>, Dependency> {
 	public DependencyContext() {
 		super(Lists.newArrayList());
 	}

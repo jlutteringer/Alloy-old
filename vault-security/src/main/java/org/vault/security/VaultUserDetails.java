@@ -4,7 +4,7 @@ import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.collections.lists._Lists;
 import org.vault.user.domain.User;
 
 public class VaultUserDetails implements UserDetails {
@@ -17,7 +17,7 @@ public class VaultUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return VLists.transform(user.getPermissions(), SecurityUtils::createAuthority);
+		return _Lists.transform(user.getPermissions(), SecurityUtils::createAuthority);
 	}
 
 	@Override

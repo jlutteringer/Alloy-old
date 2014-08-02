@@ -2,8 +2,8 @@ package org.vault.base.collections.directory;
 
 import java.util.List;
 
-import org.vault.base.collections.iterable.VIterables;
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.collections.iterable._Iterable;
+import org.vault.base.collections.lists._Lists;
 import org.vault.base.utilities.function.VFunctions;
 
 import com.google.common.collect.Iterables;
@@ -22,46 +22,46 @@ public class ConcreteDirectory<T, N> implements Directory<T, N> {
 
 	@Override
 	public boolean containsValue(N value) {
-		return Iterables.contains(Directories.unwrapValues(indexes), value);
+		return Iterables.contains(_Directory.unwrapValues(indexes), value);
 	}
 
 	@Override
 	public List<N> get(T key) {
 		Iterable<DirectoryIndex<T, N>> matchingValues =
-				Directories.<T, N> getDirectoryIndexKeyMatcher(key).getMatches(indexes);
+				_Directory.<T, N> getDirectoryIndexKeyMatcher(key).getMatches(indexes);
 
-		return VLists.list(Directories.unwrapValues(matchingValues));
+		return _Lists.list(_Directory.unwrapValues(matchingValues));
 	}
 
 	@Override
 	public List<N> get() {
-		return VLists.list(Directories.unwrapValues(indexes));
+		return _Lists.list(_Directory.unwrapValues(indexes));
 	}
 
 	@Override
 	public List<DirectoryEntry<T, N>> getEntries(T key) {
 		Iterable<DirectoryIndex<T, N>> matchingValues =
-				Directories.<T, N> getDirectoryIndexKeyMatcher(key).getMatches(indexes);
+				_Directory.<T, N> getDirectoryIndexKeyMatcher(key).getMatches(indexes);
 
-		return VLists.list(Directories.unwrapEntries(matchingValues));
+		return _Lists.list(_Directory.unwrapEntries(matchingValues));
 	}
 
 	@Override
 	public List<DirectoryEntry<T, N>> getEntries() {
-		return VLists.list(Directories.unwrapEntries(indexes));
+		return _Lists.list(_Directory.unwrapEntries(indexes));
 	}
 
 	@Override
 	public List<DirectoryIndex<T, N>> getIndexes(T key) {
 		Iterable<DirectoryIndex<T, N>> matchingValues =
-				Directories.<T, N> getDirectoryIndexKeyMatcher(key).getMatches(indexes);
+				_Directory.<T, N> getDirectoryIndexKeyMatcher(key).getMatches(indexes);
 
-		return VLists.list(matchingValues);
+		return _Lists.list(matchingValues);
 	}
 
 	@Override
 	public List<DirectoryIndex<T, N>> getIndexes() {
-		return VLists.list(indexes);
+		return _Lists.list(indexes);
 	}
 
 	@Override
@@ -73,11 +73,11 @@ public class ConcreteDirectory<T, N> implements Directory<T, N> {
 	public DirectoryEntry<T, N> put(T key, N value, boolean createNew) {
 		DirectoryIndex<T, N> index = null;
 		if (!createNew) {
-			index = VIterables.first(Directories.<T, N> getDirectoryIndexKeyMatcher(key).getMatches(indexes));
+			index = _Iterable.first(_Directory.<T, N> getDirectoryIndexKeyMatcher(key).getMatches(indexes));
 		}
 
 		if (index == null) {
-			index = Directories.createIndex(key);
+			index = _Directory.createIndex(key);
 			indexes.add(index);
 		}
 
@@ -151,7 +151,7 @@ public class ConcreteDirectory<T, N> implements Directory<T, N> {
 
 		@Override
 		public DirectoryEntry<T, N> add(N value) {
-			DirectoryEntry<T, N> entry = Directories.createEntry(value, this);
+			DirectoryEntry<T, N> entry = _Directory.createEntry(value, this);
 			entries.add(entry);
 			return entry;
 		}

@@ -3,7 +3,7 @@ package org.vault.base.utilities.function;
 import java.util.List;
 import java.util.function.Predicate;
 
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.iterable._Iterable;
 import org.vault.base.object.Identifiable;
 
 import com.google.common.collect.Lists;
@@ -49,7 +49,7 @@ public class VPredicates {
 	public static <T> Predicate<T> matchSeen(Equalitor<T> equality) {
 		List<T> seen = Lists.newArrayList();
 		return (element) -> {
-			if (VIterables.contains(seen, element, equality)) {
+			if (_Iterable.contains(seen, element, equality)) {
 				return false;
 			}
 			seen.add(element);

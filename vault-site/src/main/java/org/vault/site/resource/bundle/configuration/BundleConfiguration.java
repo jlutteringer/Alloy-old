@@ -2,11 +2,11 @@ package org.vault.site.resource.bundle.configuration;
 
 import java.util.List;
 
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.collections.lists._Lists;
 
 public class BundleConfiguration {
 	private String name;
-	private List<BundleConfigurationComponent> components = VLists.list();
+	private List<BundleConfigurationComponent> components = _Lists.list();
 
 	public String getName() {
 		return name;

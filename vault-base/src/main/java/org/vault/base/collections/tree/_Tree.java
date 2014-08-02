@@ -4,28 +4,28 @@ import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.iterable._Iterable;
 import org.vault.base.utilities.Value;
 import org.vault.base.utilities.tuple.Tuples;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
-public class Trees {
+public class _Tree {
 	public static <T> HashTree<T> newHashTree(T head) {
 		return new HashTree<T>(head);
 	}
 
 	public static <T> Collection<T> flatten(Tree<T> tree) {
 		List<T> flattened = Lists.newArrayList();
-		for (T element : Trees.iterateBreadthFirst(tree)) {
+		for (T element : _Tree.iterateBreadthFirst(tree)) {
 			flattened.add(element);
 		}
 		return flattened;
 	}
 
 	public static <T> Iterable<T> iterateBreadthFirst(final Tree<T> topLevelTree) {
-		return VIterables.createFromElementSupplier(
+		return _Iterable.createFromElementSupplier(
 				(context) -> {
 					Tree<T> tree = null;
 					for (Tree<T> elementToProcess : context.getFirst()) {

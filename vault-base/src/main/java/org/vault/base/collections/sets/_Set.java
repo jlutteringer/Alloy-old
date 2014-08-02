@@ -1,5 +1,5 @@
 package org.vault.base.collections.sets;
 
-public class VSets {
+public class _Set {
 
 }

@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 import org.vault.base.collections.directory.ConcreteDirectory.ConcreteDirectoryEntry;
 import org.vault.base.collections.directory.ConcreteDirectory.ConcreteDirectoryIndex;
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.iterable._Iterable;
 import org.vault.base.utilities.matcher.AbstractSelector;
 import org.vault.base.utilities.matcher.Selector;
 import org.vault.base.utilities.tuple.Tuple.Pair;
@@ -14,13 +14,13 @@ import org.vault.base.utilities.tuple.Tuple.Pair;
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
-public class Directories {
+public class _Directory {
 	static abstract class DirectoryIndexMatcher<T, N> extends AbstractSelector<DirectoryIndex<T, N>> {
 
 	}
 
 	public static <N, T> Iterable<N> unwrapValues(Iterable<DirectoryIndex<T, N>> indexes) {
-		return VIterables.transform(Directories.unwrapEntries(indexes), new Function<DirectoryEntry<T, N>, N>() {
+		return _Iterable.transform(_Directory.unwrapEntries(indexes), new Function<DirectoryEntry<T, N>, N>() {
 			@Override
 			public N apply(DirectoryEntry<T, N> first) {
 				return first.getValue();
@@ -29,7 +29,7 @@ public class Directories {
 	}
 
 	public static <T, N> Iterable<DirectoryEntry<T, N>> unwrapEntries(Iterable<DirectoryIndex<T, N>> indexes) {
-		return VIterables.multiplexingIterable(indexes, new Function<DirectoryIndex<T, N>, Iterator<DirectoryEntry<T, N>>>() {
+		return _Iterable.multiplexingIterable(indexes, new Function<DirectoryIndex<T, N>, Iterator<DirectoryEntry<T, N>>>() {
 			@Override
 			public Iterator<DirectoryEntry<T, N>> apply(DirectoryIndex<T, N> first) {
 				return first.getEntries().iterator();
@@ -68,7 +68,7 @@ public class Directories {
 	}
 
 	public static <T, N> Directory<T, N> newUnkeyedDirectory(List<N> values) {
-		Directory<T, N> directory = Directories.newDirectory();
+		Directory<T, N> directory = _Directory.newDirectory();
 		for (N value : values) {
 			directory.put(null, value);
 		}
@@ -77,11 +77,11 @@ public class Directories {
 
 	@SafeVarargs
 	public static <T, N> Directory<T, N> newUnkeyedDirectory(N... values) {
-		return Directories.newUnkeyedDirectory(Lists.newArrayList(values));
+		return _Directory.newUnkeyedDirectory(Lists.newArrayList(values));
 	}
 
 	public static <T, N> Directory<T, N> newKeyedDirectory(List<Pair<T, N>> pairs) {
-		Directory<T, N> directory = Directories.newDirectory();
+		Directory<T, N> directory = _Directory.newDirectory();
 		for (Pair<T, N> pair : pairs) {
 			directory.put(pair.getFirst(), pair.getSecond());
 		}

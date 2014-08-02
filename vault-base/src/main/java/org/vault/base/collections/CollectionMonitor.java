@@ -2,7 +2,7 @@ package org.vault.base.collections;
 
 import java.util.Collection;
 
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.iterable._Iterable;
 import org.vault.base.utilities.function.Condition;
 
 import com.google.common.collect.Lists;
@@ -21,7 +21,7 @@ public class CollectionMonitor<T> {
 			@Override
 			public boolean test() {
 				boolean hasChanged = true;
-				if (VIterables.compareElements(previousCollection, collectionToMonitor, false)) {
+				if (_Iterable.compareElements(previousCollection, collectionToMonitor, false)) {
 					hasChanged = false;
 				}
 

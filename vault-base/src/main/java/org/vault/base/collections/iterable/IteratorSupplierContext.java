@@ -16,7 +16,7 @@ public class IteratorSupplierContext<T, N> implements SupplierContext<IteratorSu
 	private Iterable<T> iterable;
 
 	private Predicate<? super N> filter = VPredicates.matchAll();
-	private Function<T, Iterator<N>> transformer = VIterables.singletonIteratorTransformer(VFunctions.cast());
+	private Function<T, Iterator<N>> transformer = _Iterable.singletonIteratorTransformer(VFunctions.cast());
 
 	public IteratorSupplierContext(Iterable<T> iterable) {
 		this.iterable = iterable;

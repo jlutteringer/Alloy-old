@@ -29,7 +29,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.iterable._Iterable;
 import org.vault.base.utilities.matcher.Selector;
 import org.vault.base.utilities.tuple.Tuple.Pair;
 import org.vault.base.utilities.tuple.Tuples;
@@ -109,7 +109,7 @@ public class MergePoint {
 
 		for (Node sourceNode : sourceNodes) {
 			Selector<Node> selector = this.getSelector(sourceNode, handler.getMatcherType());
-			Node matchingNode = VIterables.getSingleResult(selector.getMatches(patchNodes), true);
+			Node matchingNode = _Iterable.getSingleResult(selector.getMatches(patchNodes), true);
 			if (matchingNode != null) {
 				log.debug("Match found: " + matchingNode + " for source node " + sourceNode);
 				matchedNodes.add(Tuples.of(sourceNode, matchingNode));

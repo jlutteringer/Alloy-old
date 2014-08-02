@@ -9,8 +9,8 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vault.base.collections.iterable.VIterables;
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.collections.iterable._Iterable;
+import org.vault.base.collections.lists._Lists;
 import org.vault.base.exception.DependencyResolutionException;
 import org.vault.base.module.domain.Dependencies;
 import org.vault.base.module.domain.Dependency;
@@ -60,7 +60,7 @@ public class CoreModuleContext extends VaultBean implements ModuleContext {
 			// The default application module depends on all modules with a type of module
 			applicationModule.getDependencies().addAll(
 					Dependencies.of(
-							VIterables.filter(modules, (module) -> module.getType().equals(ModuleType.MODULE))));
+							_Iterable.filter(modules, (module) -> module.getType().equals(ModuleType.MODULE))));
 		}
 	}
 
@@ -76,7 +76,7 @@ public class CoreModuleContext extends VaultBean implements ModuleContext {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Collections.unmodifiableList(VLists.list(modules, coreModule, applicationModule));
+		return Collections.unmodifiableList(_Lists.list(modules, coreModule, applicationModule));
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class CoreModuleContext extends VaultBean implements ModuleContext {
 
 	@Override
 	public Collection<Dependency> getDependencies(Module module) {
-		List<Dependency> dependencies = VLists.list(module.getDependencies());
+		List<Dependency> dependencies = _Lists.list(module.getDependencies());
 		// Everything depends on core
 		dependencies.add(new ResolvedDependency(this.getCoreModule()));
 		return dependencies;

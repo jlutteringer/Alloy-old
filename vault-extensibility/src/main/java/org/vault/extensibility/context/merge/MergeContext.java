@@ -48,7 +48,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.iterable._Iterable;
 import org.vault.base.resource.ResourceInputStream;
 import org.vault.base.resource.VResources;
 import org.vault.base.utilities.configuration.ConfigurationLocation;
@@ -310,7 +310,7 @@ public class MergeContext implements PatchableConfiguration, ApplicationContextA
 			if (temp.getName().contains(".")) {
 				contextualNameMatcher.setContext(temp.getName().substring(0, temp.getName().lastIndexOf(".")));
 
-				MergeHandler parent = VIterables.getSingleResult(contextualNameMatcher.getMatches(tempHandlers));
+				MergeHandler parent = _Iterable.getSingleResult(contextualNameMatcher.getMatches(tempHandlers));
 				parent.getChildren().add(temp);
 			} else {
 				finalHandlers.add(temp);

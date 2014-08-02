@@ -18,7 +18,7 @@ import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.collections.lists._Lists;
 import org.vault.base.utilities.exception.Exceptions;
 import org.vault.base.utilities.function.VPredicates;
 import org.vault.base.utilities.matcher.Selectors;
@@ -256,7 +256,7 @@ public class VReflection {
 			if (criteria.test(declaredMethod)) {
 				logger.trace(
 						"Found method [" + methodName + "] for class [" + clazz.getSimpleName() + "] with args [" +
-								VLists.transform(argumentTypes, VClasses.stringify()) + "]");
+								_Lists.transform(argumentTypes, VClasses.stringify()) + "]");
 
 				return Optional.of(declaredMethod);
 			}
@@ -264,7 +264,7 @@ public class VReflection {
 
 		logger.trace(
 				"Couldn't find method [" + methodName + "] for class [" + clazz.getSimpleName() + "] with args [" +
-						VLists.transform(argumentTypes, VClasses.stringify()) + "]");
+						_Lists.transform(argumentTypes, VClasses.stringify()) + "]");
 
 		return Optional.empty();
 	}

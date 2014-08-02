@@ -10,8 +10,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.vault.base.collections.iterable.VIterables;
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.collections.iterable._Iterable;
+import org.vault.base.collections.lists._Lists;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.service.ModuleLoader;
 import org.vault.base.resource.VResources;
@@ -61,16 +61,16 @@ public class VaultResourceManager {
 	}
 
 	public Resource getResource(String resourceName) {
-		return VIterables.first(Iterables.filter(this.getResources(resourceName), VResources::isValidResource));
+		return _Iterable.first(Iterables.filter(this.getResources(resourceName), VResources::isValidResource));
 	}
 
 	public List<ClassPathResource> getConcreteResources(String baseLocation) {
-		Iterable<List<Resource>> resources = VIterables.transform(getResources(baseLocation), VResources::getConcreteResources);
-		return VLists.list(VIterables.transform(VIterables.unique(VIterables.flatten(resources), (first, second) -> visiblyEqual(baseLocation, first, second)), VFunctions.cast()));
+		Iterable<List<Resource>> resources = _Iterable.transform(getResources(baseLocation), VResources::getConcreteResources);
+		return _Lists.list(_Iterable.transform(_Iterable.unique(_Iterable.flatten(resources), (first, second) -> visiblyEqual(baseLocation, first, second)), VFunctions.cast()));
 	}
 
 	public List<String> getConcreteVisibleResourcePaths(String baseLocation) {
-		return VLists.transform(this.getConcreteResources(baseLocation), (resource) -> convertToVisiblePath(baseLocation, resource.getPath()));
+		return _Lists.transform(this.getConcreteResources(baseLocation), (resource) -> convertToVisiblePath(baseLocation, resource.getPath()));
 	}
 
 	public boolean visiblyEqual(String baseLocation, Resource path1, Resource path2) {

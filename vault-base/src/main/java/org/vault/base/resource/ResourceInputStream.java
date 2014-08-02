@@ -30,7 +30,7 @@ import java.util.function.Function;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.iterable._Iterable;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.Lists;
@@ -125,7 +125,7 @@ public class ResourceInputStream extends InputStream {
 	}
 
 	public static Resource toResource(ResourceInputStream stream) {
-		return VIterables.getSingleResult(toResources(Collections.singletonList(stream)), true);
+		return _Iterable.getSingleResult(toResources(Collections.singletonList(stream)), true);
 	}
 
 	public static List<Resource> toResources(List<ResourceInputStream> streams) {

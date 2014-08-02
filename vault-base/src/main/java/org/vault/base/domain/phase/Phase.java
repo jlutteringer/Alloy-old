@@ -1,10 +1,10 @@
 package org.vault.base.domain.phase;
 
 import org.vault.base.domain.order.Orderable;
-import org.vault.base.enumeration.AbstractVEnumeration;
+import org.vault.base.enumeration.AbstractAoEnumeration;
 import org.vault.base.enumeration.VEnumerations;
 
-public class Phase extends AbstractVEnumeration implements Orderable {
+public class Phase extends AbstractAoEnumeration implements Orderable {
 	public static final Phase PRE_INITIALIZATION = VEnumerations.create("PRE_INITIALIZATION", "Pre Initialization", Phase.class);
 	public static final Phase INITIALIZATION = VEnumerations.create("INITIALIZATION", "Initialization", Phase.class);
 	public static final Phase POST_INITIALIZATION = VEnumerations.create("POST_INITIALIZATION", "Post Initialization", Phase.class);

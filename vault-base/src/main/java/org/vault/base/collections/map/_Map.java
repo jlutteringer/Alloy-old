@@ -10,7 +10,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multimaps;
 
-public class VMaps {
+public class _Map {
 	public static <T, N> HashMap<T, N> defaultHashMap(Supplier<N> supplier) {
 		return new DefaultHashMap<>(supplier);
 	}

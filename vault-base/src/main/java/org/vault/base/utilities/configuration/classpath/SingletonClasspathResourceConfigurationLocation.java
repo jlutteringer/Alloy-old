@@ -1,6 +1,6 @@
 package org.vault.base.utilities.configuration.classpath;
 
-import org.vault.base.collections.directory.Directories;
+import org.vault.base.collections.directory._Directory;
 import org.vault.base.collections.directory.Directory;
 
 public class SingletonClasspathResourceConfigurationLocation extends AbstractClasspathResourceConfigurationLocation {
@@ -12,6 +12,6 @@ public class SingletonClasspathResourceConfigurationLocation extends AbstractCla
 
 	@Override
 	public Directory<String, String> getResourceLocationDirectory() {
-		return Directories.newUnkeyedDirectory(resourceLocation);
+		return _Directory.newUnkeyedDirectory(resourceLocation);
 	}
 }

@@ -6,7 +6,7 @@ import org.vault.base.utilities.exception.Exceptions;
 import org.vault.base.utilities.function.ExceptionConsumer;
 import org.vault.base.utilities.function.ExceptionFunction;
 
-public class VCloseables {
+public class _Closeable {
 	public static <T extends Closeable> void with(T closeable, ExceptionConsumer<T> consumer) {
 		Exceptions.propagate(() -> {
 			try {

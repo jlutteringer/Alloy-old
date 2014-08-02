@@ -4,13 +4,13 @@ import java.lang.reflect.Modifier;
 import java.util.Collection;
 import java.util.function.Predicate;
 
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.collections.lists._Lists;
 
 public enum ClassType {
 	CONCRETE, ABSTRACT, INTERFACE;
 
 	public static Predicate<Class<?>> classTypeMatcher(ClassType... types) {
-		return classTypeMatcher(VLists.list(types));
+		return classTypeMatcher(_Lists.list(types));
 	}
 
 	public static Predicate<Class<?>> classTypeMatcher(Collection<ClassType> types) {

@@ -9,7 +9,7 @@ import org.vault.base.collections.MutableCollections;
 
 import com.google.common.collect.Lists;
 
-public class VLists {
+public class _Lists {
 	@SafeVarargs
 	public static <T> List<T> list(T... items) {
 		return Lists.newArrayList(items);

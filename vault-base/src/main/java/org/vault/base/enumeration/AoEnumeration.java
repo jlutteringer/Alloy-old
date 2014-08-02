@@ -1,6 +1,6 @@
 package org.vault.base.enumeration;
 
-public interface VEnumeration {
+public interface AoEnumeration {
 	public String getType();
 
 	public String getFriendlyType();

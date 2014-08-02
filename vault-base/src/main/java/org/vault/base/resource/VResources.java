@@ -15,10 +15,10 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.security.util.InMemoryResource;
-import org.vault.base.classpath.VClassPath;
-import org.vault.base.closeable.VCloseables;
-import org.vault.base.collections.iterable.VIterables;
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.classpath._ClassPath;
+import org.vault.base.closeable._Closeable;
+import org.vault.base.collections.iterable._Iterable;
+import org.vault.base.collections.lists._Lists;
 import org.vault.base.file.VFiles;
 import org.vault.base.spring.applicationContext.Spring;
 import org.vault.base.utilities.exception.Exceptions;
@@ -90,7 +90,7 @@ public class VResources {
 	}
 
 	public static void getInputStream(Resource resource, ExceptionConsumer<InputStream> consumer) {
-		VCloseables.with(getInputStream(resource), consumer);
+		_Closeable.with(getInputStream(resource), consumer);
 	}
 
 	public static boolean isValidResource(Resource resource) {
@@ -101,7 +101,7 @@ public class VResources {
 	}
 
 	public static Resource getResource(String resourceLocation, ApplicationContext context) {
-		return VIterables.getSingleResult(getResources(resourceLocation, context));
+		return _Iterable.getSingleResult(getResources(resourceLocation, context));
 	}
 
 	public static List<Resource> getResources(String resourceLocation, ApplicationContext context) {
@@ -125,7 +125,7 @@ public class VResources {
 			}
 		}
 
-		List<Resource> concreteFileResources = VLists.transform(
+		List<Resource> concreteFileResources = _Lists.transform(
 				getResourcePaths(VFiles.getPaths(files)), (path) -> getResource(path, Spring.getCurrentApplicationContext()));
 
 		logger.debug("Retrieved concrete file resources " + concreteFileResources);
@@ -133,8 +133,8 @@ public class VResources {
 	}
 
 	public static Iterable<String> getResourcePaths(Iterable<String> paths) {
-		List<String> classpathEntries = VClassPath.getClasspathEntries();
-		return VIterables.transform(paths, (path) -> {
+		List<String> classpathEntries = _ClassPath.getClasspathEntries();
+		return _Iterable.transform(paths, (path) -> {
 			for (String classpathEntry : classpathEntries) {
 				if (path.startsWith(classpathEntry)) {
 					return path.replace(classpathEntry, "");

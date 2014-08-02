@@ -1,10 +1,10 @@
 package org.vault.site.managed.request;
 
 import org.vault.base.domain.order.Orderable;
-import org.vault.base.enumeration.AbstractVEnumeration;
+import org.vault.base.enumeration.AbstractAoEnumeration;
 import org.vault.base.enumeration.VEnumerations;
 
-public class RequestLifecycle extends AbstractVEnumeration implements Orderable {
+public class RequestLifecycle extends AbstractAoEnumeration implements Orderable {
 	public static final RequestLifecycle ALL = VEnumerations.create("ALL", "Shared", RequestLifecycle.class);
 
 	public static final RequestLifecycle PRE_SECURITY = VEnumerations.create("PRE_SECURITY", "Pre Security Filters", RequestLifecycle.class);

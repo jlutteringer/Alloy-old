@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
-import org.vault.base.closeable.VCloseables;
+import org.vault.base.closeable._Closeable;
 import org.vault.base.request.Path;
 import org.vault.base.resource.VResources;
 import org.vault.base.spring.beans.VaultBean;
@@ -47,7 +47,7 @@ public class ResourceBundlingServiceImpl extends VaultBean implements ResourceBu
 	@Override
 	public Resource resolveBundleForName(String name) {
 		return Exceptions.propagate(() -> {
-			byte[] result = VCloseables.withResult(new ByteArrayOutputStream(), (baos) -> {
+			byte[] result = _Closeable.withResult(new ByteArrayOutputStream(), (baos) -> {
 				logger.debug("Creating bundle for resources " + bundles.get(name));
 				for (String resourceLocation : bundles.get(name)) {
 					Resource resource = resourceResolver.getResource(Path.of(resourceLocation));

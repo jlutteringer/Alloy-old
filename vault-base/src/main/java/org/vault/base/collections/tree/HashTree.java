@@ -41,7 +41,7 @@ public class HashTree<T> extends AbstractTree<T> {
 
 	@Override
 	public Tree<T> addChild(T child) {
-		HashTree<T> childTree = Trees.newHashTree(child);
+		HashTree<T> childTree = _Tree.newHashTree(child);
 		return this.addChild(childTree);
 	}
 

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.TypedQuery;
 
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.collections.lists._Lists;
 
 import com.google.common.collect.Iterables;
 
@@ -22,7 +22,7 @@ public class QueryWrapper<T> {
 	}
 
 	public List<T> getResults() {
-		return VLists.list(query.getResultList());
+		return _Lists.list(query.getResultList());
 	}
 
 	public Optional<T> getSingleResult() {

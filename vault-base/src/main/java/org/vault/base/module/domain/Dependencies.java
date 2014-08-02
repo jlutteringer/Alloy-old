@@ -2,7 +2,7 @@ package org.vault.base.module.domain;
 
 import java.util.List;
 
-import org.vault.base.collections.iterable.VIterables;
+import org.vault.base.collections.iterable._Iterable;
 import org.vault.base.equality.MatchContext;
 
 import com.google.common.collect.Lists;
@@ -58,7 +58,7 @@ public class Dependencies {
 	}
 
 	public static List<Dependency> of(Iterable<Module> modules) {
-		return Lists.newArrayList(VIterables.transform(modules, ResolvedDependency::new));
+		return Lists.newArrayList(_Iterable.transform(modules, ResolvedDependency::new));
 	}
 
 	public static <T extends DependencyDecorator> T decorate(Dependency dependency, T decorator) {

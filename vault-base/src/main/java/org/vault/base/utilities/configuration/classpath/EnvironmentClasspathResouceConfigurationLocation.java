@@ -2,7 +2,7 @@ package org.vault.base.utilities.configuration.classpath;
 
 import java.util.List;
 
-import org.vault.base.collections.directory.Directories;
+import org.vault.base.collections.directory._Directory;
 import org.vault.base.collections.directory.Directory;
 import org.vault.base.enviornment.EnvironmentType;
 
@@ -17,7 +17,7 @@ public class EnvironmentClasspathResouceConfigurationLocation extends SingletonC
 
 	@Override
 	public Directory<String, String> getResourceLocationDirectory() {
-		Directory<String, String> directory = Directories.newDirectory();
+		Directory<String, String> directory = _Directory.newDirectory();
 		for (EnvironmentType type : this.getEnvironmentTypes()) {
 			directory.put(type.getType().toLowerCase(), String.format(resourceLocation, type.getType().toLowerCase()));
 		}

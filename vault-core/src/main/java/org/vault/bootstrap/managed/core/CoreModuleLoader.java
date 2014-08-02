@@ -12,9 +12,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vault.base.collections.lists.VLists;
+import org.vault.base.collections.lists._Lists;
 import org.vault.base.collections.tree.Tree;
-import org.vault.base.collections.tree.Trees;
+import org.vault.base.collections.tree._Tree;
 import org.vault.base.module.domain.Dependency;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleHierarchy;
@@ -38,7 +38,7 @@ public class CoreModuleLoader implements ModuleLoader {
 
 	@Override
 	public List<Module> getModuleLoadOrder() {
-		return Lists.newArrayList(Trees.iterateBreadthFirst(heirarchy.getModules()));
+		return Lists.newArrayList(_Tree.iterateBreadthFirst(heirarchy.getModules()));
 	}
 
 	@PostConstruct
@@ -47,7 +47,7 @@ public class CoreModuleLoader implements ModuleLoader {
 		heirarchy.setModules(this.buildModuleTree());
 
 		logger.debug("Built module hierarchy:");
-		Trees.iterateBreadthFirst(heirarchy.getModules()).forEach((module) -> logger.debug(module));
+		_Tree.iterateBreadthFirst(heirarchy.getModules()).forEach((module) -> logger.debug(module));
 	}
 
 	private Tree<Module> buildModuleTree() {
@@ -64,15 +64,15 @@ public class CoreModuleLoader implements ModuleLoader {
 
 		modulesToAdd.add(moduleContext.getApplicationModule());
 
-		Tree<Module> moduleTree = Trees.newHashTree(moduleContext.getCoreModule());
+		Tree<Module> moduleTree = _Tree.newHashTree(moduleContext.getCoreModule());
 
 		while (!modulesToAdd.isEmpty()) {
 			Module module = modulesToAdd.pop();
 			if (!moduleTree.contains(module)) {
 				logger.debug("Considering module [" + module + "] to add to hierarchy");
-				Collection<Module> dependencies = VLists.list(state.getAll(moduleContext.getDependencies(module)));
+				Collection<Module> dependencies = _Lists.list(state.getAll(moduleContext.getDependencies(module)));
 				if (moduleTree.containsAll(dependencies)) {
-					Tree<Module> childTree = Trees.newHashTree(module);
+					Tree<Module> childTree = _Tree.newHashTree(module);
 					for (Module dependency : dependencies) {
 						moduleTree.findSubTree(dependency).addChild(childTree);
 					}

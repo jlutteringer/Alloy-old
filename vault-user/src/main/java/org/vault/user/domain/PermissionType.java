@@ -1,9 +1,9 @@
 package org.vault.user.domain;
 
-import org.vault.base.enumeration.AbstractVEnumeration;
+import org.vault.base.enumeration.AbstractAoEnumeration;
 import org.vault.base.enumeration.VEnumerations;
 
-public class PermissionType extends AbstractVEnumeration {
+public class PermissionType extends AbstractAoEnumeration {
 	public static final PermissionType READ = VEnumerations.create("READ", "Read", PermissionType.class);
 	public static final PermissionType CREATE = VEnumerations.create("CREATE", "Create", PermissionType.class);
 	public static final PermissionType UPDATE = VEnumerations.create("UPDATE", "Update", PermissionType.class);
