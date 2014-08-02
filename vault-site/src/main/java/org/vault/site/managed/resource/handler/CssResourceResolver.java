@@ -2,11 +2,11 @@ package org.vault.site.managed.resource.handler;
 
 import java.util.List;
 
+import org.alloy.metal.domain.Path;
+import org.alloy.metal.resource._Resource;
+import org.alloy.metal.utilities._Url;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.vault.base.request.Path;
-import org.vault.base.resource.VResources;
-import org.vault.base.url.VUrls;
 import org.vault.site.resource.handler.AbstractVaultResourceResolver;
 
 @Component
@@ -21,14 +21,14 @@ public class CssResourceResolver extends AbstractVaultResourceResolver {
 
 	@Override
 	public Resource getFileContents(Path path, List<Resource> locations) {
-		String cssPath = VUrls.unVersion(path.getPath(), this.getVersion());
+		String cssPath = _Url.unVersion(path.getPath(), this.getVersion());
 		String lessPath = cssPath.replace(".css", ".less");
 
 		for (Resource location : locations) {
-			Resource relativeResource = VResources.findExistingRelative(location, "/resources" + lessPath);
+			Resource relativeResource = _Resource.findExistingRelative(location, "/resources" + lessPath);
 
 			if (relativeResource == null) {
-				relativeResource = VResources.findExistingRelative(location, "/resources" + cssPath);
+				relativeResource = _Resource.findExistingRelative(location, "/resources" + cssPath);
 			}
 
 			if (relativeResource != null) {

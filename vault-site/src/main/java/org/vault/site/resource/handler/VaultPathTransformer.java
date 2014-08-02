@@ -1,7 +1,7 @@
 package org.vault.site.resource.handler;
 
-import org.vault.base.domain.order.Orderable;
-import org.vault.base.request.Path;
+import org.alloy.metal.domain.Path;
+import org.alloy.metal.order.Orderable;
 
 public interface VaultPathTransformer extends Orderable {
 	public boolean canHandle(Path path);

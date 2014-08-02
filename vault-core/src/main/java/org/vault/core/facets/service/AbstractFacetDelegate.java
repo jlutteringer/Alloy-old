@@ -2,10 +2,10 @@ package org.vault.core.facets.service;
 
 import java.util.function.Predicate;
 
-import org.vault.base.delegator.AbstractDelegate;
+import org.alloy.metal.reflection._Reflection;
+import org.alloy.metal.spring.delegator.AbstractDelegate;
 import org.vault.base.facets.Facet;
 import org.vault.base.facets.FacetedObject;
-import org.vault.base.reflection.VReflection;
 
 public abstract class AbstractFacetDelegate<T extends N, N extends Facet> extends AbstractDelegate<Class<? extends Facet>> implements FacetDelegate<T> {
 	@Override
@@ -15,7 +15,7 @@ public abstract class AbstractFacetDelegate<T extends N, N extends Facet> extend
 
 	@SuppressWarnings("unchecked")
 	protected Class<T> getFacetType() {
-		return (Class<T>) VReflection.getTypeArguments(AbstractFacetDelegate.class, this.getClass()).get(0);
+		return (Class<T>) _Reflection.getTypeArguments(AbstractFacetDelegate.class, this.getClass()).get(0);
 	}
 
 	@SuppressWarnings("unchecked")

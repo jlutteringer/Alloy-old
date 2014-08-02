@@ -7,14 +7,14 @@ import java.util.Map.Entry;
 
 import javax.annotation.PostConstruct;
 
+import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.collections.tree.Tree;
+import org.alloy.metal.collections.tree._Tree;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vault.base.collections.lists._Lists;
-import org.vault.base.collections.tree.Tree;
-import org.vault.base.collections.tree._Tree;
 import org.vault.base.module.domain.Dependency;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleHierarchy;

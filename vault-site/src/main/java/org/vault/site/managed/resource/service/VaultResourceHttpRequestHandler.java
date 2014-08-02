@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.alloy.metal.domain.Path;
+import org.alloy.metal.order.Orderable;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,8 +25,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
-import org.vault.base.domain.order.Orderable;
-import org.vault.base.request.Path;
 import org.vault.site.resource.handler.VaultPathTransformer;
 
 import com.google.common.collect.Lists;

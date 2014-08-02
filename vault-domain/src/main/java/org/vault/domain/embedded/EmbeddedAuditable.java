@@ -7,7 +7,7 @@ import javax.persistence.Embeddable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.vault.base.object.AuditableContainer;
+import org.alloy.metal.object.AuditableContainer;
 
 @Embeddable
 public class EmbeddedAuditable implements AuditableContainer {

@@ -2,9 +2,9 @@ package org.vault.persistence.service;
 
 import java.util.List;
 
+import org.alloy.metal.object.Identifiable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import org.vault.base.object.Identifiable;
 import org.vault.persistence.dao.Dao;
 import org.vault.persistence.dao.DaoFacade;
 import org.vault.persistence.utilities.QueryQualifier;

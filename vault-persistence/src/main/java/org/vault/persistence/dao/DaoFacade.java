@@ -2,8 +2,8 @@ package org.vault.persistence.dao;
 
 import java.util.List;
 
-import org.vault.base.collections.iterable._Iterable;
-import org.vault.base.object.Identifiable;
+import org.alloy.metal.collections.iterable._Iterable;
+import org.alloy.metal.object.Identifiable;
 import org.vault.persistence.utilities.QueryQualifier;
 
 public interface DaoFacade<T extends Identifiable> {

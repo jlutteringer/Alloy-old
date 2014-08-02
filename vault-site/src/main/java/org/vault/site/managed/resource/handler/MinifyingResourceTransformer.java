@@ -1,10 +1,10 @@
 package org.vault.site.managed.resource.handler;
 
+import org.alloy.metal.domain.Path;
+import org.alloy.metal.resource._Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.vault.base.request.Path;
-import org.vault.base.resource.VResources;
 import org.vault.site.managed.resource.service.ResourceMinificationService;
 import org.vault.site.resource.handler.AbstractVaultResourceTransformer;
 
@@ -27,8 +27,8 @@ public class MinifyingResourceTransformer extends AbstractVaultResourceTransform
 
 	@Override
 	public Resource transform(Path path, Resource resource) {
-		byte[] bytes = resourceMinificationService.minify(path.getPath(), VResources.getBytes(resource));
-		return VResources.getResource(bytes);
+		byte[] bytes = resourceMinificationService.minify(path.getPath(), _Resource.getBytes(resource));
+		return _Resource.getResource(bytes);
 	}
 
 	@Override

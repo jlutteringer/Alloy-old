@@ -17,10 +17,10 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
+import org.alloy.metal.enumeration._ExtendableEnumeration;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.vault.base.enumeration.VEnumerations;
 import org.vault.domain.entity.BaseEntity;
 
 import com.google.common.collect.Maps;
@@ -101,7 +101,7 @@ public class UserImpl extends BaseEntity implements User {
 
 	@Override
 	public UserType getType() {
-		return VEnumerations.getInstance(type, UserType.class);
+		return _ExtendableEnumeration.getInstance(type, UserType.class);
 	}
 
 	@Override

@@ -1,16 +1,16 @@
 package org.vault.site.managed.request;
 
-import org.vault.base.domain.order.ObjectOrderable.BiObjectOrderable;
-import org.vault.base.domain.phase.Phase;
+import org.alloy.metal.order.Phase;
+import org.alloy.metal.order.ObjectOrderable.BiObjectOrderable;
 
 public interface RequestLifecycleOrdeable extends BiObjectOrderable<RequestLifecycle, Phase> {
 	@Override
-	public default RequestLifecycle getPhase() {
+	public default RequestLifecycle getOrderingObject() {
 		return getRequestLifecycle();
 	}
 
 	@Override
-	public default Phase getSecondaryPhase() {
+	public default Phase getSecondaryOrderingObject() {
 		return getLifecyclePhase();
 	}
 

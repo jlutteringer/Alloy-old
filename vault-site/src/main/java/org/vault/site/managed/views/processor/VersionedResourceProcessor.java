@@ -1,5 +1,6 @@
 package org.vault.site.managed.views.processor;
 
+import org.alloy.metal.utilities._Url;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +12,6 @@ import org.thymeleaf.processor.ProcessorResult;
 import org.thymeleaf.processor.element.AbstractElementProcessor;
 import org.thymeleaf.standard.expression.Expression;
 import org.thymeleaf.standard.expression.StandardExpressions;
-import org.vault.base.url.VUrls;
 
 @Component
 public class VersionedResourceProcessor extends AbstractElementProcessor implements VaultDialectProcessor {
@@ -35,7 +35,7 @@ public class VersionedResourceProcessor extends AbstractElementProcessor impleme
 				.parseExpression(arguments.getConfiguration(), arguments, path);
 
 		String processedPath = (String) expression.execute(arguments.getConfiguration(), arguments);
-		processedPath = VUrls.version(VUrls.normalize(processedPath), version);
+		processedPath = _Url.version(_Url.normalize(processedPath), version);
 
 		logger.trace("Processed element with url: [" + processedPath + "]");
 		if (type.toLowerCase().equals("css")) {

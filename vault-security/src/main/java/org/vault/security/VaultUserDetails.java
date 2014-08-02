@@ -2,9 +2,9 @@ package org.vault.security;
 
 import java.util.Collection;
 
+import org.alloy.metal.collections.lists._Lists;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.vault.base.collections.lists._Lists;
 import org.vault.user.domain.User;
 
 public class VaultUserDetails implements UserDetails {

@@ -27,9 +27,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.alloy.metal.resource.ResourceInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.vault.base.resource.ResourceInputStream;
 
 /**
 * This class serves as a basic iterator for a list of source files to be

@@ -1,11 +1,11 @@
 package org.vault.core.managed.file.domain;
 
-import org.vault.base.enumeration.AbstractAoEnumeration;
-import org.vault.base.enumeration.VEnumerations;
+import org.alloy.metal.enumeration.AbstractExtendableEnumeration;
+import org.alloy.metal.enumeration._ExtendableEnumeration;
 
-public class FileApplicationType extends AbstractAoEnumeration {
-	public static final FileApplicationType ALL = VEnumerations.create("ALL", "All", FileApplicationType.class);
-	public static final FileApplicationType IMAGE = VEnumerations.create("IMAGE", "Image", FileApplicationType.class);
-	public static final FileApplicationType STATIC = VEnumerations.create("STATIC", "Static Assets", FileApplicationType.class);
-	public static final FileApplicationType SITE_MAP = VEnumerations.create("SITE_MAP", "Site Map", FileApplicationType.class);
+public class FileApplicationType extends AbstractExtendableEnumeration {
+	public static final FileApplicationType ALL = _ExtendableEnumeration.create("ALL", "All", FileApplicationType.class);
+	public static final FileApplicationType IMAGE = _ExtendableEnumeration.create("IMAGE", "Image", FileApplicationType.class);
+	public static final FileApplicationType STATIC = _ExtendableEnumeration.create("STATIC", "Static Assets", FileApplicationType.class);
+	public static final FileApplicationType SITE_MAP = _ExtendableEnumeration.create("SITE_MAP", "Site Map", FileApplicationType.class);
 }

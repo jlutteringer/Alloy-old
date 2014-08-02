@@ -1,8 +1,8 @@
 package org.vault.user.domain;
 
-import org.vault.base.enumeration.AbstractAoEnumeration;
-import org.vault.base.enumeration.VEnumerations;
+import org.alloy.metal.enumeration.AbstractExtendableEnumeration;
+import org.alloy.metal.enumeration._ExtendableEnumeration;
 
-public class UserType extends AbstractAoEnumeration {
-	public static final UserType NORMAL = VEnumerations.create("NORMAL", "Normal", UserType.class);
+public class UserType extends AbstractExtendableEnumeration {
+	public static final UserType NORMAL = _ExtendableEnumeration.create("NORMAL", "Normal", UserType.class);
 }

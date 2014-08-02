@@ -7,17 +7,17 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
+import org.alloy.metal.collections.iterable._Iterable;
+import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.spring.AlloyBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vault.base.collections.iterable._Iterable;
-import org.vault.base.collections.lists._Lists;
 import org.vault.base.exception.DependencyResolutionException;
 import org.vault.base.module.domain.Dependencies;
 import org.vault.base.module.domain.Dependency;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleType;
 import org.vault.base.module.domain.ResolvedDependency;
-import org.vault.base.spring.beans.VaultBean;
 import org.vault.core.facets.service.FacetProvider;
 import org.vault.core.module.domain.simple.ApplicationModule;
 import org.vault.core.module.domain.simple.DefaultApplicationModule;
@@ -26,7 +26,7 @@ import org.vault.module.registry.core.CoreModule;
 import com.google.common.collect.Sets;
 
 @Service
-public class CoreModuleContext extends VaultBean implements ModuleContext {
+public class CoreModuleContext extends AlloyBean implements ModuleContext {
 	private Set<Module> modules = Sets.newHashSet();
 
 	@Autowired

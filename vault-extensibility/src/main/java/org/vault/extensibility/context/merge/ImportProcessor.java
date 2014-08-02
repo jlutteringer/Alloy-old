@@ -38,11 +38,11 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import org.alloy.metal.resource.ResourceInputStream;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.vault.base.resource.ResourceInputStream;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;

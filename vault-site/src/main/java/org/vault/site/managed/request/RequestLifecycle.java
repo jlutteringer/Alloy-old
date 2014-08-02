@@ -1,15 +1,15 @@
 package org.vault.site.managed.request;
 
-import org.vault.base.domain.order.Orderable;
-import org.vault.base.enumeration.AbstractAoEnumeration;
-import org.vault.base.enumeration.VEnumerations;
+import org.alloy.metal.enumeration.AbstractExtendableEnumeration;
+import org.alloy.metal.enumeration._ExtendableEnumeration;
+import org.alloy.metal.order.Orderable;
 
-public class RequestLifecycle extends AbstractAoEnumeration implements Orderable {
-	public static final RequestLifecycle ALL = VEnumerations.create("ALL", "Shared", RequestLifecycle.class);
+public class RequestLifecycle extends AbstractExtendableEnumeration implements Orderable {
+	public static final RequestLifecycle ALL = _ExtendableEnumeration.create("ALL", "Shared", RequestLifecycle.class);
 
-	public static final RequestLifecycle PRE_SECURITY = VEnumerations.create("PRE_SECURITY", "Pre Security Filters", RequestLifecycle.class);
-	public static final RequestLifecycle SECURITY = VEnumerations.create("SECURITY", "Security Filters", RequestLifecycle.class);
-	public static final RequestLifecycle POST_SECURITY = VEnumerations.create("POST_SECURITY", "Post Security Filters", RequestLifecycle.class);
+	public static final RequestLifecycle PRE_SECURITY = _ExtendableEnumeration.create("PRE_SECURITY", "Pre Security Filters", RequestLifecycle.class);
+	public static final RequestLifecycle SECURITY = _ExtendableEnumeration.create("SECURITY", "Security Filters", RequestLifecycle.class);
+	public static final RequestLifecycle POST_SECURITY = _ExtendableEnumeration.create("POST_SECURITY", "Post Security Filters", RequestLifecycle.class);
 
 	static {
 		PRE_SECURITY.order = 2000;

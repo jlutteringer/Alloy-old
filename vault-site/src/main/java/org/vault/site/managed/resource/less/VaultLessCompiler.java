@@ -13,11 +13,11 @@ import javax.script.ScriptContext;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
+import org.alloy.metal.resource._Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.vault.base.resource.VResources;
 import org.vault.core.managed.resource.VaultResourceManager;
 
 import com.google.common.base.Throwables;
@@ -54,7 +54,7 @@ public class VaultLessCompiler {
 
 			writer.close();
 
-			return VResources.getResource(os);
+			return _Resource.getResource(os);
 		} catch (Exception e) {
 			throw Throwables.propagate(e);
 		}

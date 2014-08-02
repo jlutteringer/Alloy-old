@@ -2,13 +2,13 @@ package org.vault.persistence.managed.configuration;
 
 import java.util.List;
 
+import org.alloy.metal.application.ApplicationMetaData;
+import org.alloy.metal.configuration.ConfigurationLocation;
+import org.alloy.metal.configuration._Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.vault.base.application.ApplicationMetaData;
 import org.vault.base.module.domain.Module;
-import org.vault.base.utilities.configuration.ConfigurationLocation;
-import org.vault.base.utilities.configuration.Configurations;
-import org.vault.base.utilities.constants.VConfigurationFileConstants;
+import org.vault.base.utilities.constants.AlloyConfigurationConstants;
 import org.vault.bootstrap.managed.configuration.AbstractMergeContext;
 import org.vault.bootstrap.managed.configuration.ConfigurationManager;
 import org.vault.bootstrap.managed.merge.AbstractXmlMergeManager;
@@ -36,9 +36,9 @@ public class PersistenceMergeContext extends AbstractMergeContext<PersistenceCon
 			List<ConfigurationLocation> locations = Lists.newArrayList();
 
 			locations.add(
-					Configurations.optional(
-							Configurations.moduleRelative(
-									Configurations.createEnvironmentLocation("*" + VConfigurationFileConstants.PERSISTENCE_FILE_STRUCTURE, application.getEnvironment().getType()), module)));
+					_Configuration.optional(
+							_Configuration.moduleRelative(
+									_Configuration.createEnvironmentLocation("*" + AlloyConfigurationConstants.PERSISTENCE_FILE_STRUCTURE, application.getEnvironment().getType()), module)));
 
 			return locations;
 		}
@@ -48,7 +48,7 @@ public class PersistenceMergeContext extends AbstractMergeContext<PersistenceCon
 	public static class PersistenceMergeManager extends AbstractXmlMergeManager implements MergeManager {
 		@Override
 		protected String getMergeDescriptionLocation() {
-			return VConfigurationFileConstants.PERSISTENCE_MERGE_DESCRIPTION_LOCATION;
+			return AlloyConfigurationConstants.PERSISTENCE_MERGE_DESCRIPTION_LOCATION;
 		}
 	}
 }

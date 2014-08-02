@@ -1,15 +1,15 @@
 package org.vault.extensibility.context.merge.handlers;
 
-import org.vault.base.utilities.xpath.XPathUtils;
+import org.alloy.metal.utilities._XPath;
 import org.w3c.dom.Node;
 
 public class AttributeReplaceInsert extends BaseMergeHandler {
 	@Override
 	public void mergeInternal(Node source, Node patch) {
-		for (Node patchAttribute : XPathUtils.getAttributeNodes(patch)) {
-			XPathUtils.element(source).setAttributeNode(
-					XPathUtils.attribute(
-							XPathUtils.cloneAndImport(patchAttribute, source.getOwnerDocument())));
+		for (Node patchAttribute : _XPath.getAttributeNodes(patch)) {
+			_XPath.element(source).setAttributeNode(
+					_XPath.attribute(
+							_XPath.cloneAndImport(patchAttribute, source.getOwnerDocument())));
 		}
 	}
 }

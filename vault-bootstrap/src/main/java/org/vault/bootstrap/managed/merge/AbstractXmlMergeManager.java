@@ -2,14 +2,14 @@ package org.vault.bootstrap.managed.merge;
 
 import java.util.List;
 
+import org.alloy.metal.configuration.ConfigurationLocation;
+import org.alloy.metal.configuration._Configuration;
+import org.alloy.metal.resource.ResourceInputStream;
+import org.alloy.metal.spring.AbstractLoggingBean;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.io.Resource;
-import org.vault.base.resource.ResourceInputStream;
-import org.vault.base.spring.beans.AbstractLoggingBean;
-import org.vault.base.utilities.configuration.ConfigurationLocation;
-import org.vault.base.utilities.configuration.Configurations;
 import org.vault.extensibility.context.merge.MergeXmlConfigResource;
 
 public abstract class AbstractXmlMergeManager extends AbstractLoggingBean implements MergeManager, ApplicationContextAware {
@@ -18,7 +18,7 @@ public abstract class AbstractXmlMergeManager extends AbstractLoggingBean implem
 	@Override
 	public Resource getMergedResource(List<ConfigurationLocation> patchLocations) {
 		logger.debug("Unresolved locations: " + patchLocations);
-		List<ResourceInputStream> configurations = Configurations.getConfigurations(patchLocations, applicationContext);
+		List<ResourceInputStream> configurations = _Configuration.getConfigurations(patchLocations, applicationContext);
 		logger.debug("Resolved locations: " + configurations);
 
 		MergeXmlConfigResource foo = new MergeXmlConfigResource(this.getMergeDescriptionLocation(), applicationContext);

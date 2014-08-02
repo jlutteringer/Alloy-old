@@ -4,15 +4,15 @@ import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.Map;
 
+import org.alloy.metal.domain.Path;
+import org.alloy.metal.resource._Resource;
+import org.alloy.metal.spring.AlloyBean;
+import org.alloy.metal.utilities._Exception;
+import org.alloy.metal.utilities._Closeable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
-import org.vault.base.closeable._Closeable;
-import org.vault.base.request.Path;
-import org.vault.base.resource.VResources;
-import org.vault.base.spring.beans.VaultBean;
-import org.vault.base.utilities.exception.Exceptions;
 import org.vault.site.managed.resource.service.VaultResourceResolverService;
 import org.vault.site.resource.GeneratedResource;
 import org.vault.site.resource.bundle.Bundle;
@@ -22,7 +22,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
 @Service
-public class ResourceBundlingServiceImpl extends VaultBean implements ResourceBundlingService {
+public class ResourceBundlingServiceImpl extends AlloyBean implements ResourceBundlingService {
 	private Map<String, String> pathToBundle = Maps.newHashMap();
 	private Multimap<String, String> bundles = HashMultimap.create();
 
@@ -46,13 +46,13 @@ public class ResourceBundlingServiceImpl extends VaultBean implements ResourceBu
 
 	@Override
 	public Resource resolveBundleForName(String name) {
-		return Exceptions.propagate(() -> {
+		return _Exception.propagate(() -> {
 			byte[] result = _Closeable.withResult(new ByteArrayOutputStream(), (baos) -> {
 				logger.debug("Creating bundle for resources " + bundles.get(name));
 				for (String resourceLocation : bundles.get(name)) {
 					Resource resource = resourceResolver.getResource(Path.of(resourceLocation));
 
-					VResources.getInputStream(resource, (inputStream) -> {
+					_Resource.getInputStream(resource, (inputStream) -> {
 						StreamUtils.copy(inputStream, baos);
 					});
 

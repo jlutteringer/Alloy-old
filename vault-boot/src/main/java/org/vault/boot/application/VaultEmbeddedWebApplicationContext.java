@@ -11,6 +11,7 @@ import javax.servlet.Filter;
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.Servlet;
 
+import org.alloy.metal.reflection._Reflection;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletContextInitializer;
 import org.springframework.boot.context.embedded.ServletListenerRegistrationBean;
@@ -19,7 +20,6 @@ import org.springframework.boot.context.embedded.XmlEmbeddedWebApplicationContex
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
-import org.vault.base.reflection.VReflection;
 import org.vault.bootstrap.context.BootstrappedContext;
 import org.vault.bootstrap.context.VaultApplicationContext;
 
@@ -109,18 +109,18 @@ public class VaultEmbeddedWebApplicationContext extends XmlEmbeddedWebApplicatio
 
 	@SuppressWarnings("unchecked")
 	private <T> List<Entry<String, T>> inspectOrderedBeansOfType(Class<T> type) {
-		return VReflection.invoke(this, "getOrderedBeansOfType", List.class, type);
+		return _Reflection.invoke(this, "getOrderedBeansOfType", List.class, type);
 	}
 
 	private MultipartConfigElement inspectMultipartConfig() {
-		return VReflection.invoke(this, "getMultipartConfig", MultipartConfigElement.class);
+		return _Reflection.invoke(this, "getMultipartConfig", MultipartConfigElement.class);
 	}
 
 	private Filter getFilter(FilterRegistrationBean filter) {
-		return VReflection.invoke(filter, "getFilter", Filter.class);
+		return _Reflection.invoke(filter, "getFilter", Filter.class);
 	}
 
 	private Servlet getServlet(ServletRegistrationBean servlet) {
-		return VReflection.invoke(servlet, "getServlet", Servlet.class);
+		return _Reflection.invoke(servlet, "getServlet", Servlet.class);
 	}
 }

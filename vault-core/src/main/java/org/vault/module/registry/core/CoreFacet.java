@@ -2,8 +2,8 @@ package org.vault.module.registry.core;
 
 import java.util.List;
 
+import org.alloy.metal.configuration.ConfigurationLocation;
 import org.vault.base.module.domain.PrimaryModuleFacet;
-import org.vault.base.utilities.configuration.ConfigurationLocation;
 
 import com.google.common.collect.Lists;
 

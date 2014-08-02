@@ -21,17 +21,17 @@ import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.ReflectionException;
 
+import org.alloy.metal.spring.AlloyBean;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jmx.export.naming.SelfNaming;
 import org.springframework.jmx.support.ObjectNameManager;
 import org.springframework.stereotype.Service;
-import org.vault.base.spring.beans.VaultBean;
 import org.vault.core.managed.cache.domain.CacheStat;
 import org.vault.core.managed.system.time.domain.SystemTime;
 
 @Service
-public class StatisticsServiceImpl extends VaultBean implements DynamicMBean, StatisticsService, SelfNaming {
+public class StatisticsServiceImpl extends AlloyBean implements DynamicMBean, StatisticsService, SelfNaming {
 	@Value("${cache.stat.log.resolution}")
 	protected Long logResolution;
 

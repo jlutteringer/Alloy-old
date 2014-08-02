@@ -1,5 +1,7 @@
 package org.vault.boot.managed.servlet;
 
+import org.alloy.metal.resource._Resource;
+import org.alloy.metal.spring.AlloyBean;
 import org.apache.catalina.connector.Connector;
 import org.apache.coyote.http11.Http11NioProtocol;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,13 +10,11 @@ import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletCont
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.stereotype.Component;
-import org.vault.base.resource.VResources;
-import org.vault.base.spring.beans.VaultBean;
 import org.vault.core.managed.resource.VaultResourceManager;
 import org.vault.module.registry.boot.BootModule;
 
 @Component
-public class VaultEmbeddedServletContainerCustomizer extends VaultBean implements EmbeddedServletContainerCustomizer {
+public class VaultEmbeddedServletContainerCustomizer extends AlloyBean implements EmbeddedServletContainerCustomizer {
 	@Value("${keystore.file}")
 	private String keystoreFile;
 
@@ -48,7 +48,7 @@ public class VaultEmbeddedServletContainerCustomizer extends VaultBean implement
 
 			Http11NioProtocol proto = (Http11NioProtocol) connector.getProtocolHandler();
 			proto.setSSLEnabled(true);
-			proto.setKeystoreFile(VResources.getPath(resourceManager.getResourceFromModule(bootModule, keystoreFile)));
+			proto.setKeystoreFile(_Resource.getPath(resourceManager.getResourceFromModule(bootModule, keystoreFile)));
 			proto.setKeystorePass(keystorePass);
 			proto.setKeystoreType("PKCS12");
 			proto.setKeyAlias("tomcat");

@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import javax.persistence.TypedQuery;
 
-import org.vault.base.collections.lists._Lists;
+import org.alloy.metal.collections.lists._Lists;
 
 import com.google.common.collect.Iterables;
 

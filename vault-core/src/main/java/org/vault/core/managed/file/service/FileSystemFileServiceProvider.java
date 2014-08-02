@@ -4,18 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import org.alloy.metal.spring.AlloyBean;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
-import org.vault.base.spring.beans.VaultBean;
 import org.vault.core.managed.file.domain.FileApplicationType;
 import org.vault.core.managed.file.domain.FileServiceException;
 import org.vault.core.managed.file.domain.FileWorkArea;
 
 @Service
-public class FileSystemFileServiceProvider extends VaultBean implements FileServiceProvider {
+public class FileSystemFileServiceProvider extends AlloyBean implements FileServiceProvider {
 	@Value("${asset.server.file.system.path}")
 	protected String fileSystemBaseDirectory;
 

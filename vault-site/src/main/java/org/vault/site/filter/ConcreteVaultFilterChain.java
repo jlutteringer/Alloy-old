@@ -5,8 +5,8 @@ import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
 
+import org.alloy.metal.order.Phase;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-import org.vault.base.domain.phase.Phase;
 import org.vault.site.managed.request.RequestLifecycle;
 
 import com.google.common.collect.Lists;

@@ -2,7 +2,7 @@ package org.vault.extensibility;
 
 import java.util.List;
 
-import org.vault.base.utilities.configuration.ConfigurationLocation;
+import org.alloy.metal.configuration.ConfigurationLocation;
 
 public interface PatchableConfiguration {
 	public List<ConfigurationLocation> getPatchLocations();

@@ -5,13 +5,13 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
+import org.alloy.metal.domain.Path;
+import org.alloy.metal.order.Orderable;
+import org.alloy.metal.spring.AlloyBean;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.vault.base.domain.order.Orderable;
-import org.vault.base.request.Path;
-import org.vault.base.spring.beans.VaultBean;
 import org.vault.core.managed.resource.VaultResourceManager;
 import org.vault.site.resource.handler.VaultResourceResolver;
 import org.vault.site.resource.handler.VaultResourceTransformer;
@@ -19,7 +19,7 @@ import org.vault.site.resource.handler.VaultResourceTransformer;
 import com.google.common.collect.Lists;
 
 @Component
-public class VaultResourceResolverService extends VaultBean {
+public class VaultResourceResolverService extends AlloyBean {
 	@Autowired
 	protected List<VaultResourceResolver> resolvers = Lists.newArrayList();
 

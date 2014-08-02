@@ -1,6 +1,6 @@
 package org.vault.core.module.domain.simple;
 
-import org.vault.base.collections.tree.Tree;
+import org.alloy.metal.collections.tree.Tree;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.domain.ModuleHierarchy;
 

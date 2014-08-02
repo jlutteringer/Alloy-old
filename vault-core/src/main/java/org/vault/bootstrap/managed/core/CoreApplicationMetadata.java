@@ -1,11 +1,11 @@
 package org.vault.bootstrap.managed.core;
 
+import org.alloy.metal.application.ApplicationMetaData;
+import org.alloy.metal.enumeration._ExtendableEnumeration;
+import org.alloy.metal.environment.Environment;
+import org.alloy.metal.environment.EnvironmentType;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.vault.base.application.ApplicationMetaData;
-import org.vault.base.enumeration.VEnumerations;
-import org.vault.base.enviornment.Environment;
-import org.vault.base.enviornment.EnvironmentType;
 
 @Component
 public class CoreApplicationMetadata implements ApplicationMetaData {
@@ -14,7 +14,7 @@ public class CoreApplicationMetadata implements ApplicationMetaData {
 	@Value("${environment}")
 	public void setEnvironment(String environmentString) {
 		this.environment = new Environment();
-		this.environment.setType(VEnumerations.getInstance(environmentString.toUpperCase(), EnvironmentType.class));
+		this.environment.setType(_ExtendableEnumeration.getInstance(environmentString.toUpperCase(), EnvironmentType.class));
 	}
 
 	@Override

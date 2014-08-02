@@ -1,11 +1,11 @@
 package org.vault.site.managed.resource.handler;
 
+import org.alloy.metal.domain.Path;
+import org.alloy.metal.resource._Resource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
-import org.vault.base.request.Path;
-import org.vault.base.resource.VResources;
 import org.vault.site.managed.resource.less.VaultLessCompiler;
 import org.vault.site.resource.handler.AbstractVaultResourceTransformer;
 
@@ -17,7 +17,7 @@ public class LessToCssResourceTransformer extends AbstractVaultResourceTransform
 	@Override
 	public boolean canHandle(Path path, Resource resource) {
 		if (resource instanceof UrlResource) {
-			if (VResources.getPath(resource).endsWith(".less")) {
+			if (_Resource.getPath(resource).endsWith(".less")) {
 				return true;
 			}
 		}

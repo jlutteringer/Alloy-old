@@ -11,6 +11,8 @@ import javax.persistence.spi.PersistenceUnitTransactionType;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.alloy.metal.utilities._Exception;
+import org.alloy.metal.utilities._Stream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.Resource;
@@ -20,8 +22,6 @@ import org.springframework.orm.jpa.persistenceunit.MutablePersistenceUnitInfo;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
-import org.vault.base.utilities.exception.Exceptions;
-import org.vault.base.utilities.stream.VStreams;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -66,8 +66,8 @@ public class PersistenceUnitReader {
 	public List<PersistenceUnitInfo> readPersistenceUnitInfo(Resource persistenceUnit) {
 		List<PersistenceUnitInfo> infos = Lists.newArrayList();
 
-		VStreams.withStream(VStreams.transformer(), persistenceUnit, (stream) -> {
-			Document document = buildDocument(VStreams.transformer().apply(persistenceUnit));
+		_Stream.withStream(_Stream.transformer(), persistenceUnit, (stream) -> {
+			Document document = buildDocument(_Stream.transformer().apply(persistenceUnit));
 			parseDocument(persistenceUnit, document, infos);
 		});
 
@@ -214,7 +214,7 @@ public class PersistenceUnitReader {
 	 * Parse the {@code jar-file} XML elements.
 	 */
 	protected void parseJarFiles(Element persistenceUnit, MutablePersistenceUnitInfo unitInfo) {
-		Exceptions.propagate(() -> {
+		_Exception.propagate(() -> {
 			List<Element> jars = DomUtils.getChildElementsByTagName(persistenceUnit, JAR_FILE_URL);
 			for (Element element : jars) {
 				String value = DomUtils.getTextValue(element).trim();

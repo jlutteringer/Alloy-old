@@ -4,22 +4,22 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.alloy.metal.object.Identifiable;
+import org.alloy.metal.reflection._Reflection;
+import org.alloy.metal.spring.TemplateAlloyBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.vault.base.object.Identifiable;
-import org.vault.base.reflection.VReflection;
-import org.vault.base.spring.beans.VaultBeanT1;
 import org.vault.persistence.managed.entities.EntityManagerContext;
 import org.vault.persistence.utilities.EntityManagers;
 import org.vault.persistence.utilities.Queries;
 import org.vault.persistence.utilities.QueryQualifier;
 
-public class AbstractDao<T extends Identifiable> extends VaultBeanT1<T> implements Dao<T> {
+public class AbstractDao<T extends Identifiable> extends TemplateAlloyBean<T> implements Dao<T> {
 	@Autowired
 	private EntityManagerContext context;
 
 	@Override
 	public T create() {
-		return VReflection.construct(this.getEntityClassInternal());
+		return _Reflection.construct(this.getEntityClassInternal());
 	}
 
 	@Override

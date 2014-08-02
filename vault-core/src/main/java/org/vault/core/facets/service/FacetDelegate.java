@@ -1,6 +1,6 @@
 package org.vault.core.facets.service;
 
-import org.vault.base.delegator.Delegate;
+import org.alloy.metal.spring.delegator.Delegate;
 import org.vault.base.facets.Facet;
 import org.vault.base.facets.FacetedObject;
 

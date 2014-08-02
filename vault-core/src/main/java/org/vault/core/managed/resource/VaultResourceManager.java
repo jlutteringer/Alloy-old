@@ -2,6 +2,11 @@ package org.vault.core.managed.resource;
 
 import java.util.List;
 
+import org.alloy.metal.collections.iterable._Iterable;
+import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.function._Function;
+import org.alloy.metal.resource._Resource;
+import org.alloy.metal.utilities._Exception;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,13 +15,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import org.vault.base.collections.iterable._Iterable;
-import org.vault.base.collections.lists._Lists;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.service.ModuleLoader;
-import org.vault.base.resource.VResources;
-import org.vault.base.utilities.exception.Exceptions;
-import org.vault.base.utilities.function.VFunctions;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -33,9 +33,9 @@ public class VaultResourceManager {
 
 	public Resource getResourceFromModule(Module module, String resourceLocation) {
 		String resolvedLocation = module.getName() + "/" + resourceLocation;
-		Resource resource = Exceptions.ignore(() -> VResources.getResource(resolvedLocation, applicationContext)).orElse(null);
+		Resource resource = _Exception.ignore(() -> _Resource.getResource(resolvedLocation, applicationContext)).orElse(null);
 
-		if (VResources.exists(resource)) {
+		if (_Resource.exists(resource)) {
 			return resource;
 		}
 		else {
@@ -61,12 +61,12 @@ public class VaultResourceManager {
 	}
 
 	public Resource getResource(String resourceName) {
-		return _Iterable.first(Iterables.filter(this.getResources(resourceName), VResources::isValidResource));
+		return _Iterable.first(Iterables.filter(this.getResources(resourceName), _Resource::isValidResource));
 	}
 
 	public List<ClassPathResource> getConcreteResources(String baseLocation) {
-		Iterable<List<Resource>> resources = _Iterable.transform(getResources(baseLocation), VResources::getConcreteResources);
-		return _Lists.list(_Iterable.transform(_Iterable.unique(_Iterable.flatten(resources), (first, second) -> visiblyEqual(baseLocation, first, second)), VFunctions.cast()));
+		Iterable<List<Resource>> resources = _Iterable.transform(getResources(baseLocation), _Resource::getConcreteResources);
+		return _Lists.list(_Iterable.transform(_Iterable.unique(_Iterable.flatten(resources), (first, second) -> visiblyEqual(baseLocation, first, second)), _Function.cast()));
 	}
 
 	public List<String> getConcreteVisibleResourcePaths(String baseLocation) {
@@ -74,7 +74,7 @@ public class VaultResourceManager {
 	}
 
 	public boolean visiblyEqual(String baseLocation, Resource path1, Resource path2) {
-		return visiblyEqual(baseLocation, VResources.getPath(path1), VResources.getPath(path2));
+		return visiblyEqual(baseLocation, _Resource.getPath(path1), _Resource.getPath(path2));
 	}
 
 	public boolean visiblyEqual(String baseLocation, String path1, String path2) {

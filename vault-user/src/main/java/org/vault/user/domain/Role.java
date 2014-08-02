@@ -2,8 +2,8 @@ package org.vault.user.domain;
 
 import java.util.Set;
 
-import org.vault.base.object.Describeable;
-import org.vault.base.object.DomainObject;
+import org.alloy.metal.object.Describeable;
+import org.alloy.metal.object.DomainObject;
 
 public interface Role extends DomainObject, Describeable {
 	public Set<Permission> getPermissions();

@@ -43,18 +43,17 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.alloy.metal.collections.iterable._Iterable;
+import org.alloy.metal.configuration.ConfigurationLocation;
+import org.alloy.metal.configuration._Configuration;
+import org.alloy.metal.resource.ResourceInputStream;
+import org.alloy.metal.resource._Resource;
+import org.alloy.metal.string._String;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.vault.base.collections.iterable._Iterable;
-import org.vault.base.resource.ResourceInputStream;
-import org.vault.base.resource.VResources;
-import org.vault.base.utilities.configuration.ConfigurationLocation;
-import org.vault.base.utilities.configuration.Configurations;
-import org.vault.base.utilities.matcher.AbstractContextualSelector;
-import org.vault.base.utilities.matcher.ContextualMatcher;
 import org.vault.extensibility.PatchableConfiguration;
 import org.vault.extensibility.context.merge.exceptions.MergeException;
 import org.vault.extensibility.context.merge.exceptions.MergeManagerSetupException;
@@ -76,16 +75,6 @@ import com.google.common.collect.Lists;
 public class MergeContext implements PatchableConfiguration, ApplicationContextAware {
 	private static final Log LOG = LogFactory.getLog(MergeContext.class);
 	private static DocumentBuilder builder;
-
-	private ContextualMatcher<MergeHandler, String> contextualNameMatcher = new AbstractContextualSelector<MergeHandler, String>() {
-		@Override
-		public boolean test(MergeHandler input) {
-			if (this.context.equals(input.getName())) {
-				return true;
-			}
-			return false;
-		}
-	};
 
 	static {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -308,9 +297,11 @@ public class MergeContext implements PatchableConfiguration, ApplicationContextA
 		List<MergeHandler> finalHandlers = Lists.newArrayList();
 		for (MergeHandler temp : tempHandlers) {
 			if (temp.getName().contains(".")) {
-				contextualNameMatcher.setContext(temp.getName().substring(0, temp.getName().lastIndexOf(".")));
+				String parentName = _String.parse(temp.getName()).range().fromStart().toLast(".").parse();
 
-				MergeHandler parent = _Iterable.getSingleResult(contextualNameMatcher.getMatches(tempHandlers));
+				MergeHandler parent = _Iterable.getSingleResult(
+						_Iterable.filter(tempHandlers, (handler) -> handler.getName().equals(parentName)));
+
 				parent.getChildren().add(temp);
 			} else {
 				finalHandlers.add(temp);
@@ -322,9 +313,9 @@ public class MergeContext implements PatchableConfiguration, ApplicationContextA
 
 	private Properties loadProperties() throws IOException {
 		Properties props = new Properties();
-		props.load(VResources.getResource(this.defaultHandlerConfiguration, this.applicationContext).getInputStream());
+		props.load(_Resource.getResource(this.defaultHandlerConfiguration, this.applicationContext).getInputStream());
 
-		List<ResourceInputStream> configurations = Configurations.getConfigurations(this.patchLocations, this.applicationContext);
+		List<ResourceInputStream> configurations = _Configuration.getConfigurations(this.patchLocations, this.applicationContext);
 		for (ResourceInputStream configuration : configurations) {
 			props.load(configuration);
 		}

@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
 
+import org.alloy.metal.domain.Path;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
-import org.vault.base.request.Path;
 
 public abstract class AbstractVaultResourceResolver extends AbstractResourceHandler implements VaultResourceResolver {
 	/**

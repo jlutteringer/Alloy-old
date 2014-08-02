@@ -2,10 +2,10 @@ package org.vault.bootstrap.managed.configuration;
 
 import java.util.List;
 
+import org.alloy.metal.configuration.ConfigurationLocation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.vault.base.module.domain.Module;
 import org.vault.base.module.service.ModuleLoader;
-import org.vault.base.utilities.configuration.ConfigurationLocation;
 
 import com.google.common.collect.Lists;
 

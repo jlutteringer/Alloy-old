@@ -8,13 +8,15 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.alloy.metal.collections._Collection;
+import org.alloy.metal.collections.iterable._Iterable;
+import org.alloy.metal.function.Condition;
+import org.alloy.metal.spring.AlloyBean;
+import org.alloy.metal.spring.delegator.AbstractDelegator;
+import org.alloy.metal.spring.delegator.ClassTypeDelegate;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.vault.base.collections._Collection;
-import org.vault.base.collections.iterable._Iterable;
-import org.vault.base.delegator.AbstractDelegator;
-import org.vault.base.delegator.ClassTypeDelegate;
 import org.vault.base.exception.DependencyResolutionException;
 import org.vault.base.module.domain.ConditionalDependency;
 import org.vault.base.module.domain.Dependency;
@@ -23,15 +25,13 @@ import org.vault.base.module.domain.NameDependency;
 import org.vault.base.module.domain.ResolvedDependency;
 import org.vault.base.module.domain.TypeDependency;
 import org.vault.base.module.domain.WeakDependency;
-import org.vault.base.spring.beans.VaultBean;
-import org.vault.base.utilities.function.Condition;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 @Component
-public class DependencyResolver extends VaultBean {
+public class DependencyResolver extends AlloyBean {
 	@Autowired
 	private DependencyResolverDelegator delegator;
 

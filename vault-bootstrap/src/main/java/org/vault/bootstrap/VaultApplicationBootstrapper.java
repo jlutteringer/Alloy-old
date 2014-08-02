@@ -3,15 +3,15 @@ package org.vault.bootstrap;
 import java.util.List;
 import java.util.function.Function;
 
+import org.alloy.metal.configuration.ConfigurationLocation;
+import org.alloy.metal.logging._Logging;
+import org.alloy.metal.resource.ResourceInputStream;
+import org.alloy.metal.resource._Resource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
-import org.vault.base.resource.ResourceInputStream;
-import org.vault.base.resource.VResources;
-import org.vault.base.utilities.configuration.ConfigurationLocation;
-import org.vault.base.utilities.constants.VConfigurationFileConstants;
-import org.vault.base.utilities.logging.Logging;
+import org.vault.base.utilities.constants.AlloyConfigurationConstants;
 import org.vault.bootstrap.context.VaultApplicationContext;
 import org.vault.bootstrap.managed.context.BootstrappedContextManager;
 import org.vault.bootstrap.managed.context.configuration.ContextConfigurationManager;
@@ -58,8 +58,8 @@ public class VaultApplicationBootstrapper implements Bootstrap {
 		bootstrapApplicationContext = new ClassPathXmlApplicationContext();
 
 		BootstrapUtils.configureEnumerations();
-		Logging.configureLog4j(
-				ResourceInputStream.transformer().apply(VResources.getResource(VConfigurationFileConstants.BOOTSTRAP_LOG4J_RESOURCE, bootstrapApplicationContext)));
+		_Logging.configureLog4j(
+				ResourceInputStream.transformer().apply(_Resource.getResource(AlloyConfigurationConstants.BOOTSTRAP_LOG4J_RESOURCE, bootstrapApplicationContext)));
 
 		bootstrapApplicationContext.setConfigLocations(getBootstrapConfigurationLocations().toArray(new String[0]));
 		bootstrapApplicationContext.refresh();

@@ -1,14 +1,14 @@
 package org.vault.core.managed.system.properties.service;
 
+import org.alloy.metal.spring.AlloyBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.stereotype.Component;
-import org.vault.base.spring.beans.VaultBean;
 
 @Component
-public class RuntimeEnvironmentPropertiesManager extends VaultBean implements BeanFactoryAware {
+public class RuntimeEnvironmentPropertiesManager extends AlloyBean implements BeanFactoryAware {
 	protected ConfigurableBeanFactory beanFactory;
 	protected String prefix;
 

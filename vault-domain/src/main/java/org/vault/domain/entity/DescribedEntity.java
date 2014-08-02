@@ -3,7 +3,7 @@ package org.vault.domain.entity;
 import javax.persistence.Embedded;
 import javax.persistence.MappedSuperclass;
 
-import org.vault.base.object.Describeable;
+import org.alloy.metal.object.Describeable;
 import org.vault.domain.embedded.EmbeddedDescription;
 
 @MappedSuperclass

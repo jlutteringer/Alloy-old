@@ -3,10 +3,10 @@ package org.vault.site.managed.resource.handler;
 import java.io.IOException;
 import java.util.List;
 
+import org.alloy.metal.domain.Path;
+import org.alloy.metal.utilities._Url;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-import org.vault.base.request.Path;
-import org.vault.base.url.VUrls;
 import org.vault.site.resource.handler.AbstractVaultResourceResolver;
 
 @Component
@@ -18,7 +18,7 @@ public class BaseVaultResourceResolver extends AbstractVaultResourceResolver {
 
 	@Override
 	public Resource getFileContents(Path path, List<Resource> locations) {
-		String unversionedPath = VUrls.unVersion(path.getPath(), this.getVersion());
+		String unversionedPath = _Url.unVersion(path.getPath(), this.getVersion());
 
 		for (Resource location : locations) {
 			try {

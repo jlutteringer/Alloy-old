@@ -1,8 +1,8 @@
 package org.vault.site.resource.handler;
 
+import org.alloy.metal.domain.Path;
+import org.alloy.metal.order.Orderable;
 import org.springframework.core.io.Resource;
-import org.vault.base.domain.order.Orderable;
-import org.vault.base.request.Path;
 
 public interface VaultResourceTransformer extends Orderable {
 	/**

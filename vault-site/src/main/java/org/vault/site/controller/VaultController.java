@@ -1,7 +1,7 @@
 package org.vault.site.controller;
 
-import org.vault.base.spring.beans.VaultBean;
+import org.alloy.metal.spring.AlloyBean;
 
-public abstract class VaultController extends VaultBean {
+public abstract class VaultController extends AlloyBean {
 
 }

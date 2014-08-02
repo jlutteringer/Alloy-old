@@ -8,12 +8,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.alloy.metal.enumeration._ExtendableEnumeration;
+import org.alloy.metal.order.Phase;
+import org.alloy.metal.reflection._Reflection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.filter.DelegatingFilterProxy;
-import org.vault.base.domain.phase.Phase;
-import org.vault.base.enumeration.VEnumerations;
-import org.vault.base.reflection.VReflection;
 import org.vault.site.managed.request.RequestLifecycle;
 
 public class VaultFilterProxy extends DelegatingFilterProxy implements VaultFilter {
@@ -31,7 +31,7 @@ public class VaultFilterProxy extends DelegatingFilterProxy implements VaultFilt
 			throws ServletException, IOException {
 
 		if (logger.isDebugEnabled()) {
-			logger.debug("VaultFilterProxy invoking delegate [" + VReflection.getField(this, "delegate", Filter.class) + "]");
+			logger.debug("VaultFilterProxy invoking delegate [" + _Reflection.getField(this, "delegate", Filter.class) + "]");
 		}
 
 		delegate.doFilter(request, response, filterChain);
@@ -48,10 +48,10 @@ public class VaultFilterProxy extends DelegatingFilterProxy implements VaultFilt
 	}
 
 	public void setRequestLifecycle(String requestLifecycle) {
-		this.requestLifecycle = VEnumerations.getInstance(requestLifecycle, RequestLifecycle.class);
+		this.requestLifecycle = _ExtendableEnumeration.getInstance(requestLifecycle, RequestLifecycle.class);
 	}
 
 	public void setLifecyclePhase(String phase) {
-		this.lifecyclePhase = VEnumerations.getInstance(phase, Phase.class);
+		this.lifecyclePhase = _ExtendableEnumeration.getInstance(phase, Phase.class);
 	}
 }

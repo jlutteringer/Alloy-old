@@ -20,6 +20,7 @@
 package org.vault.extensibility.context.merge;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPath;
@@ -27,14 +28,12 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.alloy.metal.collections.iterable._Iterable;
+import org.alloy.metal.function.Tuple.Pair;
+import org.alloy.metal.function._Tuple;
+import org.alloy.metal.utilities._XPath;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.vault.base.collections.iterable._Iterable;
-import org.vault.base.utilities.matcher.Selector;
-import org.vault.base.utilities.tuple.Tuple.Pair;
-import org.vault.base.utilities.tuple.Tuples;
-import org.vault.base.utilities.xpath.XPathUtils;
-import org.vault.base.utilities.xpath.XPathUtils.NodeMatcher;
 import org.vault.extensibility.context.merge.handlers.AttributeReplaceInsert;
 import org.vault.extensibility.context.merge.handlers.MergeHandler;
 import org.vault.extensibility.context.merge.handlers.MergeMatcherType;
@@ -108,11 +107,12 @@ public class MergePoint {
 		List<Node> unmatchedPatchNodes = Lists.newArrayList();
 
 		for (Node sourceNode : sourceNodes) {
-			Selector<Node> selector = this.getSelector(sourceNode, handler.getMatcherType());
-			Node matchingNode = _Iterable.getSingleResult(selector.getMatches(patchNodes), true);
+			Node matchingNode =
+					_Iterable.filterSingleResult(patchNodes, this.filter(sourceNode, handler.getMatcherType()), true);
+
 			if (matchingNode != null) {
 				log.debug("Match found: " + matchingNode + " for source node " + sourceNode);
-				matchedNodes.add(Tuples.of(sourceNode, matchingNode));
+				matchedNodes.add(_Tuple.of(sourceNode, matchingNode));
 			}
 		}
 
@@ -150,7 +150,7 @@ public class MergePoint {
 			for (Node unmatchedPatchNode : unmatchedPatchNodes) {
 				if (!exhaustedNodes.contains(unmatchedPatchNode)) {
 					exhaustedNodes.add(unmatchedPatchNode);
-					parent.appendChild(XPathUtils.cloneAndImport(unmatchedPatchNode, XPathUtils.getDocument(parent)));
+					parent.appendChild(_XPath.cloneAndImport(unmatchedPatchNode, _XPath.getDocument(parent)));
 				}
 			}
 		}
@@ -164,31 +164,20 @@ public class MergePoint {
 		return handler;
 	}
 
-	private Selector<Node> getSelector(final Node sourceNode, MergeMatcherType type) {
+	private Predicate<Node> filter(final Node sourceNode, MergeMatcherType type) {
 		switch (type) {
 		case ID:
-			return new NodeMatcher() {
-				@Override
-				public boolean test(Node input) {
-					if (XPathUtils.attributeEqual(sourceNode, input, "id")) {
-						return true;
-					}
-					if (XPathUtils.attributeEqual(sourceNode, input, "name")) {
-						return true;
-					}
-					return false;
+			return (node) -> {
+				if (_XPath.attributeEqual(sourceNode, node, "id")) {
+					return true;
 				}
+				if (_XPath.attributeEqual(sourceNode, node, "name")) {
+					return true;
+				}
+				return false;
 			};
 		case TYPE:
-			return new NodeMatcher() {
-				@Override
-				public boolean test(Node input) {
-					if (sourceNode.getNodeName().equals(input.getNodeName())) {
-						return true;
-					}
-					return false;
-				}
-			};
+			return _XPath.filterByName(sourceNode.getNodeName());
 		default:
 			throw new RuntimeException("No node matcher implementation for type " + type);
 		}

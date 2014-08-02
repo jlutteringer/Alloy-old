@@ -9,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
+import org.alloy.metal.spring.AlloyBean;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,13 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import org.vault.base.spring.beans.VaultBean;
 import org.vault.core.managed.file.domain.FileServiceException;
 import org.vault.core.managed.file.domain.FileWorkArea;
 import org.vault.core.managed.file.domain.GloballySharedInputStream;
 
 @Service
-public class VaultFileServiceImpl extends VaultBean implements VaultFileService {
+public class VaultFileServiceImpl extends AlloyBean implements VaultFileService {
 	@Autowired
 	protected List<FileServiceProvider> fileServiceProviders = new ArrayList<FileServiceProvider>();
 

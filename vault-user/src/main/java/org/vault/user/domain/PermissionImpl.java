@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
-import org.vault.base.enumeration.VEnumerations;
+import org.alloy.metal.enumeration._ExtendableEnumeration;
 import org.vault.domain.entity.DescribedEntity;
 
 @Entity
@@ -33,7 +33,7 @@ public class PermissionImpl extends DescribedEntity implements Permission {
 
 	@Override
 	public PermissionType getType() {
-		return VEnumerations.getInstance(type, PermissionType.class);
+		return _ExtendableEnumeration.getInstance(type, PermissionType.class);
 	}
 
 	@Override

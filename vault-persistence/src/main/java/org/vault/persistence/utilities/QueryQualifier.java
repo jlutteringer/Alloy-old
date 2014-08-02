@@ -2,8 +2,8 @@ package org.vault.persistence.utilities;
 
 import java.util.Map;
 
+import org.alloy.metal.string._String;
 import org.apache.commons.lang3.StringUtils;
-import org.vault.base.utilities.string.VStrings;
 
 import com.google.common.collect.Maps;
 
@@ -51,7 +51,7 @@ public class QueryQualifier {
 			throw new RuntimeException("Can't set next parameter without a query!");
 		}
 
-		parameters.put(VStrings.substringBetween(qualification, ":", " ", parameters.size()), value);
+		parameters.put(_String.substringBetween(qualification, ":", " ", parameters.size()), value);
 		return this;
 	}
 

@@ -8,18 +8,18 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+import org.alloy.metal.spring.AlloyBean;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.vault.base.spring.beans.VaultBean;
 import org.vault.core.managed.system.properties.service.VSystemProperty;
 
 import com.yahoo.platform.yui.compressor.CssCompressor;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 
 @Service
-public class ResourceMinificationServiceImpl extends VaultBean implements ResourceMinificationService {
+public class ResourceMinificationServiceImpl extends AlloyBean implements ResourceMinificationService {
 	@Value("${minify.linebreak}")
 	protected int linebreak;
 
