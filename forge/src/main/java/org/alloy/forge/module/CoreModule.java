@@ -1,6 +1,7 @@
 package org.alloy.forge.module;
 
 
+
 public abstract class CoreModule extends ManagedModule {
 	public CoreModule() {
 		this.name = "alloy-core";

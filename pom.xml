@@ -20,21 +20,19 @@
 	<modules>
 		<module>metal</module>
 		<module>forge</module>
-		<module>vault-core</module>
-		<module>vault-extensibility</module>
-		<module>vault-bootstrap</module>
-		<module>vault-persistence</module>
-		<module>vault-cache</module>
-		<module>vault-web</module>
-		<module>vault-admin</module>
-		<module>vault-user</module>
-		<module>vault-domain</module>
-		<module>vault-security</module>
-		<module>vault-boot</module>
-		<module>vault-site</module>
-		<module>vault-site-security</module>
-		<module>vault-site-boot</module>
-		<module>vault-angular</module>
+		<module>alloy-core</module>
+		<module>alloy-persistence</module>
+		<module>alloy-cache</module>
+		<module>alloy-web</module>
+		<module>alloy-admin</module>
+		<module>alloy-user</module>
+		<module>alloy-domain</module>
+		<module>alloy-security</module>
+		<module>alloy-boot</module>
+		<module>alloy-site</module>
+		<module>alloy-site-security</module>
+		<module>alloy-site-boot</module>
+		<module>alloy-angular</module>
 	</modules>
 	
 	<build>
@@ -65,8 +63,8 @@
       				<groupId>org.apache.maven.plugins</groupId>
      				<artifactId>maven-compiler-plugin</artifactId>
       				<configuration>
-        				<source>8</source>
-        				<target>8</target>
+        				<source>1.8</source>
+        				<target>1.8</target>
         				<encoding>UTF-8</encoding>
       				</configuration>
     			</plugin>
@@ -181,98 +179,84 @@
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-extensibility</artifactId>
+				<artifactId>alloy-core</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-core</artifactId>
+				<artifactId>alloy-site</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-site</artifactId>
+				<artifactId>alloy-web</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-web</artifactId>
+				<artifactId>alloy-persistence</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-bootstrap</artifactId>
+				<artifactId>alloy-user</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-persistence</artifactId>
+				<artifactId>alloy-cache</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-user</artifactId>
+				<artifactId>alloy-domain</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-cache</artifactId>
+				<artifactId>alloy-security</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-domain</artifactId>
+				<artifactId>alloy-site-security</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-security</artifactId>
+				<artifactId>alloy-boot</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-site-security</artifactId>
+				<artifactId>alloy-site-boot</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>vault-boot</artifactId>
-				<version>${alloy.version}</version>
-				<type>jar</type>
-				<scope>compile</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.alloy</groupId>
-				<artifactId>vault-site-boot</artifactId>
-				<version>${alloy.version}</version>
-				<type>jar</type>
-				<scope>compile</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.alloy</groupId>
-				<artifactId>vault-angular</artifactId>
+				<artifactId>alloy-angular</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>

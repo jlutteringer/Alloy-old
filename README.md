@@ -1,2 +1,2 @@
-spring-vault
+alloy
 ============

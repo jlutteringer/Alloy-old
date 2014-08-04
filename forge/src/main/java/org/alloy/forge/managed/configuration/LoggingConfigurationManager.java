@@ -6,6 +6,7 @@ import java.util.List;
 import org.alloy.forge.configuration.ConfigurationManager;
 import org.alloy.forge.module.Module;
 import org.alloy.forge.module.PrimaryModuleFacet;
+import org.alloy.forge.module._Module;
 import org.alloy.metal.application.ApplicationMetaData;
 import org.alloy.metal.configuration.AlloyConfigurationConstants;
 import org.alloy.metal.configuration.ConfigurationLocation;
@@ -27,7 +28,7 @@ public class LoggingConfigurationManager extends ConfigurationManager {
 	protected List<ConfigurationLocation> getDefaultConfigurationLocations(Module module) {
 		return Collections.singletonList(
 				_Configuration.optional(
-						_Configuration.moduleRelative(
+						_Module.moduleRelative(
 								_Configuration.createEnvironmentLocation(AlloyConfigurationConstants.getLogFileStructure(), application.getEnvironment().getType()), module)));
 	}
 }

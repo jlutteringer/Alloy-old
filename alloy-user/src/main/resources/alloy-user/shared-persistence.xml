@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence>
+    <persistence-unit name="primary">
+		<class>org.alloy.user.domain.UserImpl</class>
+		<class>org.alloy.user.domain.RoleImpl</class>
+		<class>org.alloy.user.domain.PermissionImpl</class>
+    </persistence-unit>
+</persistence>

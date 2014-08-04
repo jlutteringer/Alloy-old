@@ -6,6 +6,7 @@ import org.alloy.forge.configuration.ConfigurationManager;
 import org.alloy.forge.context.BootstrappedBean;
 import org.alloy.forge.module.Module;
 import org.alloy.forge.module.PrimaryModuleFacet;
+import org.alloy.forge.module._Module;
 import org.alloy.metal.application.ApplicationMetaData;
 import org.alloy.metal.configuration.AlloyConfigurationConstants;
 import org.alloy.metal.configuration.ConfigurationLocation;
@@ -29,10 +30,10 @@ public class PropertiesConfigurationManager extends ConfigurationManager impleme
 	protected List<ConfigurationLocation> getDefaultConfigurationLocations(Module module) {
 		List<ConfigurationLocation> locations = Lists.newArrayList();
 
-		locations.add(_Configuration.optional(_Configuration.moduleRelative(
+		locations.add(_Configuration.optional(_Module.moduleRelative(
 				_Configuration.createEnvironmentLocation(AlloyConfigurationConstants.PROPERTIES_FILE_STRUCTURE, application.getEnvironment().getType()), module)));
 
-		locations.add(_Configuration.optional(_Configuration.moduleRelative(
+		locations.add(_Configuration.optional(_Module.moduleRelative(
 				_Configuration.createEnvironmentLocation(
 						AlloyConfigurationConstants.PROPERTIES_DIRECTORY + AlloyConfigurationConstants.PROPERTIES_FILE_STRUCTURE, application.getEnvironment().getType()), module)));
 

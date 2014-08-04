@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<persistence>
-    <persistence-unit name="primary">
-		<class>org.vault.user.domain.UserImpl</class>
-		<class>org.vault.user.domain.RoleImpl</class>
-		<class>org.vault.user.domain.PermissionImpl</class>
-    </persistence-unit>
-</persistence>

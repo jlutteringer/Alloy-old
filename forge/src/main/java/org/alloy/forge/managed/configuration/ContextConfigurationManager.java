@@ -5,6 +5,7 @@ import java.util.List;
 import org.alloy.forge.configuration.ConfigurationManager;
 import org.alloy.forge.module.Module;
 import org.alloy.forge.module.PrimaryModuleFacet;
+import org.alloy.forge.module._Module;
 import org.alloy.metal.configuration.AlloyConfigurationConstants;
 import org.alloy.metal.configuration.ConfigurationLocation;
 import org.alloy.metal.configuration._Configuration;
@@ -23,10 +24,10 @@ public class ContextConfigurationManager extends ConfigurationManager {
 	protected List<ConfigurationLocation> getDefaultConfigurationLocations(Module module) {
 		List<ConfigurationLocation> locations = Lists.newArrayList();
 
-		locations.add(_Configuration.optional(_Configuration.moduleRelative(
+		locations.add(_Configuration.optional(_Module.moduleRelative(
 				_Configuration.createClasspathLocation("*-applicationContext.xml"), module)));
 
-		locations.add(_Configuration.optional(_Configuration.moduleRelative(
+		locations.add(_Configuration.optional(_Module.moduleRelative(
 				_Configuration.createClasspathLocation(AlloyConfigurationConstants.CONTEXT_RESOURCE_DIRECTORY + "*-applicationContext.xml"), module)));
 
 		return locations;
