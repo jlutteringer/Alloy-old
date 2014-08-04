@@ -49,7 +49,6 @@ import org.alloy.metal.configuration.PatchableConfiguration;
 import org.alloy.metal.configuration._Configuration;
 import org.alloy.metal.resource.ResourceInputStream;
 import org.alloy.metal.resource._Resource;
-import org.alloy.metal.string._String;
 import org.alloy.metal.xml.merge.handlers.MergeHandler;
 import org.alloy.metal.xml.merge.handlers.MergeMatcherType;
 import org.apache.commons.logging.Log;
@@ -295,8 +294,7 @@ public class MergeContext implements PatchableConfiguration, ApplicationContextA
 		List<MergeHandler> finalHandlers = Lists.newArrayList();
 		for (MergeHandler temp : tempHandlers) {
 			if (temp.getName().contains(".")) {
-				String parentName = _String.parse(temp.getName()).range().fromStart().toLast(".").parse();
-
+				String parentName = temp.getName().substring(0, temp.getName().lastIndexOf("."));
 				MergeHandler parent = _Iterable.getSingleResult(
 						_Iterable.filter(tempHandlers, (handler) -> handler.getName().equals(parentName)));
 

@@ -1,6 +1,13 @@
 package org.alloy.metal.string;
 
 public class StringParser {
+	private String string;
+
+	public StringParser(String string) {
+		this.string = string;
+		this.string.toCharArray();
+	}
+
 	public StringParserRangeStart range() {
 		// TODO Auto-generated method stub
 		return null;

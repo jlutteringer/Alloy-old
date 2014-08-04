@@ -10,7 +10,7 @@ import org.alloy.metal.collections.map._Map;
 import com.google.common.base.Throwables;
 
 public class _ExtendableEnumeration {
-	private static boolean configured = false;
+	private static volatile boolean configured = false;
 	private static Map<String, List<ExtendableEnumeration>> enumerations = _Map.defaultHashMap(_List.listSupplier());
 
 	public static boolean isConfigured() {

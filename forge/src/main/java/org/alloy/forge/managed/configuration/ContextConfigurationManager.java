@@ -25,7 +25,7 @@ public class ContextConfigurationManager extends ConfigurationManager {
 		List<ConfigurationLocation> locations = Lists.newArrayList();
 
 		locations.add(_Configuration.optional(_Module.moduleRelative(
-				_Configuration.createClasspathLocation("*-applicationContext.xml"), module)));
+				_Configuration.createClasspathLocation("*applicationContext.xml"), module)));
 
 		locations.add(_Configuration.optional(_Module.moduleRelative(
 				_Configuration.createClasspathLocation(AlloyConfigurationConstants.CONTEXT_RESOURCE_DIRECTORY + "*-applicationContext.xml"), module)));

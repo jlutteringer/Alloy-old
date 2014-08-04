@@ -1,7 +1,7 @@
 package org.alloy.metal.configuration;
 
 public class AlloyConfigurationConstants {
-	public static final String BOOTSTRAP_LOG4J_RESOURCE = "log4j-bootstrap.xml";
+	public static final String FORGE_LOG4J_RESOURCE = "log4j-forge.xml";
 	public static final String LOGGING_DIRECTORY = "logging/";
 	public static final String PROPERTIES_DIRECTORY = "properties/";
 	public static final String PERSISTENCE_DIRECTORY = "persistence/";

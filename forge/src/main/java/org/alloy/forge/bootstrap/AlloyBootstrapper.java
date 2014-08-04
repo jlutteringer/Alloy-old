@@ -58,7 +58,7 @@ public class AlloyBootstrapper {
 
 		EnumerationConfigurer.configureEnumerations();
 		_Logging.configureLog4j(
-				ResourceInputStream.transformer().apply(_Resource.getResource(AlloyConfigurationConstants.BOOTSTRAP_LOG4J_RESOURCE, bootstrapApplicationContext)));
+				ResourceInputStream.transformer().apply(_Resource.getResource(AlloyConfigurationConstants.FORGE_LOG4J_RESOURCE, bootstrapApplicationContext)));
 
 		bootstrapApplicationContext.setConfigLocations(getBootstrapConfigurationLocations().toArray(new String[0]));
 		bootstrapApplicationContext.refresh();

@@ -1,4 +1,4 @@
-package org.alloy.bootstrap.managed.user.enumerations;
+package org.alloy.forge.managed.user.enumerations;
 
 import java.util.List;
 

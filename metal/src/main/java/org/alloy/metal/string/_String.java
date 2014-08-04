@@ -17,7 +17,6 @@ public class _String {
 	}
 
 	public static StringParser parse(String string) {
-		// TODO Auto-generated method stub
-		return null;
+		return new StringParser(string);
 	}
 }
