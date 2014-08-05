@@ -1,7 +1,7 @@
-package org.alloy.site.managed.request;
+package org.alloy.site.request;
 
-import org.alloy.metal.order.Phase;
 import org.alloy.metal.order.ObjectOrderable.BiObjectOrderable;
+import org.alloy.metal.order.Phase;
 
 public interface RequestLifecycleOrdeable extends BiObjectOrderable<RequestLifecycle, Phase> {
 	@Override
@@ -15,10 +15,10 @@ public interface RequestLifecycleOrdeable extends BiObjectOrderable<RequestLifec
 	}
 
 	public default RequestLifecycle getRequestLifecycle() {
-		return RequestLifecycle.PRE_SECURITY;
+		return RequestLifecycle.DEFAULT;
 	}
 
 	public default Phase getLifecyclePhase() {
-		return Phase.NORMAL;
+		return Phase.DEFAULT;
 	}
 }

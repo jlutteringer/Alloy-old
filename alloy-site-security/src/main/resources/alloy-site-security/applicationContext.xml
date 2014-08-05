@@ -23,9 +23,6 @@
 		<sec:session-management session-fixation-protection="none" />
 
 		<sec:anonymous username="roleAnonymous" />
-		
-		<sec:custom-filter ref="preSecurityFilterChain" before="CHANNEL_FILTER"/>
-		<sec:custom-filter ref="postSecurityFilterChain" after="SWITCH_USER_FILTER"/>
   		
   		<sec:form-login login-page="/login"
 			login-processing-url="/j_spring_security_check"
@@ -35,16 +32,4 @@
 			
 		<sec:logout invalidate-session="true" logout-success-url="/" />
 	</sec:http>
-	
-	<bean id="preSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
-        <sec:filter-chain-map request-matcher="ant">
-            <sec:filter-chain pattern="/**" filters="alloyPreSecurityFilter"/>
-        </sec:filter-chain-map>
-    </bean>
-
-    <bean id="postSecurityFilterChain" class="org.springframework.security.web.FilterChainProxy">
-        <sec:filter-chain-map request-matcher="ant">
-            <sec:filter-chain pattern="/*" filters="alloyPostSecurityFilter"/>
-        </sec:filter-chain-map>
-    </bean>
 </beans>

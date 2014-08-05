@@ -5,17 +5,18 @@ import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
 
+import org.alloy.metal.object.LoggingObject;
 import org.alloy.metal.order.Phase;
-import org.alloy.site.managed.request.RequestLifecycle;
+import org.alloy.site.request.RequestLifecycle;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import com.google.common.collect.Lists;
 
-public class ConcreteAlloyFilterChain implements AlloyFilterChain {
-	private RequestMatcher requestMatcher;
-	private List<Filter> filters = Lists.newArrayList();
-	private RequestLifecycle requestLifecycle;
-	private Phase lifecyclePhase;
+public class ConcreteAlloyFilterChain extends LoggingObject implements AlloyFilterChain {
+	protected RequestMatcher requestMatcher;
+	protected List<Filter> filters = Lists.newArrayList();
+	protected RequestLifecycle requestLifecycle;
+	protected Phase lifecyclePhase;
 
 	@Override
 	public List<Filter> getFilters() {

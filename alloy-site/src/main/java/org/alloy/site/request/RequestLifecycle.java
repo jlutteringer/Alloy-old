@@ -1,4 +1,4 @@
-package org.alloy.site.managed.request;
+package org.alloy.site.request;
 
 import org.alloy.metal.enumeration.AbstractExtendableEnumeration;
 import org.alloy.metal.enumeration._ExtendableEnumeration;
@@ -10,6 +10,7 @@ public class RequestLifecycle extends AbstractExtendableEnumeration implements O
 	public static final RequestLifecycle PRE_SECURITY = _ExtendableEnumeration.create("PRE_SECURITY", "Pre Security Filters", RequestLifecycle.class);
 	public static final RequestLifecycle SECURITY = _ExtendableEnumeration.create("SECURITY", "Security Filters", RequestLifecycle.class);
 	public static final RequestLifecycle POST_SECURITY = _ExtendableEnumeration.create("POST_SECURITY", "Post Security Filters", RequestLifecycle.class);
+	public static final RequestLifecycle DEFAULT = PRE_SECURITY;
 
 	static {
 		PRE_SECURITY.order = 2000;

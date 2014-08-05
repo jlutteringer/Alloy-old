@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.alloy.forge.enumeration.AbstractEnumerationLoader;
 import org.alloy.metal.enumeration.ExtendableEnumeration;
-import org.alloy.site.managed.request.RequestLifecycle;
+import org.alloy.site.request.RequestLifecycle;
 
 public class WebEnumerationLoader extends AbstractEnumerationLoader {
 	@Override

@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import org.alloy.metal.enumeration._ExtendableEnumeration;
 import org.alloy.metal.order.Phase;
 import org.alloy.metal.reflection._Reflection;
-import org.alloy.site.managed.request.RequestLifecycle;
+import org.alloy.site.request.RequestLifecycle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.web.filter.DelegatingFilterProxy;

@@ -14,6 +14,8 @@ public class Phase extends AbstractExtendableEnumeration implements Orderable {
 	public static final Phase FINALIZATION = _ExtendableEnumeration.create("FINALIZATION", "Finalization", Phase.class);
 	public static final Phase POST_FINALIZATION = _ExtendableEnumeration.create("POST_FINALIZATION", "Post Finalization", Phase.class);
 
+	public static final Phase DEFAULT = NORMAL;
+
 	static {
 		PRE_INITIALIZATION.order = 1000;
 		INITIALIZATION.order = 2000;

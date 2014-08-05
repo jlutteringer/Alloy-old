@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
+import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizerBeanPostProcessor;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +42,7 @@ public class AlloyEmbeddedServletContainerCustomizer extends AlloyBean implement
 		TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
 
 		if (enableHttps) {
+			logger.debug("Enabling https connector for embedded tomcat servlet");
 			Connector connector = new Connector(Http11NioProtocol.class.getName());
 			connector.setPort(httpsPort.intValue());
 			connector.setSecure(true);
@@ -57,5 +59,10 @@ public class AlloyEmbeddedServletContainerCustomizer extends AlloyBean implement
 		}
 
 		tomcat.addConnectorCustomizers((defaultConnector) -> defaultConnector.setPort(httpPort.intValue()));
+	}
+
+	@Component
+	public static class AlloyEmbeddedServletContainerCustomizerBeanPostProcessor extends EmbeddedServletContainerCustomizerBeanPostProcessor {
+		// This class registers EmbeddedServletContainerCustomizer beans to the spring boot context
 	}
 }
