@@ -6,10 +6,11 @@ import javax.servlet.Filter;
 import javax.servlet.http.HttpServletRequest;
 
 import org.alloy.site.filter.AlloyFilterChain;
+import org.alloy.site.request.AbstractRequestLifecycleOrderable;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NoOpAlloyFilterChain implements AlloyFilterChain {
+public class NoOpAlloyFilterChain extends AbstractRequestLifecycleOrderable implements AlloyFilterChain {
 	@Override
 	public boolean matches(HttpServletRequest request) {
 		return false;

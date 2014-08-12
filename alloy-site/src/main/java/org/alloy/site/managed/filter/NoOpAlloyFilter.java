@@ -9,8 +9,10 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 import org.alloy.site.filter.AlloyFilter;
+import org.alloy.site.request.AbstractRequestLifecycleOrderable;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
-public class NoOpAlloyFilter implements AlloyFilter {
+public class NoOpAlloyFilter extends AbstractRequestLifecycleOrderable implements AlloyFilter {
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
 		// No op
@@ -25,5 +27,11 @@ public class NoOpAlloyFilter implements AlloyFilter {
 	@Override
 	public void destroy() {
 		// No op
+	}
+
+	@Override
+	public RequestMatcher getRequestMatcher() {
+		// No op
+		return null;
 	}
 }

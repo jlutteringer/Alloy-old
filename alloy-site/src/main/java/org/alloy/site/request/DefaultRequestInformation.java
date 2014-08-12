@@ -13,7 +13,7 @@ import org.springframework.ui.context.Theme;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
-public class DefaultRequestContext implements RequestContext {
+public class DefaultRequestInformation implements RequestInformation {
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
 	protected WebRequest webRequest;

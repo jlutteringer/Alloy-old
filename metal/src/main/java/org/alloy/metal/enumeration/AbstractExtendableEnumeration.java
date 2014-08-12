@@ -1,6 +1,7 @@
 package org.alloy.metal.enumeration;
 
-import org.alloy.metal.function.Option;
+import java.util.Optional;
+
 import org.alloy.metal.object._Object;
 
 public abstract class AbstractExtendableEnumeration implements ExtendableEnumeration {
@@ -36,7 +37,7 @@ public abstract class AbstractExtendableEnumeration implements ExtendableEnumera
 
 	@Override
 	public boolean equals(Object obj) {
-		Option<Boolean> equals = _Object.baseEquals(this, obj, true);
+		Optional<Boolean> equals = _Object.baseEquals(this, obj, true);
 		if (equals.isPresent()) {
 			return equals.get();
 		}

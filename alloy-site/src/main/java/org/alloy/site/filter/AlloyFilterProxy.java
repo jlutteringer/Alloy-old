@@ -14,12 +14,14 @@ import org.alloy.metal.reflection._Reflection;
 import org.alloy.site.request.RequestLifecycle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.web.filter.DelegatingFilterProxy;
 
 public class AlloyFilterProxy extends DelegatingFilterProxy implements AlloyFilter {
 	private final Logger logger = LogManager.getLogger(this.getClass());
 	protected RequestLifecycle requestLifecycle = RequestLifecycle.PRE_SECURITY;
 	protected Phase lifecyclePhase = Phase.NORMAL;
+	protected RequestMatcher requestMatcher;
 
 	public AlloyFilterProxy(Filter filter) {
 		super(filter);
@@ -53,5 +55,14 @@ public class AlloyFilterProxy extends DelegatingFilterProxy implements AlloyFilt
 
 	public void setLifecyclePhase(String phase) {
 		this.lifecyclePhase = _ExtendableEnumeration.getInstance(phase, Phase.class);
+	}
+
+	@Override
+	public RequestMatcher getRequestMatcher() {
+		return requestMatcher;
+	}
+
+	public void setRequestMatcher(RequestMatcher requestMatcher) {
+		this.requestMatcher = requestMatcher;
 	}
 }

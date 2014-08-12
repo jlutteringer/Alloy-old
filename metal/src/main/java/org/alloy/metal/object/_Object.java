@@ -1,27 +1,27 @@
 package org.alloy.metal.object;
 
-import org.alloy.metal.function.Option;
+import java.util.Optional;
 
 public class _Object {
-	public static Option<Boolean> baseEquals(Object first, Object second) {
+	public static Optional<Boolean> baseEquals(Object first, Object second) {
 		return baseEquals(first, second, false);
 	}
 
-	public static Option<Boolean> baseEquals(Object first, Object second, boolean checkType) {
+	public static Optional<Boolean> baseEquals(Object first, Object second, boolean checkType) {
 		if (first == second) {
-			return Option.of(true);
+			return Optional.of(true);
 		}
 		if (second == null) {
-			return Option.of(false);
+			return Optional.of(false);
 		}
 
 		if (checkType) {
 			if (!first.getClass().isAssignableFrom(second.getClass())) {
-				return Option.of(false);
+				return Optional.of(false);
 			}
 		}
 
-		return Option.empty();
+		return Optional.empty();
 	}
 
 	public static int hashCode(Object... fields) {

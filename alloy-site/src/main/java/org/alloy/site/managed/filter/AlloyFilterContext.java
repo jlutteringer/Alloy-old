@@ -25,7 +25,14 @@ public class AlloyFilterContext extends AlloyFilterChainProxy implements AlloyPr
 			logger.debug("Wrapping filter [" + filter + "] in default filter chain");
 			ConcreteAlloyFilterChain filterChain = new ConcreteAlloyFilterChain();
 			filterChain.addFilter(filter);
-			filterChain.setRequestMatcher(defaultRequestMatcher);
+
+			if (filter.getRequestMatcher() != null) {
+				filterChain.setRequestMatcher(filter.getRequestMatcher());
+			}
+			else {
+				filterChain.setRequestMatcher(defaultRequestMatcher);
+			}
+
 			filterChain.setLifecyclePhase(filter.getLifecyclePhase());
 			filterChain.setRequestLifecycle(filter.getRequestLifecycle());
 			filterChains.add(filterChain);

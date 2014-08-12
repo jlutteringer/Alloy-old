@@ -1,12 +1,12 @@
 package org.alloy.metal.function.equality;
 
 import java.util.Map;
+import java.util.Optional;
 
 import org.alloy.metal.function.Groups;
-import org.alloy.metal.function.Option;
-import org.alloy.metal.function._Tuple;
 import org.alloy.metal.function.Groups.BiGroup;
 import org.alloy.metal.function.Tuple.Pair;
+import org.alloy.metal.function._Tuple;
 import org.alloy.metal.object._Object;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -20,7 +20,7 @@ public class EqualityMapping<T> {
 
 	public boolean test(T first, T second) {
 		logger.printf(Level.TRACE, "Testing equality of objects [%s] [%s]", first, second);
-		Option<Boolean> baseTest = _Object.baseEquals(first, second);
+		Optional<Boolean> baseTest = _Object.baseEquals(first, second);
 		if (baseTest.isPresent()) {
 			return baseTest.get();
 		}
