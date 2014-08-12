@@ -32,8 +32,8 @@ public class AlloyFilterProxy extends DelegatingFilterProxy implements AlloyFilt
 			Filter delegate, ServletRequest request, ServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("AlloyFilterProxy invoking delegate [" + _Reflection.getField(this, "delegate", Filter.class) + "]");
+		if (logger.isTraceEnabled()) {
+			logger.trace("AlloyFilterProxy invoking delegate [" + _Reflection.getField(this, "delegate", Filter.class) + "]");
 		}
 
 		delegate.doFilter(request, response, filterChain);
@@ -64,5 +64,10 @@ public class AlloyFilterProxy extends DelegatingFilterProxy implements AlloyFilt
 
 	public void setRequestMatcher(RequestMatcher requestMatcher) {
 		this.requestMatcher = requestMatcher;
+	}
+
+	@Override
+	public String toString() {
+		return _Reflection.getField(this, "delegate", Filter.class).getClass().getSimpleName();
 	}
 }

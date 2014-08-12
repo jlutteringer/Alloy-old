@@ -8,4 +8,9 @@ public abstract class AbstractAlloyFilter extends OncePerRequestFilter implement
 	public RequestMatcher getRequestMatcher() {
 		return null;
 	}
+
+	@Override
+	public String toString() {
+		return this.getClass().getSimpleName();
+	}
 }

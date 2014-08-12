@@ -134,10 +134,8 @@ public class AlloyFilterChainProxy extends GenericFilterBean {
 		@Override
 		public void doFilter(ServletRequest request, ServletResponse response) throws IOException, ServletException {
 			if (currentPosition == size) {
-				if (logger.isDebugEnabled()) {
-					logger.debug(UrlUtils.buildRequestUrl(firewalledRequest)
-							+ " reached end of additional filter chain; proceeding with original chain");
-				}
+				logger.trace(UrlUtils.buildRequestUrl(firewalledRequest)
+						+ " reached end of additional filter chain; proceeding with original chain");
 
 				// Deactivate path stripping as we exit the security filter chain
 				this.firewalledRequest.reset();
@@ -148,11 +146,9 @@ public class AlloyFilterChainProxy extends GenericFilterBean {
 
 				Filter nextFilter = additionalFilters.get(currentPosition - 1);
 
-				if (logger.isDebugEnabled()) {
-					logger.debug(UrlUtils.buildRequestUrl(firewalledRequest) + " at position " + currentPosition + " of "
-							+ size + " in additional filter chain; firing Filter: '"
-							+ nextFilter.getClass().getSimpleName() + "'");
-				}
+				logger.debug(UrlUtils.buildRequestUrl(firewalledRequest) + " at position " + currentPosition + " of "
+						+ size + " in additional filter chain; firing Filter: '"
+						+ nextFilter.toString() + "'");
 
 				nextFilter.doFilter(request, response, this);
 			}

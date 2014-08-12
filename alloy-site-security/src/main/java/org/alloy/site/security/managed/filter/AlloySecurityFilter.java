@@ -15,4 +15,9 @@ public class AlloySecurityFilter extends AlloyFilterProxy {
 		super(filter);
 		requestLifecycle = RequestLifecycle.SECURITY;
 	}
+
+	@Override
+	public String toString() {
+		return "SecurityFilter";
+	}
 }

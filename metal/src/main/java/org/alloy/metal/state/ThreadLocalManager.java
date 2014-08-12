@@ -74,7 +74,6 @@ public class ThreadLocalManager {
 
 			@Override
 			public void set(T value) {
-				super.get();
 				super.set(value);
 			}
 		};
