@@ -1,11 +1,12 @@
-package org.alloy.site.managed.request;
+package org.alloy.site.managed.location;
 
 import java.util.TimeZone;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.WebRequest;
 
-//TODO
-public class TimeZoneResolver {
+@Component
+public class TimeZoneResolverImpl implements TimeZoneResolver {
 //	private final Log LOG = LogFactory.getLog(BroadleafTimeZoneResolverImpl.class);
 //
 //	/**
@@ -18,6 +19,7 @@ public class TimeZoneResolver {
 //	*/
 //	public static String TIMEZONE_CODE_PARAM = "blTimeZoneCode";
 
+	@Override
 	public TimeZone resolveTimeZone(WebRequest request) {
 //		TimeZone timeZone = null;
 //

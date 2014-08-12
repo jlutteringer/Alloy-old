@@ -2,12 +2,14 @@ package org.alloy.site.managed.request.initialization;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.alloy.metal.order.Phase;
 import org.alloy.metal.utilities._Exception;
 import org.alloy.site.filter.HaltFilterChainException;
 import org.alloy.site.filter.ManagedAlloyFilterChain;
-import org.alloy.site.managed.request.LocaleResolver;
+import org.alloy.site.managed.location.LocaleResolver;
+import org.alloy.site.managed.location.TimeZoneResolver;
 import org.alloy.site.managed.request.RequestManager;
-import org.alloy.site.managed.request.TimeZoneResolver;
+import org.alloy.site.request.DefaultRequestContext;
 import org.alloy.site.request.RequestContext;
 import org.alloy.site.request.RequestProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,11 @@ import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
 
 @Component
-public class InitializingFilterChain extends ManagedAlloyFilterChain {
+public class PreSecurityInitializingFilterChain extends ManagedAlloyFilterChain {
+	public PreSecurityInitializingFilterChain() {
+		this.lifecyclePhase = Phase.INITIALIZATION;
+	}
+
 	@Autowired
 	private void init(RequestContextInitializer requestContextInitializer) {
 		filters.add(requestContextInitializer);
@@ -44,6 +50,7 @@ public class InitializingFilterChain extends ManagedAlloyFilterChain {
 
 			// When a user elects to switch his sandbox, we want to invalidate the current session. We'll then redirect the
 			// user to the current URL so that the configured filters trigger again appropriately.
+			// TODO
 			Boolean reprocessRequest = (Boolean) request.getAttribute(RequestContext.REPROCESS_PARAM_NAME, WebRequest.SCOPE_REQUEST);
 			if (reprocessRequest != null && reprocessRequest) {
 				logger.debug("Reprocessing request");
@@ -70,12 +77,7 @@ public class InitializingFilterChain extends ManagedAlloyFilterChain {
 		}
 
 		private RequestContext createRequestContext() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		protected void clearBroadleafSessionAttrs(WebRequest request) {
-
+			return new DefaultRequestContext();
 		}
 	}
 }

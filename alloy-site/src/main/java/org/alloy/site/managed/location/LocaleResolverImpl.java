@@ -1,11 +1,13 @@
-package org.alloy.site.managed.request;
+package org.alloy.site.managed.location;
 
 import java.util.Locale;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.WebRequest;
 
 //TODO
-public class LocaleResolver {
+@Component
+public class LocaleResolverImpl implements LocaleResolver {
 //	private final Log LOG = LogFactory.getLog(BroadleafLocaleResolverImpl.class);
 //
 //	/**
@@ -27,6 +29,7 @@ public class LocaleResolver {
 //	@Resource(name = "blLocaleService")
 //	private LocaleService localeService;
 
+	@Override
 	public Locale resolveLocale(WebRequest request) {
 //		Locale locale = null;
 //
