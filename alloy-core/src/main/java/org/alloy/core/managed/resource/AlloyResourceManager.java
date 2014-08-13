@@ -51,12 +51,12 @@ public class AlloyResourceManager {
 			Resource resource = getResourceFromModule(module, baseLocation);
 
 			if (resource != null) {
-				logger.debug("Searching resource location " + resolvedLocation + " in " + module);
+				logger.trace("Searching resource location " + resolvedLocation + " in " + module);
 				resources.add(resource);
 			}
 		}
 
-		logger.printf(Level.DEBUG, "Found resources [%s] for location [%s]", resources, baseLocation);
+		logger.printf(Level.TRACE, "Found resources [%s] for location [%s]", resources, baseLocation);
 		return resources;
 	}
 

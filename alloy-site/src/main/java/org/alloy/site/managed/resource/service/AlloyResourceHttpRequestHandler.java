@@ -67,14 +67,10 @@ public class AlloyResourceHttpRequestHandler extends ResourceHttpRequestHandler 
 		}
 
 		if (mediaType != null) {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Determined media type '" + mediaType + "' for " + resource);
-			}
+			logger.trace("Determined media type '" + mediaType + "' for " + resource);
 		}
 		else {
-			if (logger.isDebugEnabled()) {
-				logger.debug("No media type found for " + resource + " - not sending a content-type header");
-			}
+			logger.trace("No media type found for " + resource + " - not sending a content-type header");
 		}
 
 		// header phase
@@ -113,13 +109,13 @@ public class AlloyResourceHttpRequestHandler extends ResourceHttpRequestHandler 
 		}
 
 		for (AlloyPathTransformer transformer : pathTransformers) {
-			logger.printf(Level.DEBUG, "Applying transformer [%s] to path [%s]", transformer, path);
+			logger.printf(Level.TRACE, "Applying transformer [%s] to path [%s]", transformer, path);
 			if (transformer.canHandle(path)) {
 				path = transformer.transform(path);
 				logger.printf(Level.DEBUG, "Transformer transformed path to [%s]", path);
 			}
 			else {
-				logger.debug("Transformer does not apply to path");
+				logger.trace("Transformer does not apply to path");
 			}
 		}
 

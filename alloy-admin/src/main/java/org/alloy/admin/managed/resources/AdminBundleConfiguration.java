@@ -1,4 +1,4 @@
-package org.alloy.angular.managed.resources;
+package org.alloy.admin.managed.resources;
 
 import java.util.List;
 
@@ -8,14 +8,21 @@ import org.alloy.site.resource.bundle.configuration.BundleConfigurations;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AngularCoreBundleConfiguration extends BundleConfigurationProvider {
+public class AdminBundleConfiguration extends BundleConfigurationProvider {
 	@Override
 	protected void addConfigurations(List<BundleConfiguration> configurations) {
 		configurations.add(
-				BundleConfigurations.create("/js/angular.js")
+				BundleConfigurations.create("/css/admin-global.css")
+						.dir("/css")
+						.addResource("/global.css")
+						.addResource("/libraries/bootstrap-darkly.css")
+						.build());
+
+		configurations.add(
+				BundleConfigurations.create("/js/admin-global.js")
 						.dir("/js")
-						.addResource("/libraries/angular/angular.js")
-						.addResource("/libraries/angular/ui-router.js")
+						.addResource("/global.js")
+						.addResource("/angular.js")
 						.build());
 	}
 }

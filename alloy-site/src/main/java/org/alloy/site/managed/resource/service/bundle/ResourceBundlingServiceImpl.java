@@ -7,8 +7,8 @@ import java.util.Map;
 import org.alloy.metal.domain.Path;
 import org.alloy.metal.resource._Resource;
 import org.alloy.metal.spring.AlloyBean;
-import org.alloy.metal.utilities._Exception;
 import org.alloy.metal.utilities._Closeable;
+import org.alloy.metal.utilities._Exception;
 import org.alloy.site.managed.resource.service.AlloyResourceResolverService;
 import org.alloy.site.resource.GeneratedResource;
 import org.alloy.site.resource.bundle.Bundle;
@@ -17,14 +17,14 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
-import com.google.common.collect.HashMultimap;
+import com.google.common.collect.LinkedHashMultimap;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 
 @Service
 public class ResourceBundlingServiceImpl extends AlloyBean implements ResourceBundlingService {
 	private Map<String, String> pathToBundle = Maps.newHashMap();
-	private Multimap<String, String> bundles = HashMultimap.create();
+	private Multimap<String, String> bundles = LinkedHashMultimap.create();
 
 	@Autowired
 	private AlloyResourceResolverService resourceResolver;

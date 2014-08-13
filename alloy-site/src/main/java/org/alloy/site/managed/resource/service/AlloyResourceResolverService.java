@@ -37,20 +37,20 @@ public class AlloyResourceResolverService extends AlloyBean {
 
 	public Resource getResource(Path path) {
 		for (AlloyResourceResolver resolver : resolvers) {
-			logger.printf(Level.DEBUG, "Applying resolver [%s] to path [%s]", resolver, path);
+			logger.printf(Level.TRACE, "Applying resolver [%s] to path [%s]", resolver, path);
 			if (resolver.canHandle(path)) {
 				Resource resource = resolver.getResource(path, getLocations());
 				logger.printf(Level.DEBUG, "Resolved resource [%s]", resource);
 
 				if (resource != null) {
 					for (AlloyResourceTransformer transformer : transformers) {
-						logger.printf(Level.DEBUG, "Applying transformer [%s] to path [%s]", transformer, path);
+						logger.printf(Level.TRACE, "Applying transformer [%s] to path [%s]", transformer, path);
 						if (transformer.canHandle(path, resource)) {
 							resource = transformer.transform(path, resource);
 							logger.printf(Level.DEBUG, "Transformed resource [%s]", transformer);
 						}
 						else {
-							logger.debug("Transformer does not apply to path");
+							logger.trace("Transformer does not apply to path");
 						}
 					}
 				}
@@ -58,15 +58,14 @@ public class AlloyResourceResolverService extends AlloyBean {
 				return resource;
 			}
 			else {
-				logger.debug("Resolver does not apply to path");
+				logger.trace("Resolver does not apply to path");
 			}
 		}
 
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	private List<Resource> getLocations() {
-		return (List<Resource>) (List<?>) resourceManager.getResources("resources");
+		return resourceManager.getResources("resources");
 	}
 }

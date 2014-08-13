@@ -31,6 +31,9 @@ public class AlloyEmbeddedServletContainerCustomizer extends AlloyBean implement
 	@Value("${https.enable}")
 	private boolean enableHttps;
 
+	@Value("${context.path}")
+	private String contextPath;
+
 	@Autowired
 	private AlloyResourceManager resourceManager;
 
@@ -40,6 +43,7 @@ public class AlloyEmbeddedServletContainerCustomizer extends AlloyBean implement
 	@Override
 	public void customize(ConfigurableEmbeddedServletContainer container) {
 		TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
+		tomcat.setContextPath(contextPath);
 
 		if (enableHttps) {
 			logger.debug("Enabling https connector for embedded tomcat servlet");

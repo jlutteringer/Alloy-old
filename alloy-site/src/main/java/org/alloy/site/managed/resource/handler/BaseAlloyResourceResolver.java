@@ -22,18 +22,15 @@ public class BaseAlloyResourceResolver extends AbstractAlloyResourceResolver {
 
 		for (Resource location : locations) {
 			try {
-				if (logger.isDebugEnabled()) {
-					logger.debug("Trying relative path [" + unversionedPath + "] against base location: " + location);
-				}
+				logger.trace("Trying relative path [" + unversionedPath + "] against base location: " + location);
+
 				Resource resource = location.createRelative("/resources" + unversionedPath);
 				if (resource.exists() && resource.isReadable()) {
-					if (logger.isDebugEnabled()) {
-						logger.debug("Found matching resource: " + resource);
-					}
+					logger.debug("Found matching resource: " + resource);
 
 					return resource;
 				}
-				else if (logger.isTraceEnabled()) {
+				else {
 					logger.trace("Relative resource doesn't exist or isn't readable: " + resource);
 				}
 			} catch (IOException ex) {

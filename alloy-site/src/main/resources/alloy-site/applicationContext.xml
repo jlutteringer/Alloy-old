@@ -46,6 +46,7 @@
 	            <props>
 	                <prop key="/js/**">resourceHttpRequestHandler</prop>
 	                <prop key="/css/**">resourceHttpRequestHandler</prop>
+	                <prop key="/fonts/**">resourceHttpRequestHandler</prop>
 	            </props>
 	        </property>
 	    </bean>

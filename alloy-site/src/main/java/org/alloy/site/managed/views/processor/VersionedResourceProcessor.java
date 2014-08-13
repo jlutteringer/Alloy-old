@@ -1,8 +1,12 @@
 package org.alloy.site.managed.views.processor;
 
+import javax.servlet.ServletContext;
+
 import org.alloy.metal.utilities._Url;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.Arguments;
@@ -20,6 +24,9 @@ public class VersionedResourceProcessor extends AbstractElementProcessor impleme
 	@Value("${project.version}")
 	private String version;
 
+	@Autowired
+	private ServletContext servletContext;
+
 	public VersionedResourceProcessor() {
 		super("resource");
 	}
@@ -27,22 +34,30 @@ public class VersionedResourceProcessor extends AbstractElementProcessor impleme
 	@Override
 	protected ProcessorResult processElement(Arguments arguments, Element element) {
 		String type = element.getAttributeValue("type");
-		String path = element.getAttributeValue("path");
+		String name = element.getAttributeValue("name");
+
+		String location;
+		if (!StringUtils.isBlank(name)) {
+			location = servletContext.getContextPath() + _Url.version("/" + type + _Url.normalize(name) + "." + type, version);
+		}
+		else {
+			// TODO test
+			String path = element.getAttributeValue("path");
+
+			Expression expression = (Expression) StandardExpressions.getExpressionParser(arguments.getConfiguration())
+					.parseExpression(arguments.getConfiguration(), arguments, path);
+
+			location = (String) expression.execute(arguments.getConfiguration(), arguments);
+			location = _Url.version(_Url.normalize(location), version);
+		}
 
 		NestableNode parent = element.getParent();
-
-		Expression expression = (Expression) StandardExpressions.getExpressionParser(arguments.getConfiguration())
-				.parseExpression(arguments.getConfiguration(), arguments, path);
-
-		String processedPath = (String) expression.execute(arguments.getConfiguration(), arguments);
-		processedPath = _Url.version(_Url.normalize(processedPath), version);
-
-		logger.trace("Processed element with url: [" + processedPath + "]");
+		logger.info("Processed element with url: [" + location + "]");
 		if (type.toLowerCase().equals("css")) {
-			parent.addChild(this.getLinkElement(processedPath));
+			parent.addChild(this.getLinkElement(location));
 		}
 		if (type.toLowerCase().equals("js")) {
-			parent.addChild(this.getScriptElement(processedPath));
+			parent.addChild(this.getScriptElement(location));
 		}
 
 		parent.removeChild(element);

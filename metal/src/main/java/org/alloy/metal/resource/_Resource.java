@@ -13,15 +13,14 @@ import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.function.ExceptionConsumer;
 import org.alloy.metal.reflection._ClassPath;
 import org.alloy.metal.spring.Spring;
-import org.alloy.metal.utilities._Exception;
 import org.alloy.metal.utilities._Closeable;
+import org.alloy.metal.utilities._Exception;
 import org.alloy.metal.utilities._File;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.security.util.InMemoryResource;
 
 import com.google.common.base.Throwables;
@@ -42,7 +41,7 @@ public class _Resource {
 		try {
 			logger.debug("Trying relative path [" + relativePath + "] against base location: " + location);
 
-			UrlResource resource = (UrlResource) location.createRelative(relativePath);
+			Resource resource = location.createRelative(relativePath);
 			if (exists(resource)) {
 				logger.debug("Found matching resource: " + resource);
 				return resource;

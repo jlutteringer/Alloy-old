@@ -17,7 +17,7 @@ public class AlloyDialect extends AbstractDialect {
 
 	@Override
 	public String getPrefix() {
-		return "v";
+		return "alloy";
 	}
 
 	@Override

@@ -26,6 +26,13 @@ public class BundleConfigurations {
 			return this;
 		}
 
+		public BundleConfigurationBuilder addResource(String name) {
+			NameConfigurationComponent component = new NameConfigurationComponent();
+			component.setName(dir + name);
+			config.getComponents().add(component);
+			return this;
+		}
+
 		public BundleConfiguration build() {
 			return config;
 		}
