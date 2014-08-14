@@ -67,10 +67,10 @@ public class AlloyResourceHttpRequestHandler extends ResourceHttpRequestHandler 
 		}
 
 		if (mediaType != null) {
-			logger.trace("Determined media type '" + mediaType + "' for " + resource);
+			logger.debug("Determined media type '" + mediaType + "' for " + resource);
 		}
 		else {
-			logger.trace("No media type found for " + resource + " - not sending a content-type header");
+			logger.debug("No media type found for " + resource + " - not sending a content-type header");
 		}
 
 		// header phase

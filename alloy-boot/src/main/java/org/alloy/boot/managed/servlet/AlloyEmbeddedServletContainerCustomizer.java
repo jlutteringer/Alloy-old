@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizerBeanPostProcessor;
+import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.boot.context.embedded.tomcat.TomcatEmbeddedServletContainerFactory;
 import org.springframework.stereotype.Component;
 
@@ -44,6 +45,12 @@ public class AlloyEmbeddedServletContainerCustomizer extends AlloyBean implement
 	public void customize(ConfigurableEmbeddedServletContainer container) {
 		TomcatEmbeddedServletContainerFactory tomcat = (TomcatEmbeddedServletContainerFactory) container;
 		tomcat.setContextPath(contextPath);
+
+		// FUTURE provide a way to extend this
+		MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
+		mappings.add("woff", "application/font-woff");
+		mappings.add("ttf", "application/x-font-ttf");
+		tomcat.setMimeMappings(mappings);
 
 		if (enableHttps) {
 			logger.debug("Enabling https connector for embedded tomcat servlet");
