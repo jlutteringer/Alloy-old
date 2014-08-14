@@ -15,7 +15,7 @@ public class WebBundleConfiguration extends BundleConfigurationProvider {
 				BundleConfigurations.create("/css/global.css")
 						.dir("/css")
 						.addResource("/libraries/bootstrap.css")
-						.addResource("/libraries/font-awesome.css")
+						.addResource("/libraries/font-awesome/font-awesome.css")
 						.build());
 
 		configurations.add(
