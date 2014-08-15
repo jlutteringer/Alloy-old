@@ -77,6 +77,11 @@
 						<encoding>UTF-8</encoding>
 			          	<nonFilteredFileExtensions>
 			            	<nonFilteredFileExtension>p12</nonFilteredFileExtension>
+			            	<nonFilteredFileExtension>eot</nonFilteredFileExtension>
+			            	<nonFilteredFileExtension>svg</nonFilteredFileExtension>
+			            	<nonFilteredFileExtension>woff</nonFilteredFileExtension>
+			            	<nonFilteredFileExtension>ttf</nonFilteredFileExtension>
+			            	<nonFilteredFileExtension>oft</nonFilteredFileExtension>
 			          	</nonFilteredFileExtensions>
 		          	</configuration>
 					<executions>
