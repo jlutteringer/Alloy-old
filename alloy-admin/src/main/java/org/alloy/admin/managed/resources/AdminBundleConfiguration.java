@@ -12,17 +12,17 @@ public class AdminBundleConfiguration extends BundleConfigurationProvider {
 	@Override
 	protected void addConfigurations(List<BundleConfiguration> configurations) {
 		configurations.add(
-				BundleConfigurations.create("/css/admin-global.css")
+				BundleConfigurations.create("/css/admin-global-bundle.css")
 						.dir("/css")
-						.addResource("/global.css")
+						.addResource("/global-bundle.css")
 						.addResource("/libraries/bootstrap-darkly.css")
 						.build());
 
 		configurations.add(
-				BundleConfigurations.create("/js/admin-global.js")
+				BundleConfigurations.create("/js/admin-global-bundle.js")
 						.dir("/js")
-						.addResource("/global.js")
-						.addResource("/angular.js")
+						.addResource("/global-bundle.js")
+						.addResource("/angular-bundle.js")
 						.build());
 	}
 }

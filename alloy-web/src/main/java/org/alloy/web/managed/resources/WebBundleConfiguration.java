@@ -12,14 +12,15 @@ public class WebBundleConfiguration extends BundleConfigurationProvider {
 	@Override
 	protected void addConfigurations(List<BundleConfiguration> configurations) {
 		configurations.add(
-				BundleConfigurations.create("/css/global.css")
+				BundleConfigurations.create("/css/global-bundle.css")
 						.dir("/css")
 						.addResource("/libraries/bootstrap.css")
 						.addResource("/libraries/font-awesome/font-awesome.css")
+						.addResource("/global.css")
 						.build());
 
 		configurations.add(
-				BundleConfigurations.create("/js/global.js")
+				BundleConfigurations.create("/js/global-bundle.js")
 						.dir("/js")
 						.addResource("/libraries/jquery.js")
 						.addResource("/libraries/bootstrap.js")

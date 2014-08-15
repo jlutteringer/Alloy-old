@@ -24,7 +24,8 @@
 		<bean id="templateResolver" class="org.alloy.site.views.AlloyTemplateResolver">
 			<property name="prefix" value="views/" />
 			<property name="suffix" value=".html" />
-			<property name="templateMode" value="HTML5" />
+			<property name="templateMode" value="LEGACYHTML5" />
+			<property name="cacheable" value="${thymeleaf.cache}"/>
 		</bean>
 	    
 		<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">

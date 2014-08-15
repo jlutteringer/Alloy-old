@@ -12,10 +12,11 @@ public class AngularCoreBundleConfiguration extends BundleConfigurationProvider 
 	@Override
 	protected void addConfigurations(List<BundleConfiguration> configurations) {
 		configurations.add(
-				BundleConfigurations.create("/js/angular.js")
+				BundleConfigurations.create("/js/angular-bundle.js")
 						.dir("/js")
 						.addResource("/libraries/angular/angular.js")
 						.addResource("/libraries/angular/ui-router.js")
+						.addPath("/angular/**")
 						.build());
 	}
 }
