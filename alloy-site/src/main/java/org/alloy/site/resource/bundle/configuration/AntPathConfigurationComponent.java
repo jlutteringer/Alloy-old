@@ -1,6 +1,6 @@
 package org.alloy.site.resource.bundle.configuration;
 
-public class AntPathConfigurationComponent implements BundleConfigurationComponent {
+public class AntPathConfigurationComponent implements ResourceConfigurationComponents {
 	private String pattern;
 
 	public String getPattern() {

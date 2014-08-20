@@ -2,17 +2,17 @@ package org.alloy.web.managed.resources;
 
 import java.util.List;
 
-import org.alloy.site.resource.bundle.BundleConfigurationProvider;
-import org.alloy.site.resource.bundle.configuration.BundleConfiguration;
-import org.alloy.site.resource.bundle.configuration.BundleConfigurations;
+import org.alloy.site.resource.bundle.ResourceConfigurationProvider;
+import org.alloy.site.resource.bundle.configuration.ResourceConfiguration;
+import org.alloy.site.resource.bundle.configuration.ResourceConfigurations;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WebBundleConfiguration extends BundleConfigurationProvider {
+public class WebBundleConfiguration extends ResourceConfigurationProvider {
 	@Override
-	protected void addConfigurations(List<BundleConfiguration> configurations) {
+	protected void addConfigurations(List<ResourceConfiguration> configurations) {
 		configurations.add(
-				BundleConfigurations.create("/css/global-bundle.css")
+				ResourceConfigurations.create("/css/global-bundle.css")
 						.dir("/css")
 						.addResource("/libraries/bootstrap.css")
 						.addResource("/libraries/font-awesome/font-awesome.css")
@@ -20,7 +20,7 @@ public class WebBundleConfiguration extends BundleConfigurationProvider {
 						.build());
 
 		configurations.add(
-				BundleConfigurations.create("/js/global-bundle.js")
+				ResourceConfigurations.create("/js/global-bundle.js")
 						.dir("/js")
 						.addResource("/libraries/jquery.js")
 						.addResource("/libraries/bootstrap.js")

@@ -12,8 +12,8 @@ import org.alloy.metal.spring.delegator.AbstractDelegator;
 import org.alloy.metal.spring.delegator.ClassTypeDelegate;
 import org.alloy.site.resource.bundle.Bundle;
 import org.alloy.site.resource.bundle.configuration.AntPathConfigurationComponent;
-import org.alloy.site.resource.bundle.configuration.BundleConfiguration;
-import org.alloy.site.resource.bundle.configuration.BundleConfigurationComponent;
+import org.alloy.site.resource.bundle.configuration.ResourceConfiguration;
+import org.alloy.site.resource.bundle.configuration.ResourceConfigurationComponents;
 import org.alloy.site.resource.bundle.configuration.NameConfigurationComponent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,7 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BundleConfigurationResolver extends AbstractConfigurationResolver<BundleConfiguration, Bundle> {
+public class BundleConfigurationResolver extends AbstractConfigurationResolver<ResourceConfiguration, Bundle> {
 	@Autowired
 	private BundleConfigurationResolverDelegator delegator;
 
@@ -31,7 +31,7 @@ public class BundleConfigurationResolver extends AbstractConfigurationResolver<B
 	}
 
 	@Override
-	protected List<Bundle> resolveItems(List<BundleConfiguration> configurations) {
+	protected List<Bundle> resolveItems(List<ResourceConfiguration> configurations) {
 		List<Bundle> bundles = _List.list();
 		configurations.forEach((configuration) -> {
 			Bundle bundle = new Bundle(configuration.getName());
@@ -45,15 +45,15 @@ public class BundleConfigurationResolver extends AbstractConfigurationResolver<B
 	}
 
 	@Component
-	static class BundleConfigurationResolverDelegator extends AbstractDelegator<BundleConfigurationDelegate<?>, BundleConfigurationComponent> {
+	static class BundleConfigurationResolverDelegator extends AbstractDelegator<BundleConfigurationDelegate<?>, ResourceConfigurationComponents> {
 
 	}
 
-	abstract static class BundleConfigurationDelegate<T extends BundleConfigurationComponent> extends ClassTypeDelegate<T, BundleConfigurationComponent> {
+	abstract static class BundleConfigurationDelegate<T extends ResourceConfigurationComponents> extends ClassTypeDelegate<T, ResourceConfigurationComponents> {
 		protected final Logger logger = LogManager.getLogger(this.getClass());
 
 		@SuppressWarnings("unchecked")
-		public List<String> resolve(BundleConfigurationComponent configuration) {
+		public List<String> resolve(ResourceConfigurationComponents configuration) {
 			return this.resolveInternal((T) configuration);
 		}
 

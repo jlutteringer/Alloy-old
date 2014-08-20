@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.alloy.metal.collections.lists._List;
 
-public class BundleConfiguration {
+public class ResourceConfiguration {
 	private String name;
-	private List<BundleConfigurationComponent> components = _List.list();
+	private List<ResourceConfigurationComponents> components = _List.list();
 
 	public String getName() {
 		return name;
@@ -16,11 +16,11 @@ public class BundleConfiguration {
 		this.name = name;
 	}
 
-	public List<BundleConfigurationComponent> getComponents() {
+	public List<ResourceConfigurationComponents> getComponents() {
 		return components;
 	}
 
-	public void setComponents(List<BundleConfigurationComponent> components) {
+	public void setComponents(List<ResourceConfigurationComponents> components) {
 		this.components = components;
 	}
 }

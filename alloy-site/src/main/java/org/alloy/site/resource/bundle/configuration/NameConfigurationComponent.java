@@ -1,6 +1,6 @@
 package org.alloy.site.resource.bundle.configuration;
 
-public class NameConfigurationComponent implements BundleConfigurationComponent {
+public class NameConfigurationComponent implements ResourceConfigurationComponents {
 	private String name;
 
 	public String getName() {
