@@ -3,7 +3,9 @@ package org.alloy.metal.collections;
 import java.util.Arrays;
 import java.util.Collection;
 
-public class CollectionBuilder<T extends Collection<N>, N> extends BackedCollection<N> {
+import com.google.common.collect.ForwardingCollection;
+
+public class CollectionBuilder<T extends Collection<N>, N> extends ForwardingCollection<N> {
 	private T collection;
 
 	public CollectionBuilder(T collection) {
@@ -17,7 +19,7 @@ public class CollectionBuilder<T extends Collection<N>, N> extends BackedCollect
 	}
 
 	@Override
-	public Collection<N> getBackingCollection() {
+	protected Collection<N> delegate() {
 		return collection;
 	}
 

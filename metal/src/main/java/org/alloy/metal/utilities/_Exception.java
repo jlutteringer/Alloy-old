@@ -28,6 +28,14 @@ public class _Exception {
 		}
 	}
 
+	public static void ignore(ExceptionOperation operation) {
+		try {
+			operation.apply();
+		} catch (Exception e) {
+			logger.debug("Ignoring exception: ", e);
+		}
+	}
+
 	public static <T> Optional<T> ignore(ExceptionSupplierOperation<T> operation) {
 		try {
 			return Optional.of(operation.get());

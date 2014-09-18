@@ -2,19 +2,18 @@ package org.alloy.metal.collections.tree;
 
 import java.util.Collection;
 
-import org.alloy.metal.collections.AbstractCollectionListener;
-import org.alloy.metal.collections.BackedCollection;
+import org.alloy.metal.collections.ListenableCollection;
+import org.alloy.metal.collections.ListenableCollection.CollectionOperation;
 import org.alloy.metal.collections._Collection;
 
-public abstract class AbstractTree<T> extends BackedCollection<T> implements Tree<T> {
+import com.google.common.collect.ForwardingCollection;
+
+public abstract class AbstractTree<T> extends ForwardingCollection<T> implements Tree<T> {
 	@Override
-	public Collection<T> getBackingCollection() {
-		return _Collection.listenableCollection(_Tree.flatten(this), new AbstractCollectionListener<T>() {
-			@Override
-			public void onAdd(T element) {
-				addChild(element);
-			}
-		});
+	protected Collection<T> delegate() {
+		ListenableCollection<T> listenableCollection = _Collection.listenableCollection(_Tree.flatten(this));
+		listenableCollection.addListener(CollectionOperation.ADD, this::addChild);
+		return listenableCollection;
 	}
 
 	@Override

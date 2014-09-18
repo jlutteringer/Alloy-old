@@ -1,69 +1,68 @@
 package org.alloy.metal.collections;
 
 import java.util.Collection;
+import java.util.function.Consumer;
 
-import org.alloy.metal.listener.Listenable;
-import org.alloy.metal.listener.ListenerRegistry;
-import org.alloy.metal.listener._Listener;
+import org.alloy.metal.listener.ListenerContext;
+import org.alloy.metal.utilities._Exception;
 
-public class ListenableCollection<T> extends BackedCollection<T> implements Listenable<Collection<T>> {
-	private ListenerRegistry<Collection<T>, CollectionListener<T>> listeners;
-	private Collection<T> collection;
+import com.google.common.collect.ForwardingCollection;
 
-	public ListenableCollection() {
-		listeners = _Listener.<Collection<T>, CollectionListener<T>> createRegistry(this);
+public class ListenableCollection<T> extends ForwardingCollection<T> {
+	private ListenerContext<CollectionOperation, T> listeners = new ListenerContext<>();
+	private final Collection<T> delegate;
+
+	public ListenableCollection(Collection<T> delegate) {
+		this.delegate = delegate;
 	}
 
 	@Override
-	public Collection<T> getBackingCollection() {
-		return collection;
-	}
-
-	public Collection<T> getCollection() {
-		return collection;
-	}
-
-	public void setCollection(Collection<T> collection) {
-		this.collection = collection;
-	}
-
-	@Override
-	public ListenerRegistry<Collection<T>, CollectionListener<T>> getListeners() {
-		return listeners;
+	protected Collection<T> delegate() {
+		return delegate;
 	}
 
 	@Override
 	public boolean add(final T element) {
-		listeners.apply((listener) -> listener.onAdd(element));
-		return this.getBackingCollection().add(element);
+		listeners.apply(CollectionOperation.ADD, element);
+		return this.delegate().add(element);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(final Object o) {
-		listeners.apply((listener) -> listener.onRemove(o));
-		return this.getBackingCollection().remove(o);
+		_Exception.ignore(() -> listeners.apply(CollectionOperation.REMOVE, (T) o));
+		return this.delegate().remove(o);
 	}
 
 	@Override
 	public boolean addAll(final Collection<? extends T> c) {
-		listeners.apply((listener) -> c.forEach((element) -> listener.onAdd(element)));
+		c.forEach((element) -> listeners.apply(CollectionOperation.ADD, element));
 		return this.addAll(c);
 	}
 
 	@Override
 	public boolean removeAll(final Collection<?> c) {
-		listeners.apply((listener) -> c.forEach((element) -> listener.onRemove(element)));
-		return this.getBackingCollection().removeAll(c);
+		c.forEach((element) -> _Exception.ignore(() -> listeners.apply(CollectionOperation.REMOVE, (T) element)));
+		return this.delegate().removeAll(c);
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
 		// FUTURE
-		return this.getBackingCollection().retainAll(c);
+		return this.delegate().retainAll(c);
 	}
 
 	@Override
 	public void clear() {
-		this.getBackingCollection().clear();
+		this.forEach((element) -> listeners.apply(CollectionOperation.REMOVE, element));
+		this.delegate().clear();
+	}
+
+	public enum CollectionOperation {
+		ADD, REMOVE
+	}
+
+	public void addListener(CollectionOperation operation, Consumer<T> listener) {
+		listeners.put(operation, listener);
 	}
 }
