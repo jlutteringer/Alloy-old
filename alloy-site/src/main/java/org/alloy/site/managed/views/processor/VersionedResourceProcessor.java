@@ -41,7 +41,7 @@ public class VersionedResourceProcessor extends AbstractElementProcessor impleme
 			location = servletContext.getContextPath() + _Url.version("/" + type + _Url.normalize(name) + "." + type, version);
 		}
 		else {
-			// TODO test
+			// FUTURE test
 			String path = element.getAttributeValue("path");
 
 			Expression expression = (Expression) StandardExpressions.getExpressionParser(arguments.getConfiguration())

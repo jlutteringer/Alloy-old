@@ -7,7 +7,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 public class RequestManagerImpl implements RequestManager {
 	@Override
 	public void clearSessionAttributes(ServletWebRequest request) {
-		// TODO Auto-generated method stub
+		// FUTURE Auto-generated method stub
 
 	}
 }

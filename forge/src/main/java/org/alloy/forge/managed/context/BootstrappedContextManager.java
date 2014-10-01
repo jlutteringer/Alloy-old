@@ -7,7 +7,7 @@ import org.alloy.forge.context.BootstrappedBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-// TODO review genericization
+// FUTURE review genericization
 @Component
 public class BootstrappedContextManager {
 	@Autowired

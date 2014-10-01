@@ -12,7 +12,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 public class ResponsePreperationProcessor extends StandaloneRequestProcessor {
 	@Override
 	public void processRequest(ServletWebRequest request) {
-		// TODO this is for font awesome and should be only for eot|ttf|otf|woff
+		// FUTURE this is for font awesome and should be only for eot|ttf|otf|woff
 		// there should be a way to more easily do this, however... similar to apache!
 		request.getResponse().setHeader("Access-Control-Allow-Origin", "*");
 	}

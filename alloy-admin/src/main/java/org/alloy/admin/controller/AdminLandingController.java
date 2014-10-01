@@ -1,17 +1,14 @@
 package org.alloy.admin.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.alloy.metal.spring.AlloyBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class AdminLandingController {
-	public static Logger logger = LogManager.getLogger(AdminLandingController.class);
-
+public class AdminLandingController extends AlloyBean {
 	@RequestMapping("/admin")
 	public String landing() {
 		logger.debug("Hello world");
-		return "landing";
+		return "adminLanding";
 	}
 }

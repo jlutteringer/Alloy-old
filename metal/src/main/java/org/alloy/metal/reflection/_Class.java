@@ -40,4 +40,8 @@ public class _Class {
 			return true;
 		};
 	}
+
+	public static Predicate<Object> include(List<Class<?>> includedClasses) {
+		return exclude(includedClasses).negate();
+	}
 }

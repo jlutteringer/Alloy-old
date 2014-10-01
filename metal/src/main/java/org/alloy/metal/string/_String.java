@@ -12,7 +12,7 @@ public class _String {
 	}
 
 	public static Stringifier stringify(Object object) {
-		// TODO Auto-generated method stub
+		// FUTURE Auto-generated method stub
 		return null;
 	}
 

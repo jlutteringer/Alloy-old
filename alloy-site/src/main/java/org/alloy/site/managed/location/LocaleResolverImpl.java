@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.WebRequest;
 
-//TODO
+//FUTURE
 @Component
 public class LocaleResolverImpl implements LocaleResolver {
 //	private final Log LOG = LogFactory.getLog(BroadleafLocaleResolverImpl.class);

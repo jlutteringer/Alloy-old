@@ -29,10 +29,10 @@ import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 import com.google.common.collect.Lists;
 
-//TODO find a way to get the font awesome font resources to work with different servlet context paths
+//FUTURE find a way to get the font awesome font resources to work with different servlet context paths
 //right now its hardcoded
 
-//TODO make bundling optional - if bundling is turned off then the bundle resources tags should just
+//FUTURE make bundling optional - if bundling is turned off then the bundle resources tags should just
 //expand to each individual component of the bundle
 @Service("resourceHttpRequestHandler")
 public class AlloyResourceHttpRequestHandler extends ResourceHttpRequestHandler {

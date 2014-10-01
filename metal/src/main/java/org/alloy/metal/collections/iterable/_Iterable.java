@@ -18,6 +18,10 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 public class _Iterable {
+	public static <T> Iterable<T> empty() {
+		return createFromIteratorGenerator(() -> Collections.emptyIterator());
+	}
+
 	public static <T> Iterable<T> createFromIteratorGenerator(Supplier<Iterator<T>> supplier) {
 		return new GeneratingIterable<T>(supplier);
 	}
@@ -122,5 +126,10 @@ public class _Iterable {
 		else {
 			return HashMultiset.create(first).equals(HashMultiset.create(second));
 		}
+	}
+
+	@SafeVarargs
+	public static <T> Iterable<T> concat(Iterable<T>... iterables) {
+		return Iterables.concat(iterables);
 	}
 }

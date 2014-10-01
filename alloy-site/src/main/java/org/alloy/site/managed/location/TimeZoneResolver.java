@@ -4,7 +4,7 @@ import java.util.TimeZone;
 
 import org.springframework.web.context.request.WebRequest;
 
-//TODO
+//FUTURE
 public interface TimeZoneResolver {
 	public TimeZone resolveTimeZone(WebRequest request);
 }

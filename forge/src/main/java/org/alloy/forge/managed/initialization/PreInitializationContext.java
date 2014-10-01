@@ -7,7 +7,7 @@ import org.alloy.metal.order.Orderable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-//TODO evaluate genericizm
+//FUTURE evaluate genericizm
 @Component
 public class PreInitializationContext {
 	@Autowired

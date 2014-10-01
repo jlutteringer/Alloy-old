@@ -5,7 +5,7 @@ import java.util.List;
 import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.enumeration.ExtendableEnumeration;
 
-//TODO evauluate genericism
+//FUTURE evauluate genericism
 public abstract class AbstractEnumerationLoader implements EnumerationLoader {
 
 	@Override

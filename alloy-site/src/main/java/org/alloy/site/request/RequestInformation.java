@@ -83,7 +83,7 @@ public class RequestInformation {
 		this.messageSource = messageSource;
 	}
 
-	// TODO
+	// FUTURE ???
 	public String getRequestURIWithoutContext() {
 		String requestURIWithoutContext = null;
 
@@ -104,7 +104,7 @@ public class RequestInformation {
 		return requestURIWithoutContext;
 	}
 
-	// TODO
+	// FUTURE ???
 	public boolean isSecure() {
 		boolean secure = false;
 		if (request != null) {

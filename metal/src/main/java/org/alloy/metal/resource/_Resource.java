@@ -11,11 +11,13 @@ import java.util.List;
 import org.alloy.metal.collections.iterable._Iterable;
 import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.function.ExceptionConsumer;
+import org.alloy.metal.function.ExceptionFunction;
 import org.alloy.metal.reflection._ClassPath;
 import org.alloy.metal.spring.Spring;
 import org.alloy.metal.utilities._Closeable;
 import org.alloy.metal.utilities._Exception;
 import org.alloy.metal.utilities._File;
+import org.alloy.metal.utilities._Stream;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -92,6 +94,10 @@ public class _Resource {
 		_Closeable.with(getInputStream(resource), consumer);
 	}
 
+	public static <T> T getInputStreamWithResult(Resource resource, ExceptionFunction<InputStream, T> function) {
+		return _Closeable.withResult(getInputStream(resource), function);
+	}
+
 	public static boolean isValidResource(Resource resource) {
 		if (resource.exists() && resource.isReadable()) {
 			return true;
@@ -142,5 +148,13 @@ public class _Resource {
 
 			return path;
 		});
+	}
+
+	public static String stringify(Resource resource) {
+		return getInputStreamWithResult(resource, _Stream::toString);
+	}
+
+	public static Resource toResource(String resourceData) {
+		return new GeneratedResource(resourceData.getBytes(), "generatedResource");
 	}
 }
