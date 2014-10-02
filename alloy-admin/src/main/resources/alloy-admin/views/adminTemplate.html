@@ -2,8 +2,8 @@
 	<alloy:resource type="css" name="admin-global-bundle" />
 	<alloy:resource type="js" name="admin-global-bundle" />
 </head>
-<body ng-app="alloyAdminDashboard">
-	<div class="navbar navbar-default navbar-fixed-top" ng-controller="alloyAdminNavbarController">
+<body ng-app>
+	<div class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
 				<a href="../" class="navbar-brand">Bootswatch</a>
@@ -13,23 +13,6 @@
 			</div>
 			<div class="navbar-collapse collapse" id="navbar-main">
 				<ul class="nav navbar-nav">
-					<li ng-repeat="navigationItem in simpleNavigationItems">
-						<a href="{{navigationItem.url}}">
-							{{navigationItem.name}}
-						</a>
-					</li>
-					
-					<li class="dropdown" ng-repeat="navigationItem in complexNavigationItems">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="{{navigationItem.url}}" id="{{navigationItem.name}}">{{navigationItem.name}} <span class="caret"></span></a>
-						<ul class="dropdown-menu" aria-labelledby="{{navigationItem.name}}">
-							<li ng-repeat="childNavigationItem in navigationItem.children">
-								<a href="{{childNavigationItem.url}}">
-									{{childNavigationItem.name}}
-								</a>
-							</li>
-						</ul>
-					</li>
-					
 					<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" id="themes">Themes <span class="caret"></span></a>
 						<ul class="dropdown-menu" aria-labelledby="themes">
 							<li><a href="../default/">Default</a></li>
@@ -81,6 +64,9 @@
 					<p class="lead">Flatly in night mode</p>
 				</div>
 				<div class="col-lg-4 col-md-5 col-sm-6">
+					<div class="sponsor">
+						<a href="http://gridgum.com/themes/category/bootstrap-themes/?utm_source=Bootswatch&utm_medium=250ad&utm_campaign=Bootswatch%20Campaign" target="_blank" onclick="_gaq.push(['_trackEvent', 'banner', 'click', 'gridgum']);"><img src="../assets/img/gridgum.png" alt="Gridgum" onload="_gaq.push(['_trackEvent', 'banner', 'impression', 'gridgum']);"></a>
+					</div>
 				</div>
 			</div>
 		</div>
