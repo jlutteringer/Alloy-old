@@ -10,6 +10,7 @@ import java.io.OutputStreamWriter;
 
 import org.alloy.core.managed.system._SystemProperty;
 import org.alloy.metal.spring.AlloyBean;
+import org.alloy.metal.string._String;
 import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,12 +70,12 @@ public class ResourceMinificationServiceImpl extends AlloyBean implements Resour
 		try {
 			// Input streams to read the bytes
 			ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-			InputStreamReader isr = new InputStreamReader(bais, "utf-8");
+			InputStreamReader isr = new InputStreamReader(bais, _String.CHARACTER_ENCODING);
 			in = new BufferedReader(isr);
 
 			// Output streams to save the modified bytes
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			OutputStreamWriter osw = new OutputStreamWriter(baos, "utf-8");
+			OutputStreamWriter osw = new OutputStreamWriter(baos, _String.CHARACTER_ENCODING);
 			out = new BufferedWriter(osw);
 
 			if ("js".equals(type)) {

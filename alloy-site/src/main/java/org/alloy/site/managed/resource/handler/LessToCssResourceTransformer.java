@@ -6,7 +6,6 @@ import org.alloy.site.managed.resource.less.AlloyLessCompiler;
 import org.alloy.site.resource.handler.AbstractAlloyResourceTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,16 +15,14 @@ public class LessToCssResourceTransformer extends AbstractAlloyResourceTransform
 
 	@Override
 	public boolean canHandle(Path path, Resource resource) {
-		if (resource instanceof UrlResource) {
-			if (_Resource.getPath(resource).endsWith(".less")) {
-				return true;
-			}
+		if (_Resource.getPath(resource).endsWith(".less")) {
+			return true;
 		}
 		return false;
 	}
 
 	@Override
 	public Resource transform(Path path, Resource resource) {
-		return lessCompiler.compile((UrlResource) resource);
+		return lessCompiler.compile(resource);
 	}
 }

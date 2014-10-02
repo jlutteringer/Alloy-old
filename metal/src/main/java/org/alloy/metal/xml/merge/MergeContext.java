@@ -49,6 +49,7 @@ import org.alloy.metal.configuration.PatchableConfiguration;
 import org.alloy.metal.configuration._Configuration;
 import org.alloy.metal.resource.ResourceInputStream;
 import org.alloy.metal.resource._Resource;
+import org.alloy.metal.string._String;
 import org.alloy.metal.xml.merge.handlers.MergeHandler;
 import org.alloy.metal.xml.merge.handlers.MergeMatcherType;
 import org.apache.commons.logging.Log;
@@ -241,7 +242,7 @@ public class MergeContext implements PatchableConfiguration, ApplicationContextA
 			TransformerFactory tFactory = TransformerFactory.newInstance();
 			Transformer xmlTransformer = tFactory.newTransformer();
 			xmlTransformer.setOutputProperty(OutputKeys.VERSION, "1.0");
-			xmlTransformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+			xmlTransformer.setOutputProperty(OutputKeys.ENCODING, _String.CHARACTER_ENCODING);
 			xmlTransformer.setOutputProperty(OutputKeys.METHOD, "xml");
 			xmlTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
 

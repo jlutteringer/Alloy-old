@@ -22,7 +22,9 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.security.util.InMemoryResource;
 
 import com.google.common.base.Throwables;
@@ -67,21 +69,18 @@ public class _Resource {
 	}
 
 	public static String getPath(Resource resource) {
-		try {
-			String path = resource.getURL().getPath();
-			logger.debug(String.format("Found path for resource: [%s] path :[%s]", resource, path));
-			return path;
-		} catch (IOException e) {
-			throw Throwables.propagate(e);
+		if (resource instanceof UrlResource || resource instanceof ClassPathResource) {
+			try {
+				String path = resource.getURL().getPath();
+				logger.debug(String.format("Found path for resource: [%s] path :[%s]", resource, path));
+				return path;
+			} catch (IOException e) {
+				throw Throwables.propagate(e);
+			}
 		}
-	}
-
-	public static Resource getResource(byte[] bytes) {
-		return new InMemoryResource(bytes);
-	}
-
-	public static Resource getResource(ByteArrayOutputStream os) {
-		return getResource(os.toByteArray());
+		else {
+			return resource.getDescription();
+		}
 	}
 
 	public static InputStream getInputStream(Resource resource) {
@@ -152,6 +151,14 @@ public class _Resource {
 
 	public static String stringify(Resource resource) {
 		return getInputStreamWithResult(resource, _Stream::toString);
+	}
+
+	public static Resource toResource(byte[] bytes) {
+		return new InMemoryResource(bytes);
+	}
+
+	public static Resource toResource(ByteArrayOutputStream os) {
+		return toResource(os.toByteArray());
 	}
 
 	public static Resource toResource(String resourceData) {

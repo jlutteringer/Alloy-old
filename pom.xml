@@ -33,6 +33,7 @@
 		<module>alloy-site-security</module>
 		<module>alloy-site-boot</module>
 		<module>alloy-angular</module>
+		<module>alloy-content</module>
 	</modules>
 	
 	<build>

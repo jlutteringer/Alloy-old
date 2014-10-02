@@ -1,6 +1,8 @@
 package org.alloy.metal.string;
 
 public class _String {
+	public static final String CHARACTER_ENCODING = "UTF-8";
+
 	public static String substringBetween(String string, String start, String end) {
 		// FUTURE
 		return string;

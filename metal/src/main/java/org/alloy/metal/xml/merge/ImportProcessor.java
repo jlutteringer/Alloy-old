@@ -39,6 +39,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.alloy.metal.resource.ResourceInputStream;
+import org.alloy.metal.string._String;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
@@ -98,7 +99,7 @@ public class ImportProcessor {
 					TransformerFactory tFactory = TransformerFactory.newInstance();
 					Transformer xmlTransformer = tFactory.newTransformer();
 					xmlTransformer.setOutputProperty(OutputKeys.VERSION, "1.0");
-					xmlTransformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+					xmlTransformer.setOutputProperty(OutputKeys.ENCODING, _String.CHARACTER_ENCODING);
 					xmlTransformer.setOutputProperty(OutputKeys.METHOD, "xml");
 					xmlTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
 

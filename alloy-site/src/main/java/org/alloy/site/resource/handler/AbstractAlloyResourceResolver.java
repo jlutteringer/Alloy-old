@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import java.util.List;
 
 import org.alloy.metal.domain.Path;
+import org.alloy.metal.string._String;
 import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.Resource;
 
@@ -52,7 +53,7 @@ public abstract class AbstractAlloyResourceResolver extends AbstractResourceHand
 		StringWriter writer = null;
 		try {
 			writer = new StringWriter();
-			IOUtils.copy(resource.getInputStream(), writer, "UTF-8");
+			IOUtils.copy(resource.getInputStream(), writer, _String.CHARACTER_ENCODING);
 			return writer.toString();
 		} finally {
 			if (writer != null) {

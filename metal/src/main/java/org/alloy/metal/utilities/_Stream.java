@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import org.alloy.metal.string._String;
 import org.springframework.core.io.Resource;
 
 import com.google.common.base.Throwables;
@@ -19,7 +20,7 @@ public class _Stream {
 		String line;
 		try {
 
-			br = new BufferedReader(new InputStreamReader(from));
+			br = new BufferedReader(new InputStreamReader(from, _String.CHARACTER_ENCODING));
 			while ((line = br.readLine()) != null) {
 				sb.append(line);
 			}

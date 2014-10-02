@@ -28,7 +28,7 @@ public class MinifyingResourceTransformer extends AbstractAlloyResourceTransform
 	@Override
 	public Resource transform(Path path, Resource resource) {
 		byte[] bytes = resourceMinificationService.minify(path.getPath(), _Resource.getBytes(resource));
-		return _Resource.getResource(bytes);
+		return _Resource.toResource(bytes);
 	}
 
 	@Override
