@@ -1,4 +1,4 @@
-package org.alloy.content.domain;
+package org.alloy.content.content.domain;
 
 import javax.persistence.MappedSuperclass;
 

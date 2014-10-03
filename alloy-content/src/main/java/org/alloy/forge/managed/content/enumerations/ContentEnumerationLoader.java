@@ -2,8 +2,8 @@ package org.alloy.forge.managed.content.enumerations;
 
 import java.util.List;
 
-import org.alloy.content.domain.ContentFieldType;
-import org.alloy.content.domain.ContentRelationType;
+import org.alloy.content.content.domain.ContentFieldType;
+import org.alloy.content.content.domain.ContentRelationType;
 import org.alloy.forge.enumeration.AbstractEnumerationLoader;
 import org.alloy.metal.enumeration.ExtendableEnumeration;
 

@@ -13,6 +13,10 @@
 			<groupId>org.alloy</groupId>
 			<artifactId>alloy-site-security</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.alloy</groupId>
+			<artifactId>alloy-content</artifactId>
+		</dependency>
 		
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>

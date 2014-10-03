@@ -1,4 +1,4 @@
-package org.alloy.content.domain;
+package org.alloy.content.content.domain;
 
 import org.alloy.metal.enumeration.AbstractExtendableEnumeration;
 import org.alloy.metal.enumeration._ExtendableEnumeration;
