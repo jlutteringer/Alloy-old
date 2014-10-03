@@ -2,6 +2,7 @@ package org.alloy.angular.managed.resources;
 
 import java.util.List;
 
+import org.alloy.angular.managed.resource.handler.DirectiveTemplatingResourceTransformer.AngularResourceConfiguration;
 import org.alloy.site.resource.ResourceConfigurationProvider;
 import org.alloy.site.resource.configuration.ResourceConfiguration;
 import org.alloy.site.resource.configuration.ResourceConfigurations;
@@ -16,5 +17,7 @@ public class AngularCoreBundleConfiguration extends ResourceConfigurationProvide
 				.include("/js/libraries/angular/ui-router.js")
 				.include("/js/angular/**")
 				.build());
+
+		configurations.add(AngularResourceConfiguration.resolveDirectiveTemplates("/js/angular/directives/**"));
 	}
 }
