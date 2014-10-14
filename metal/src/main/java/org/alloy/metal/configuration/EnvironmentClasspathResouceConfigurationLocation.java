@@ -19,7 +19,7 @@ public class EnvironmentClasspathResouceConfigurationLocation extends SingletonC
 	public Directory<String, String> getResourceLocationDirectory() {
 		Directory<String, String> directory = _Directory.newDirectory();
 		for (EnvironmentType type : this.getEnvironmentTypes()) {
-			directory.put(type.getType().toLowerCase(), String.format(resourceLocation, type.getType().toLowerCase()));
+			directory.put(type.getName().toLowerCase(), String.format(resourceLocation, type.getName().toLowerCase()));
 		}
 
 		return directory;

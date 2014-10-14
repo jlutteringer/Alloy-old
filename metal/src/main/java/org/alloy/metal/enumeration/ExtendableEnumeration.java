@@ -1,7 +1,7 @@
 package org.alloy.metal.enumeration;
 
-public interface ExtendableEnumeration {
-	public String getType();
+import org.alloy.metal.object.FriendlyNamed;
 
-	public String getFriendlyType();
+public interface ExtendableEnumeration extends FriendlyNamed {
+
 }

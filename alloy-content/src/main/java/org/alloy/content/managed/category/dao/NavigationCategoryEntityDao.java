@@ -5,6 +5,6 @@ import org.alloy.persistence.dao.AbstractDao;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class CategoryDao extends AbstractDao<NavigationCategoryEntity> {
+public class NavigationCategoryEntityDao extends AbstractDao<NavigationCategoryEntity> {
 
 }

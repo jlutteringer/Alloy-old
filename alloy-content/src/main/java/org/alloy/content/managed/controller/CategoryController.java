@@ -3,7 +3,7 @@ package org.alloy.content.managed.controller;
 import org.alloy.content.category.domain.NavigationCategory;
 import org.alloy.content.category.domain.NavigationCategoryEntity;
 import org.alloy.content.category.domain.SimpleNavigationCategory;
-import org.alloy.content.managed.category.service.CategoryService;
+import org.alloy.content.managed.category.service.NavigationCategoryService;
 import org.alloy.metal.json.JsonStatus;
 import org.alloy.metal.json._Json;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class CategoryController {
 	private static final String CATEGORY_API_URL = "/alloy/api/category";
 
 	@Autowired
-	private CategoryService categoryService;
+	private NavigationCategoryService categoryService;
 
 	@RequestMapping(value = CATEGORY_API_URL, method = RequestMethod.GET)
 	@ResponseBody

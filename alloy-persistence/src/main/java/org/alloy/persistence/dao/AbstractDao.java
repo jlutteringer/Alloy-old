@@ -9,7 +9,7 @@ import org.alloy.metal.reflection._Reflection;
 import org.alloy.metal.spring.TemplateAlloyBean;
 import org.alloy.persistence.managed.entities.EntityManagerContext;
 import org.alloy.persistence.utilities.EntityManagers;
-import org.alloy.persistence.utilities.Queries;
+import org.alloy.persistence.utilities._Query;
 import org.alloy.persistence.utilities.QueryQualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,12 +29,12 @@ public class AbstractDao<T extends Identifiable> extends TemplateAlloyBean<T> im
 
 	@Override
 	public List<T> findAll() {
-		return Queries.select(this.getEntityClassInternal(), getEntityManager()).getResults();
+		return _Query.select(this.getEntityClassInternal(), getEntityManager()).getResults();
 	}
 
 	@Override
 	public List<T> findAll(QueryQualifier qualifier) {
-		return Queries.select(this.getEntityClassInternal(), qualifier, getEntityManager()).getResults();
+		return _Query.select(this.getEntityClassInternal(), qualifier, getEntityManager()).getResults();
 	}
 
 	@Override

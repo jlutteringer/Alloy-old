@@ -7,7 +7,7 @@ import org.alloy.metal.collections.map._Map;
 import com.google.common.collect.Multimap;
 
 public class ListenerContext<T, N> {
-	private Multimap<T, Consumer<N>> internalMap = _Map.newMultiMap();
+	private Multimap<T, Consumer<N>> internalMap = _Map.multiMap();
 
 	public void apply(T key, N value) {
 		internalMap.get(key).forEach((element) -> element.accept(value));

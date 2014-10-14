@@ -3,7 +3,7 @@ package org.alloy.persistence.utilities;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
-public class Queries {
+public class _Query {
 	public static <T> QueryWrapper<T> select(Class<T> clazz, EntityManager em) {
 		return select(clazz, QueryQualifier.NULL, em);
 	}

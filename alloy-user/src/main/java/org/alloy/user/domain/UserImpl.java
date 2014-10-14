@@ -45,7 +45,7 @@ public class UserImpl extends BaseEntity implements User {
 	protected String authentication;
 
 	@Column(name = "type")
-	protected String type = UserType.NORMAL.getType();
+	protected String type = UserType.NORMAL.getName();
 
 	@ElementCollection
 	@MapKeyColumn(name = "fieldName")
@@ -106,7 +106,7 @@ public class UserImpl extends BaseEntity implements User {
 
 	@Override
 	public void setType(UserType type) {
-		this.type = type.getType();
+		this.type = type.getName();
 	}
 
 	@Override

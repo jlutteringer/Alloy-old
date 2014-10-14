@@ -38,7 +38,7 @@ public class PermissionImpl extends DescribedEntity implements Permission {
 
 	@Override
 	public void setType(PermissionType type) {
-		this.type = type.getType();
+		this.type = type.getName();
 	}
 
 	@Override

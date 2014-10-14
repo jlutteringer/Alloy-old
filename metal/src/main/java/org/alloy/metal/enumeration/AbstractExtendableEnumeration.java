@@ -2,37 +2,17 @@ package org.alloy.metal.enumeration;
 
 import java.util.Optional;
 
+import org.alloy.metal.object.AbstractFriendlyNamed;
 import org.alloy.metal.object._Object;
 
-public abstract class AbstractExtendableEnumeration implements ExtendableEnumeration {
-	private String type;
-	private String friendlyType;
-
+public abstract class AbstractExtendableEnumeration extends AbstractFriendlyNamed implements ExtendableEnumeration {
 	public AbstractExtendableEnumeration() {
 
 	}
 
-	protected void setType(String type) {
-		this.type = type;
-	}
-
-	protected void setFriendlyType(String friendlyType) {
-		this.friendlyType = friendlyType;
-	}
-
-	@Override
-	public String getType() {
-		return type;
-	}
-
-	@Override
-	public String getFriendlyType() {
-		return friendlyType;
-	}
-
 	@Override
 	public int hashCode() {
-		return _Object.hashCode(type);
+		return _Object.hashCode(name);
 	}
 
 	@Override
@@ -43,7 +23,7 @@ public abstract class AbstractExtendableEnumeration implements ExtendableEnumera
 		}
 
 		AbstractExtendableEnumeration other = (AbstractExtendableEnumeration) obj;
-		if (!this.getType().equals(other.getType())) {
+		if (!this.getName().equals(other.getName())) {
 			return false;
 		}
 
@@ -52,6 +32,6 @@ public abstract class AbstractExtendableEnumeration implements ExtendableEnumera
 
 	@Override
 	public String toString() {
-		return this.getType();
+		return this.getName();
 	}
 }

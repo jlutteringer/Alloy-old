@@ -28,8 +28,8 @@ public class _ExtendableEnumeration {
 
 		try {
 			T newEnumeration = clazz.newInstance();
-			newEnumeration.setType(type);
-			newEnumeration.setFriendlyType(friendlyType);
+			newEnumeration.setName(type);
+			newEnumeration.setFriendlyName(friendlyType);
 			enumerations.get(type).add(newEnumeration);
 
 			return newEnumeration;
