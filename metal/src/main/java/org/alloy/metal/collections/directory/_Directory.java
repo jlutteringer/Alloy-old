@@ -1,6 +1,5 @@
 package org.alloy.metal.collections.directory;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -24,12 +23,7 @@ public class _Directory {
 	}
 
 	public static <T, N> Iterable<DirectoryEntry<T, N>> unwrapEntries(Iterable<DirectoryIndex<T, N>> indexes) {
-		return _Iterable.multiplexingIterable(indexes, new Function<DirectoryIndex<T, N>, Iterator<DirectoryEntry<T, N>>>() {
-			@Override
-			public Iterator<DirectoryEntry<T, N>> apply(DirectoryIndex<T, N> first) {
-				return first.getEntries().iterator();
-			}
-		});
+		return _Iterable.multiplexingIterable(indexes, (index) -> index.getEntries());
 	}
 
 	public static <T, N> Predicate<DirectoryIndex<T, N>> getDirectoryIndexKeyMatcher(final T key) {

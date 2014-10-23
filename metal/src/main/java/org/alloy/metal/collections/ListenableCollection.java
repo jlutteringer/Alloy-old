@@ -40,7 +40,6 @@ public class ListenableCollection<T> extends ForwardingCollection<T> {
 		return this.addAll(c);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public boolean removeAll(final Collection<?> c) {
 		c.forEach((element) -> _Exception.ignore(() -> listeners.apply(CollectionOperation.REMOVE, (T) element)));

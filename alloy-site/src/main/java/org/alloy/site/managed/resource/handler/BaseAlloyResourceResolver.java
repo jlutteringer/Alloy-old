@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.alloy.metal.domain.Path;
-import org.alloy.metal.utilities._Url;
+import org.alloy.metal.url._Url;
 import org.alloy.site.resource.handler.AbstractAlloyResourceResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;

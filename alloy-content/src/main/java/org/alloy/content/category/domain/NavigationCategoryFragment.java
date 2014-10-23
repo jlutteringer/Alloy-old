@@ -1,13 +1,9 @@
 package org.alloy.content.category.domain;
 
-public class NavigationCategoryFragment extends AbstractNavigationCategory {
-	private String parentCategoryKey;
+import org.alloy.metal.object.FriendlyNamed;
 
-	public String getParentCategoryKey() {
-		return parentCategoryKey;
-	}
+public interface NavigationCategoryFragment extends FriendlyNamed {
+	public String getParentCategoryName();
 
-	public void setParentCategoryKey(String parentCategoryKey) {
-		this.parentCategoryKey = parentCategoryKey;
-	}
+	public void setParentCategoryName(String parentCategoryName);
 }

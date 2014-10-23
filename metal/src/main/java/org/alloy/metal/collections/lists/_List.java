@@ -2,6 +2,7 @@ package org.alloy.metal.collections.lists;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Queue;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -51,5 +52,9 @@ public class _List {
 	@SafeVarargs
 	public static <T> List<T> add(List<T> list, T... items) {
 		return add(list, Arrays.asList(items));
+	}
+
+	public static <T> Queue<T> queue() {
+		return Lists.newLinkedList();
 	}
 }

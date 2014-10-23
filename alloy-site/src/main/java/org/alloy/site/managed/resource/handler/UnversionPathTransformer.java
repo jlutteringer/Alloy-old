@@ -1,7 +1,7 @@
 package org.alloy.site.managed.resource.handler;
 
 import org.alloy.metal.domain.Path;
-import org.alloy.metal.utilities._Url;
+import org.alloy.metal.url._Url;
 import org.alloy.site.resource.handler.AbstractAlloyPathTransformer;
 import org.springframework.stereotype.Component;
 

@@ -2,7 +2,7 @@ package org.alloy.content.managed.controller;
 
 import org.alloy.content.category.domain.NavigationCategory;
 import org.alloy.content.category.domain.NavigationCategoryEntity;
-import org.alloy.content.category.domain.SimpleNavigationCategory;
+import org.alloy.content.category.domain.NavigationCategoryFragment;
 import org.alloy.content.managed.category.service.NavigationCategoryService;
 import org.alloy.metal.json.JsonStatus;
 import org.alloy.metal.json._Json;
@@ -24,23 +24,23 @@ public class CategoryController {
 	@RequestMapping(value = CATEGORY_API_URL, method = RequestMethod.GET)
 	@ResponseBody
 	public NavigationCategory getCategory(@RequestParam String key) {
-		return categoryService.findByKey(key);
+		return categoryService.findByName(key);
 	}
 
 	@RequestMapping(value = CATEGORY_API_URL, method = RequestMethod.POST)
 	@ResponseBody
-	public NavigationCategoryEntity createCategory(@RequestBody SimpleNavigationCategory category) {
+	public NavigationCategoryEntity createCategory(@RequestBody NavigationCategoryFragment categoryFragment) {
 		return null;
 	}
 
 	@RequestMapping(value = CATEGORY_API_URL, method = RequestMethod.DELETE)
 	@ResponseBody
-	public JsonStatus removeCategory(@RequestParam String key) {
-		NavigationCategory category = categoryService.findByKey(key);
+	public JsonStatus removeCategory(@RequestParam String name) {
+		NavigationCategoryFragment category = categoryService.findFragmentByName(name);
 		if (category instanceof NavigationCategoryEntity) {
-			categoryService.delete((NavigationCategoryEntity) category);
+			categoryService.remove((NavigationCategoryEntity) category);
 			return _Json.success();
 		}
-		return _Json.failure("Category {} cannot be deleted because it is not an entity", key);
+		return _Json.failure("Category {} cannot be deleted because it is not an entity", name);
 	}
 }

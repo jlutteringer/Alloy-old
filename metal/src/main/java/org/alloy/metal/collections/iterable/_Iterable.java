@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.alloy.metal.collections.iterable.IteratorSupplierContext.BreadthTraversingIteratorProcessor;
 import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.function.NullableValue;
 import org.alloy.metal.function.StatefulSupplier;
@@ -30,18 +31,12 @@ public class _Iterable {
 		return _Iterable.createFromIteratorGenerator(_Iterable.createIteratorGeneratorFromElementGenerator(supplier, stateGenerator));
 	}
 
-	private static <T, N> Supplier<Iterator<T>> createIteratorGeneratorFromElementGenerator(StatefulSupplier<N, NullableValue<T>> supplier, Supplier<N> stateGenerator) {
-		return () -> new GeneratingIterator<T, N>(supplier, stateGenerator.get());
-	}
-
-	public static <T, N> Iterable<N> multiplexingIterable(Iterable<T> iterable, Function<T, Iterator<N>> transformer) {
-		IteratorSupplierContext<T, N> context = new IteratorSupplierContext<>(iterable);
-		context.setTransformer(transformer);
+	public static <T, N> Iterable<T> createFromContext(IteratorSupplierContext<N, T> context) {
 		return _Iterable.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
 	}
 
-	public static <T> Iterable<T> flatten(Iterable<? extends Iterable<T>> multiIterator) {
-		return _Iterable.multiplexingIterable(multiIterator, (interalIterator) -> interalIterator.iterator());
+	private static <T, N> Supplier<Iterator<T>> createIteratorGeneratorFromElementGenerator(StatefulSupplier<N, NullableValue<T>> supplier, Supplier<N> stateGenerator) {
+		return () -> new GeneratingIterator<T, N>(supplier, stateGenerator.get());
 	}
 
 	public static <T> Iterable<T> unique(Iterable<T> iterable, SymmetricEqualitor<T> equality) {
@@ -69,20 +64,20 @@ public class _Iterable {
 	public static <T> Iterable<T> filter(Iterable<T> iterable, Predicate<? super T> filter) {
 		IteratorSupplierContext<T, T> context = new IteratorSupplierContext<>(iterable);
 		context.setFilter(filter);
-		return _Iterable.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
+		return _Iterable.createFromContext(context);
 	}
 
 	public static <T, N> Iterable<N> transform(Iterable<T> iterable, Function<T, N> transformer) {
 		IteratorSupplierContext<T, N> context = new IteratorSupplierContext<>(iterable);
 		context.setTransformer(_Iterable.singletonIteratorTransformer(transformer));
-		return _Iterable.createFromElementSupplier(context.getPrimarySupplier(), context.getStateSupplier());
+		return _Iterable.createFromContext(context);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T, N> Function<T, Iterator<N>> singletonIteratorTransformer(Function<T, N> transformer) {
+	public static <T, N> Function<T, Iterable<N>> singletonIteratorTransformer(Function<T, N> transformer) {
 		return (value) -> {
 			N transformedValue = transformer.apply(value);
-			return Lists.newArrayList(transformedValue).iterator();
+			return Lists.newArrayList(transformedValue);
 		};
 	}
 
@@ -131,5 +126,22 @@ public class _Iterable {
 	@SafeVarargs
 	public static <T> Iterable<T> concat(Iterable<T>... iterables) {
 		return Iterables.concat(iterables);
+	}
+
+	public static <T, N> Iterable<N> multiplexingIterable(Iterable<T> iterable, Function<T, Iterable<N>> transformer) {
+		IteratorSupplierContext<T, N> context = new IteratorSupplierContext<>(iterable);
+		context.setTransformer(transformer);
+		return _Iterable.createFromContext(context);
+	}
+
+	public static <T> Iterable<T> flatten(Iterable<? extends Iterable<T>> multiIterator) {
+		return _Iterable.multiplexingIterable(multiIterator, (interalIterator) -> interalIterator);
+	}
+
+	public static <T> Iterable<T> traverse(Iterable<T> iterable, Function<T, Iterable<T>> traverser) {
+		IteratorSupplierContext<T, T> context = new IteratorSupplierContext<>(iterable);
+		context.setTransformer(traverser);
+		context.setProcessor(new BreadthTraversingIteratorProcessor<>());
+		return _Iterable.createFromContext(context);
 	}
 }

@@ -2,20 +2,16 @@ package org.alloy.persistence.dao;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.alloy.metal.object.Identifiable;
 import org.alloy.metal.reflection._Reflection;
 import org.alloy.metal.spring.TemplateAlloyBean;
-import org.alloy.persistence.managed.entities.EntityManagerContext;
-import org.alloy.persistence.utilities.EntityManagers;
-import org.alloy.persistence.utilities._Query;
+import org.alloy.persistence.managed.GenericDao;
 import org.alloy.persistence.utilities.QueryQualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class AbstractDao<T extends Identifiable> extends TemplateAlloyBean<T> implements Dao<T> {
 	@Autowired
-	private EntityManagerContext context;
+	private GenericDao genericDao;
 
 	@Override
 	public T create() {
@@ -24,31 +20,27 @@ public class AbstractDao<T extends Identifiable> extends TemplateAlloyBean<T> im
 
 	@Override
 	public T find(Long id) {
-		return getEntityManager().find(this.getEntityClassInternal(), id);
+		return genericDao.find(this.getEntityClassInternal(), id);
 	}
 
 	@Override
 	public List<T> findAll() {
-		return _Query.select(this.getEntityClassInternal(), getEntityManager()).getResults();
+		return genericDao.findAll(this.getEntityClassInternal());
 	}
 
 	@Override
 	public List<T> findAll(QueryQualifier qualifier) {
-		return _Query.select(this.getEntityClassInternal(), qualifier, getEntityManager()).getResults();
+		return genericDao.findAll(this.getEntityClassInternal(), qualifier);
 	}
 
 	@Override
 	public T save(T entity) {
-		return getEntityManager().merge(entity);
+		return genericDao.save(entity);
 	}
 
 	@Override
 	public void delete(T entity) {
-		getEntityManager().remove(entity);
-	}
-
-	protected EntityManager getEntityManager() {
-		return EntityManagers.findEmForClass(context.getAllEntityManagers(), this.getEntityClassInternal());
+		genericDao.remove(entity);
 	}
 
 	@SuppressWarnings("unchecked")

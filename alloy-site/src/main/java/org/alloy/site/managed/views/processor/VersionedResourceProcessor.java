@@ -2,7 +2,7 @@ package org.alloy.site.managed.views.processor;
 
 import javax.servlet.ServletContext;
 
-import org.alloy.metal.utilities._Url;
+import org.alloy.metal.url._Url;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

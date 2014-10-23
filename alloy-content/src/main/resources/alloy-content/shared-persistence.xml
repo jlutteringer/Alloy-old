@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence>
     <persistence-unit name="primary">
-
+		<class>org.alloy.content.category.domain.NavigationCategoryEntity</class>
     </persistence-unit>
 </persistence>

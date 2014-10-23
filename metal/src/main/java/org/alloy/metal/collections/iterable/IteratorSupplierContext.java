@@ -1,22 +1,28 @@
 package org.alloy.metal.collections.iterable;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.alloy.metal.collections._Iterator;
 import org.alloy.metal.collections.iterable.IteratorSupplierContext.IteratorSupplierState;
+import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.function.NullableValue;
 import org.alloy.metal.function.StatefulSupplier;
 import org.alloy.metal.function.SupplierContext;
 import org.alloy.metal.function._Function;
 import org.alloy.metal.function._Predicate;
 
+import com.google.common.collect.Iterators;
+
 public class IteratorSupplierContext<T, N> implements SupplierContext<IteratorSupplierState<T, N>, NullableValue<N>> {
 	private Iterable<T> iterable;
+	private IteratorProcessor<T, N> processor = new DefaultIteratorProcessor<>();
 
+	private Function<T, Iterable<N>> transformer = _Iterable.singletonIteratorTransformer(_Function.cast());
 	private Predicate<? super N> filter = _Predicate.matchAll();
-	private Function<T, Iterator<N>> transformer = _Iterable.singletonIteratorTransformer(_Function.cast());
 
 	public IteratorSupplierContext(Iterable<T> iterable) {
 		this.iterable = iterable;
@@ -25,56 +31,33 @@ public class IteratorSupplierContext<T, N> implements SupplierContext<IteratorSu
 	@Override
 	public StatefulSupplier<IteratorSupplierState<T, N>, NullableValue<N>> getPrimarySupplier() {
 		return (state) -> {
-			return this.checkPrimary(state);
+			return this.getNext(state);
 		};
 	}
 
-	private NullableValue<N> checkPrimary(IteratorSupplierState<T, N> state) {
-		boolean finished = false;
-		while (!finished) {
-			NullableValue<N> value = checkSecondary(state);
-			if (value.isDefined()) {
-				return value;
-			}
-
-			if (state.primaryIterator().hasNext()) {
-				T primaryValue = state.primaryIterator().next();
-				Iterator<N> secondaryIterator = transformer.apply(primaryValue);
-				state.setSecondaryIterator(secondaryIterator);
-			}
-			else {
-				finished = true;
-			}
-		}
-
-		return NullableValue.none();
+	@Override
+	public Supplier<IteratorSupplierState<T, N>> getStateSupplier() {
+		return () -> {
+			return new IteratorSupplierState<>(iterable.iterator());
+		};
 	}
 
-	private NullableValue<N> checkSecondary(IteratorSupplierState<T, N> state) {
+	private NullableValue<N> getNext(IteratorSupplierState<T, N> state) {
 		boolean finished = false;
-		if (state.secondaryIterator() != null) {
-			while (!finished) {
-				if (state.secondaryIterator().hasNext()) {
-					N value = state.secondaryIterator().next();
-					if (filter.test(value)) {
-						return NullableValue.of(value);
-					}
+		while (!finished) {
+			try {
+				return NullableValue.of(_Iterator.next(state.getResults(), filter));
+			} catch (NoSuchElementException e) {
+				if (state.getValuesToProcess().hasNext()) {
+					processor.processValues(state, transformer);
 				}
 				else {
-					state.clearSecondaryIterator();
 					finished = true;
 				}
 			}
 		}
 
 		return NullableValue.none();
-	}
-
-	@Override
-	public Supplier<IteratorSupplierState<T, N>> getStateSupplier() {
-		return () -> {
-			return new IteratorSupplierState<T, N>(iterable.iterator());
-		};
 	}
 
 	public Predicate<? super N> getFilter() {
@@ -85,36 +68,67 @@ public class IteratorSupplierContext<T, N> implements SupplierContext<IteratorSu
 		this.filter = filter;
 	}
 
-	public Function<T, Iterator<N>> getTransformer() {
+	public Function<T, Iterable<N>> getTransformer() {
 		return transformer;
 	}
 
-	public void setTransformer(Function<T, Iterator<N>> transformer) {
+	public void setTransformer(Function<T, Iterable<N>> transformer) {
 		this.transformer = transformer;
 	}
 
+	public void setProcessor(IteratorProcessor<T, N> processor) {
+		this.processor = processor;
+	}
+
 	public static class IteratorSupplierState<T, N> {
-		private Iterator<? extends T> primaryIterator;
-		private Iterator<N> secondaryIterator;
+		private Iterator<T> valuesToProcess;
+		private Iterator<N> results;
 
-		public IteratorSupplierState(Iterator<? extends T> primaryIterator) {
-			this.primaryIterator = primaryIterator;
+		public IteratorSupplierState(Iterator<T> valuesToProcess) {
+			this.valuesToProcess = valuesToProcess;
 		}
 
-		public void clearSecondaryIterator() {
-			secondaryIterator = null;
+		public Iterator<T> getValuesToProcess() {
+			return valuesToProcess;
 		}
 
-		public Iterator<? extends T> primaryIterator() {
-			return primaryIterator;
+		public void setValuesToProcess(Iterator<T> valuesToProcess) {
+			this.valuesToProcess = valuesToProcess;
 		}
 
-		public Iterator<N> secondaryIterator() {
-			return secondaryIterator;
+		public Iterator<N> getResults() {
+			if (results == null) {
+				return Iterators.emptyIterator();
+			}
+			return results;
 		}
 
-		public void setSecondaryIterator(Iterator<N> secondaryIterator) {
-			this.secondaryIterator = secondaryIterator;
+		public void setResults(Iterator<N> results) {
+			this.results = results;
+		}
+	}
+
+	public interface IteratorProcessor<T, N> {
+		public void processValues(IteratorSupplierState<T, N> state, Function<T, Iterable<N>> transformer);
+	}
+
+	public static class DefaultIteratorProcessor<T, N> implements IteratorProcessor<T, N> {
+		@Override
+		public void processValues(IteratorSupplierState<T, N> state, Function<T, Iterable<N>> transformer) {
+			T value = state.getValuesToProcess().next();
+			Iterator<N> results = transformer.apply(value).iterator();
+			state.setResults(results);
+		}
+	}
+
+	public static class BreadthTraversingIteratorProcessor<T> implements IteratorProcessor<T, T> {
+		@Override
+		public void processValues(IteratorSupplierState<T, T> state, Function<T, Iterable<T>> transformer) {
+			T value = state.getValuesToProcess().next();
+			state.setResults(_List.list(value).iterator());
+
+			Iterator<T> results = transformer.apply(value).iterator();
+			state.setValuesToProcess(Iterators.concat(state.getValuesToProcess(), results));
 		}
 	}
 }
