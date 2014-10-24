@@ -21,4 +21,9 @@ public class _String {
 	public static StringParser parse(String string) {
 		return new StringParser(string);
 	}
+
+	public static String resolvePlaceholders(String message, Object[] parameters) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

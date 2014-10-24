@@ -20,6 +20,9 @@ public class _Query {
 		if (qualifier.hasQualification()) {
 			qualifier.getParameters().forEach(query::setParameter);
 		}
+		if (qualifier.getLimit() > -1) {
+			query.setMaxResults(qualifier.getLimit());
+		}
 
 		return new QueryWrapper<T>(query);
 	}

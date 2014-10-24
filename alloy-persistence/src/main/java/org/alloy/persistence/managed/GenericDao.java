@@ -17,7 +17,7 @@ public class GenericDao {
 	@Autowired
 	private EntityManagerContext context;
 
-	public <T> T find(Class<T> entityClass, Long id) {
+	public <T> T find(Class<T> entityClass, long id) {
 		return this.getEntityManager(entityClass).find(entityClass, id);
 	}
 

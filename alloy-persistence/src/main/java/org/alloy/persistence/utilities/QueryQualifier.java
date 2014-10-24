@@ -11,6 +11,7 @@ public class QueryQualifier {
 	private String entityName = "entity";
 	private String qualification = null;
 	private Map<String, Object> parameters = Maps.newHashMap();
+	private int limit = -1;
 
 	public static final QueryQualifier NULL = new QueryQualifier();
 
@@ -36,6 +37,10 @@ public class QueryQualifier {
 		return qualification;
 	}
 
+	public int getLimit() {
+		return limit;
+	}
+
 	public QueryQualifier setQualification(String qualification) {
 		this.qualification = qualification;
 		return this;
@@ -57,5 +62,10 @@ public class QueryQualifier {
 
 	public Map<String, Object> getParameters() {
 		return parameters;
+	}
+
+	public QueryQualifier limit(int limit) {
+		this.limit = limit;
+		return this;
 	}
 }

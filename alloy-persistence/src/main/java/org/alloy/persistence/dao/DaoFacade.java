@@ -9,7 +9,7 @@ import org.alloy.persistence.utilities.QueryQualifier;
 public interface DaoFacade<T extends Identifiable> {
 	public T create();
 
-	public T find(Long id);
+	public T find(long id);
 
 	public default T find(QueryQualifier qualifier) {
 		return _Iterable.getSingleResult(this.findAll(qualifier), true);

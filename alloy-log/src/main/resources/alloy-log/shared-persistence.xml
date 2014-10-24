@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence>
+    <persistence-unit name="primary">
+		<class>org.alloy.log.domain.AlloyLogImpl</class>
+		<class>org.alloy.log.domain.AlloyLogEntryImpl</class>
+    </persistence-unit>
+</persistence>

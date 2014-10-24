@@ -34,6 +34,8 @@
 		<module>alloy-site-boot</module>
 		<module>alloy-angular</module>
 		<module>alloy-content</module>
+		<module>alloy-log</module>
+		<module>crucible</module>
 	</modules>
 	
 	<build>
@@ -270,6 +272,20 @@
 			<dependency>
 				<groupId>org.alloy</groupId>
 				<artifactId>alloy-content</artifactId>
+				<version>${alloy.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.alloy</groupId>
+				<artifactId>alloy-log</artifactId>
+				<version>${alloy.version}</version>
+				<type>jar</type>
+				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.alloy</groupId>
+				<artifactId>crucible</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>

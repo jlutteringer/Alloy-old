@@ -19,7 +19,7 @@ public class AbstractDao<T extends Identifiable> extends TemplateAlloyBean<T> im
 	}
 
 	@Override
-	public T find(Long id) {
+	public T find(long id) {
 		return genericDao.find(this.getEntityClassInternal(), id);
 	}
 

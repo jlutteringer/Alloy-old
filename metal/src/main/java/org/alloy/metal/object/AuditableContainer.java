@@ -1,22 +1,14 @@
 package org.alloy.metal.object;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public interface AuditableContainer extends Serializable {
-	public Date getDateCreated();
+	public LocalDateTime getDateCreated();
 
-	public void setDateCreated(Date dateCreated);
+	public void setDateCreated(LocalDateTime dateCreated);
 
-	public Long getCreatedBy();
+	public LocalDateTime getDateUpdated();
 
-	public void setCreatedBy(Long createdBy);
-
-	public Date getDateUpdated();
-
-	public void setDateUpdated(Date dateUpdated);
-
-	public Long getUpdatedBy();
-
-	public void setUpdatedBy(Long updatedBy);
+	public void setDateUpdated(LocalDateTime dateUpdated);
 }

@@ -18,7 +18,7 @@ public class WebResourceConfiguration extends ResourceConfigurationProvider {
 				.build());
 
 		configurations.add(ResourceConfigurations.alias("/js/global-bundle.js")
-				.include("/js/libraries/jquery.js")
+				.include("/js/libraries/require.js")
 				.include("/js/libraries/bootstrap.js")
 				.include("/js/libraries/underscore.js")
 				.include("/js/libraries/underscore-string.js")
