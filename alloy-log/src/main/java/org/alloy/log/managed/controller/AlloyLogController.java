@@ -7,6 +7,7 @@ import org.alloy.log.domain.AlloyLog;
 import org.alloy.log.domain.AlloyLogEntry;
 import org.alloy.log.managed.service.AlloyLogService;
 import org.alloy.metal.collections.lists._List;
+import org.alloy.metal.utilities._Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +24,11 @@ public class AlloyLogController {
 
 	@RequestMapping(value = LOG_API_URL + "/{logId}", method = RequestMethod.GET)
 	@ResponseBody
-	public AlloyLogContainer getLogEntries(long logId, @RequestParam LocalDateTime since, @RequestParam(required = false, defaultValue = "100") int limit) {
+	public AlloyLogContainer getLogEntries(long logId, @RequestParam(required = false) LocalDateTime since, @RequestParam(required = false, defaultValue = "100") int limit) {
+		if (since == null) {
+			since = _Date.MIN_DATE;
+		}
+
 		AlloyLog log = logService.find(logId);
 		Iterable<AlloyLogEntry> entries = logService.getLogEntries(log, since, limit);
 

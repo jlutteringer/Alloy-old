@@ -22,6 +22,7 @@ public class WebResourceConfiguration extends ResourceConfigurationProvider {
 				.include("/js/libraries/bootstrap.js")
 				.include("/js/libraries/underscore.js")
 				.include("/js/libraries/underscore-string.js")
+				.include("/js/global.js")
 				.build());
 
 		configurations.add(ResourceConfigurations.injectProperties("/css/libraries/font-awesome/font-awesome.css"));
