@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -11,8 +12,13 @@ import org.alloy.metal.string._String;
 import org.springframework.core.io.Resource;
 
 import com.google.common.base.Throwables;
+import com.google.common.io.CharStreams;
 
 public class _Stream {
+	public static String toString(Reader reader) {
+		return _Exception.propagate(() -> CharStreams.toString(reader));
+	}
+
 	public static String toString(InputStream from) {
 		BufferedReader br = null;
 		StringBuilder sb = new StringBuilder();

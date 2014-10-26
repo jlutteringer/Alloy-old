@@ -592,12 +592,12 @@
 			<dependency>
 				<groupId>commons-dbcp</groupId>
 				<artifactId>commons-dbcp</artifactId>
-				<version>1.2.2</version>
+				<version>1.4</version>
 			</dependency>
 			<dependency>
 				<groupId>org.xerial</groupId>
 				<artifactId>sqlite-jdbc</artifactId>
-				<version>3.7.2</version>
+				<version>3.8.6</version>
 			</dependency>
 			
 			<dependency>

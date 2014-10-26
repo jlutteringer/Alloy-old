@@ -9,7 +9,7 @@ import org.alloy.metal.object.Named;
 public abstract class NamedTimeStampedEntity extends TimeStampedEntity implements Named {
 	private static final long serialVersionUID = -6913799584461018681L;
 
-	@Column(name = "name", nullable = false)
+	@Column(name = "name")
 	private String name;
 
 	@Override

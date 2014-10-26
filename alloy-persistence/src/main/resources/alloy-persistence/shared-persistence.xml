@@ -6,6 +6,7 @@
              
     <persistence-unit name="primary" transaction-type="RESOURCE_LOCAL">
     	<non-jta-data-source>jdbc/primary</non-jta-data-source>
+    	<class>org.alloy.persistence.types</class>
     	
         <exclude-unlisted-classes/>
         <properties>

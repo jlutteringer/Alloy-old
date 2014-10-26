@@ -17,5 +17,9 @@
 			<groupId>org.alloy</groupId>
 			<artifactId>alloy-angular</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.alloy</groupId>
+			<artifactId>alloy-log</artifactId>
+		</dependency>
 	</dependencies>
 </project>

@@ -1,14 +1,14 @@
 package org.alloy.metal.object.audit;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 public interface AlloyTimeStamp extends Serializable {
-	public LocalDateTime getCreatedDate();
+	public Instant getCreatedDate();
 
-	public void setCreatedDate(LocalDateTime createdDate);
+	public void setCreatedDate(Instant createdDate);
 
-	public LocalDateTime getModifiedDate();
+	public Instant getModifiedDate();
 
-	public void setModifiedDate(LocalDateTime modifiedDate);
+	public void setModifiedDate(Instant modifiedDate);
 }

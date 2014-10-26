@@ -3,7 +3,9 @@ package org.alloy.metal.json;
 public class _Json {
 	// TODO
 	public static JsonStatus success() {
-		return null;
+		JsonStatus status = new JsonStatus();
+		status.setMessage("success");
+		return status;
 	}
 
 	// TODO

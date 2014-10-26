@@ -11,7 +11,7 @@ import org.alloy.persistence.utilities.QueryQualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
-public class GenericDaoWrapper<T extends Identifiable> extends TemplateAlloyBean<T> implements DaoFacade<T> {
+public class GenericDaoWrapper<T extends Identifiable, N extends T> extends TemplateAlloyBean<N> implements DaoFacade<T> {
 	@Autowired
 	protected GenericDao dao;
 
@@ -25,14 +25,16 @@ public class GenericDaoWrapper<T extends Identifiable> extends TemplateAlloyBean
 		return dao.find(this.getEntityClass(), id);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findAll() {
-		return dao.findAll(this.getEntityClass());
+		return (List<T>) dao.findAll(this.getEntityClass());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<T> findAll(QueryQualifier qualifier) {
-		return dao.findAll(this.getEntityClass(), qualifier);
+		return (List<T>) dao.findAll(this.getEntityClass(), qualifier);
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class GenericDaoWrapper<T extends Identifiable> extends TemplateAlloyBean
 		dao.remove(entity);
 	}
 
-	protected Class<T> getEntityClass() {
+	protected Class<N> getEntityClass() {
 		return this.runtimeType1;
 	}
 }

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PrimaryFacetDelegate extends ModuleFacetDelegate<PrimaryModuleFacet> {
 	@Override
-	protected PrimaryModuleFacet getFacet(FacetedObject<ModuleFacet> object) {
+	protected PrimaryModuleFacet getFacetInternal(FacetedObject<ModuleFacet> object) {
 		return new CoreFacet();
 	}
 }

@@ -18,9 +18,9 @@ public abstract class AbstractFacetDelegate<T extends N, N extends Facet> extend
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <A extends Facet> A getFacet(Class<A> clazz, FacetedObject<? extends Facet> object) {
-		return (A) this.getFacet((FacetedObject<N>) object);
+	public <A extends Facet> A getFacet(Class<A> clazz, FacetedObject<?> object) {
+		return (A) this.getFacetInternal((FacetedObject<N>) object);
 	}
 
-	protected abstract T getFacet(FacetedObject<N> object);
+	protected abstract T getFacetInternal(FacetedObject<N> object);
 }

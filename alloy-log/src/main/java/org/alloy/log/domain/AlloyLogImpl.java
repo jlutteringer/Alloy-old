@@ -5,11 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 
 import org.alloy.domain.entity.NamedTimeStampedEntity;
 
 @Entity
+@Table(name = "alloyLog")
 public class AlloyLogImpl extends NamedTimeStampedEntity implements AlloyLog {
 	private static final long serialVersionUID = -6861171877437917714L;
 	private static final String ENTITY_NAME = "alloyLog";

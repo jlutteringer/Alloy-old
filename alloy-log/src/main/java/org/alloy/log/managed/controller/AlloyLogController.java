@@ -1,5 +1,6 @@
 package org.alloy.log.managed.controller;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -7,9 +8,12 @@ import org.alloy.log.domain.AlloyLog;
 import org.alloy.log.domain.AlloyLogEntry;
 import org.alloy.log.managed.service.AlloyLogService;
 import org.alloy.metal.collections.lists._List;
+import org.alloy.metal.json.JsonStatus;
+import org.alloy.metal.json._Json;
 import org.alloy.metal.utilities._Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,14 +26,32 @@ public class AlloyLogController {
 	@Autowired
 	private AlloyLogService logService;
 
-	@RequestMapping(value = LOG_API_URL + "/{logId}", method = RequestMethod.GET)
+	@RequestMapping(value = LOG_API_URL + "/{logName}/{message}", method = RequestMethod.GET)
 	@ResponseBody
-	public AlloyLogContainer getLogEntries(long logId, @RequestParam(required = false) LocalDateTime since, @RequestParam(required = false, defaultValue = "100") int limit) {
-		if (since == null) {
-			since = _Date.MIN_DATE;
+	public JsonStatus addLogEntry(@PathVariable String logName, @PathVariable String message,
+			@RequestParam(required = false) LocalDateTime since,
+			@RequestParam(required = false, defaultValue = "100") int limit) {
+
+		AlloyLog log = logService.findByName(logName);
+		if (log == null) {
+			log = logService.begin(logName);
 		}
 
-		AlloyLog log = logService.find(logId);
+		logService.log(log, message);
+		return _Json.success();
+	}
+
+	@RequestMapping(value = LOG_API_URL + "/{logName}", method = RequestMethod.GET)
+	@ResponseBody
+	public AlloyLogContainer getLogEntries(@PathVariable String logName,
+			@RequestParam(required = false) Instant since,
+			@RequestParam(required = false, defaultValue = "100") int limit) {
+
+		if (since == null) {
+			since = _Date.MIN;
+		}
+
+		AlloyLog log = logService.findByName(logName);
 		Iterable<AlloyLogEntry> entries = logService.getLogEntries(log, since, limit);
 
 		return new AlloyLogContainer(log, _List.list(entries));

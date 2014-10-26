@@ -1,6 +1,6 @@
 package org.alloy.domain.embedded;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -12,28 +12,28 @@ public class EmbeddedAlloyTimeStamp implements AlloyTimeStamp {
 	private static final long serialVersionUID = -120427921767538835L;
 
 	@Column(name = "createdDate")
-	protected LocalDateTime createdDate;
+	protected Instant createdDate = Instant.now();
 
 	@Column(name = "modifiedDate")
-	protected LocalDateTime modifiedDate;
+	protected Instant modifiedDate = Instant.now();
 
 	@Override
-	public LocalDateTime getCreatedDate() {
+	public Instant getCreatedDate() {
 		return createdDate;
 	}
 
 	@Override
-	public void setCreatedDate(LocalDateTime createdDate) {
+	public void setCreatedDate(Instant createdDate) {
 		this.createdDate = createdDate;
 	}
 
 	@Override
-	public LocalDateTime getModifiedDate() {
+	public Instant getModifiedDate() {
 		return modifiedDate;
 	}
 
 	@Override
-	public void setModifiedDate(LocalDateTime modifiedDate) {
+	public void setModifiedDate(Instant modifiedDate) {
 		this.modifiedDate = modifiedDate;
 	}
 }

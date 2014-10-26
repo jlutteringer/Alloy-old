@@ -31,7 +31,6 @@ public class SqlLiteDialect extends Dialect {
 		registerColumnType(Types.BINARY, "blob");
 		registerColumnType(Types.VARBINARY, "blob");
 		registerColumnType(Types.LONGVARBINARY, "blob");
-		// registerColumnType(Types.NULL, "null");
 		registerColumnType(Types.BLOB, "blob");
 		registerColumnType(Types.CLOB, "clob");
 		registerColumnType(Types.BOOLEAN, "integer");
@@ -47,29 +46,13 @@ public class SqlLiteDialect extends Dialect {
 		return true;
 	}
 
-	/*
-	 public boolean supportsInsertSelectIdentity() {
-	 return true; // As specify in NHibernate dialect
-	 }
-	 */
-
 	@Override
 	public boolean hasDataTypeInIdentityColumn() {
-		return false; // As specify in NHibernate dialect
+		return false;
 	}
-
-	/*
-	 public String appendIdentitySelectToInsert(String insertString) {
-	 return new StringBuffer(insertString.length()+30). // As specify in NHibernate dialect
-	 append(insertString).
-	 append("; ").append(getIdentitySelectString()).
-	 toString();
-	 }
-	 */
 
 	@Override
 	public String getIdentityColumnString() {
-		// return "integer primary key autoincrement";
 		return "integer";
 	}
 
@@ -126,7 +109,7 @@ public class SqlLiteDialect extends Dialect {
 
 	@Override
 	public boolean hasAlterTable() {
-		return false; // As specify in NHibernate dialect
+		return false;
 	}
 
 	@Override
@@ -176,6 +159,11 @@ public class SqlLiteDialect extends Dialect {
 
 	@Override
 	public boolean supportsCascadeDelete() {
+		return false;
+	}
+
+	@Override
+	public boolean useInputStreamToInsertBlob() {
 		return false;
 	}
 }
