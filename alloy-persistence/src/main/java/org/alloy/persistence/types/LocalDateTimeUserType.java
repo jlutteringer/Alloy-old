@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import org.alloy.metal.utilities._Date;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.type.StandardBasicTypes;
@@ -66,8 +67,7 @@ public class LocalDateTimeUserType implements UserType, Serializable {
 			StandardBasicTypes.TIMESTAMP.nullSafeSet(preparedStatement, null, index, session);
 		} else {
 			LocalDateTime ldt = ((LocalDateTime) value);
-			Instant instant = ldt.atZone(ZoneId.systemDefault()).toInstant();
-			Date timestamp = Date.from(instant);
+			Date timestamp = _Date.toDate(ldt);
 			StandardBasicTypes.TIMESTAMP.nullSafeSet(preparedStatement, timestamp, index, session);
 		}
 	}

@@ -6,12 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import org.alloy.metal.utilities._Date;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.type.StandardBasicTypes;
@@ -20,9 +20,6 @@ import org.hibernate.usertype.UserType;
 public class LocalTimeUserType implements UserType, Serializable {
 	private static final long serialVersionUID = 9175969299899825153L;
 	private static final int[] SQL_TYPES = new int[] { Types.TIME };
-	private static final int A_YEAR = 2000;
-	private static final int A_MONTH = 1;
-	private static final int A_DAY = 1;
 
 	@Override
 	public int[] sqlTypes() {
@@ -71,9 +68,7 @@ public class LocalTimeUserType implements UserType, Serializable {
 			StandardBasicTypes.TIME.nullSafeSet(preparedStatement, null, index, session);
 		} else {
 			LocalTime lt = ((LocalTime) value);
-			Instant instant = lt.atDate(LocalDate.of(A_YEAR, A_MONTH, A_DAY)).
-					atZone(ZoneId.systemDefault()).toInstant();
-			Date time = Date.from(instant);
+			Date time = _Date.toDate(lt);
 			StandardBasicTypes.TIME.nullSafeSet(preparedStatement, time, index, session);
 		}
 	}

@@ -32,7 +32,7 @@ public class SqlLiteDialect extends Dialect {
 		registerColumnType(Types.VARBINARY, "blob");
 		registerColumnType(Types.LONGVARBINARY, "blob");
 		registerColumnType(Types.BLOB, "blob");
-		registerColumnType(Types.CLOB, "clob");
+		registerColumnType(Types.CLOB, "text");
 		registerColumnType(Types.BOOLEAN, "integer");
 
 		registerFunction("concat", new VarArgsSQLFunction(StringType.INSTANCE, "", "||", ""));

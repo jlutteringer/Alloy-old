@@ -8,6 +8,7 @@ import java.sql.Types;
 import java.time.Instant;
 import java.util.Date;
 
+import org.alloy.metal.utilities._Date;
 import org.hibernate.HibernateException;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.type.StandardBasicTypes;
@@ -63,7 +64,7 @@ public class InstantUserType implements UserType, Serializable {
 			StandardBasicTypes.TIMESTAMP.nullSafeSet(preparedStatement, null, index, session);
 		} else {
 			Instant instant = (Instant) value;
-			Date timestamp = Date.from(instant);
+			Date timestamp = _Date.toDate(instant);
 			StandardBasicTypes.TIMESTAMP.nullSafeSet(preparedStatement, timestamp, index, session);
 		}
 	}
