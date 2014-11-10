@@ -14,7 +14,15 @@
 		<context:component-scan base-package="org.alloy.site.controller"/>
 		<context:component-scan base-package="org.alloy.site.managed"/>
 		
-		<mvc:annotation-driven/>
+		<mvc:annotation-driven>
+            <mvc:message-converters>
+                <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                    <property name="objectMapper">
+                    	<bean class="org.alloy.site.jackson.mapper.JacksonObjectMapper" />
+                	</property>
+            	</bean>
+        	</mvc:message-converters>
+    	</mvc:annotation-driven>
 		
 		<!-- **************************************************************** -->
 		<!--  THYMELEAF-SPECIFIC ARTIFACTS                                    -->

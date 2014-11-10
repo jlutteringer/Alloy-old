@@ -33,13 +33,7 @@ public class AdminResourceConfiguration extends ResourceConfigurationProvider {
 			fragment.setFriendlyName("Admin");
 			fragment.setName("admin");
 
-			NavigationCategoryFragment fragment1 = new SimpleNavigationCategoryFragment();
-			fragment1.setFriendlyName("Subcategory 1");
-			fragment1.setName("sub1");
-			fragment1.setParentCategoryName("admin");
-
 			configurations.add(fragment);
-			configurations.add(fragment1);
 		}
 	}
 }

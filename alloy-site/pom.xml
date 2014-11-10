@@ -13,45 +13,33 @@
 			<groupId>org.alloy</groupId>
 			<artifactId>alloy-core</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.alloy</groupId>
 			<artifactId>alloy-cache</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.apache.geronimo.specs</groupId>
 			<artifactId>geronimo-servlet_3.0_spec</artifactId>
 		</dependency>
-	    
     	<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.thymeleaf</groupId>
 			<artifactId>thymeleaf-spring4</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>com.yahoo.platform.yui</groupId>
 			<artifactId>yuicompressor</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.lesscss</groupId>
 			<artifactId>lesscss</artifactId>
 		</dependency>
-		
 		<dependency>
 			<groupId>net.sourceforge.nekohtml</groupId>
 			<artifactId>nekohtml</artifactId>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.fasterxml.jackson.core</groupId>
-			<artifactId>jackson-databind</artifactId>
 		</dependency>
 	</dependencies>
 </project>

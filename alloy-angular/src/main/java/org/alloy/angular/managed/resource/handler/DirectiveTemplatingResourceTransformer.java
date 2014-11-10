@@ -2,6 +2,7 @@ package org.alloy.angular.managed.resource.handler;
 
 import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.domain.Path;
+import org.alloy.metal.resource._Resource;
 import org.alloy.site.resource.configuration.AbstractResourceConfiguration;
 import org.alloy.site.resource.handler.LocationRegisterableAbstractAlloyResourceTransformer;
 import org.springframework.core.io.Resource;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class DirectiveTemplatingResourceTransformer extends LocationRegisterableAbstractAlloyResourceTransformer {
 	@Override
 	public Resource transform(Path path, Resource resource) {
+		String resourceContents = _Resource.stringify(resource);
 		return resource;
 	}
 

@@ -20,15 +20,15 @@ import com.google.common.collect.Lists;
 
 public class _Iterable {
 	public static <T> Iterable<T> empty() {
-		return createFromIteratorGenerator(() -> Collections.emptyIterator());
+		return fromIteratorSupplier(() -> Collections.emptyIterator());
 	}
 
-	public static <T> Iterable<T> createFromIteratorGenerator(Supplier<Iterator<T>> supplier) {
+	public static <T> Iterable<T> fromIteratorSupplier(Supplier<Iterator<T>> supplier) {
 		return new GeneratingIterable<T>(supplier);
 	}
 
 	public static <T, N> Iterable<T> createFromElementSupplier(StatefulSupplier<N, NullableValue<T>> supplier, Supplier<N> stateGenerator) {
-		return _Iterable.createFromIteratorGenerator(_Iterable.createIteratorGeneratorFromElementGenerator(supplier, stateGenerator));
+		return _Iterable.fromIteratorSupplier(_Iterable.createIteratorGeneratorFromElementGenerator(supplier, stateGenerator));
 	}
 
 	public static <T, N> Iterable<T> createFromContext(IteratorSupplierContext<N, T> context) {

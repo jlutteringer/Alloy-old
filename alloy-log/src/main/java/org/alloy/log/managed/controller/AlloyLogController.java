@@ -1,7 +1,6 @@
 package org.alloy.log.managed.controller;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.alloy.log.domain.AlloyLog;
@@ -28,10 +27,7 @@ public class AlloyLogController {
 
 	@RequestMapping(value = LOG_API_URL + "/{logName}/{message}", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonStatus addLogEntry(@PathVariable String logName, @PathVariable String message,
-			@RequestParam(required = false) LocalDateTime since,
-			@RequestParam(required = false, defaultValue = "100") int limit) {
-
+	public JsonStatus addLogEntry(@PathVariable String logName, @PathVariable String message) {
 		AlloyLog log = logService.findByName(logName);
 		if (log == null) {
 			log = logService.begin(logName);

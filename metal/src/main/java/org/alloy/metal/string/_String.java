@@ -1,5 +1,7 @@
 package org.alloy.metal.string;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class _String {
 	public static final String CHARACTER_ENCODING = "UTF-8";
 
@@ -78,5 +80,9 @@ public class _String {
 			}
 		}
 		return result.toString();
+	}
+
+	public static String getDefault(String string) {
+		return StringUtils.defaultString(string);
 	}
 }

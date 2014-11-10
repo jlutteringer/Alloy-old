@@ -1,8 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   	<properties>
 		<alloy.version>0.0.1-SNAPSHOT</alloy.version>
-		<springframework.version>4.0.3.RELEASE</springframework.version>
-		<springsecurity.version>3.2.3.RELEASE</springsecurity.version>
+		<springframework.version>4.1.1.RELEASE</springframework.version>
+		<springsecurity.version>3.2.5.RELEASE</springsecurity.version>
+		<springbatch.version>3.0.2.RELEASE</springbatch.version>
 		<hibernate.version>4.3.5.Final</hibernate.version>
 		<log4j2.version>2.0-rc1</log4j2.version>
 		<thymeleaf.version>2.1.3.RELEASE</thymeleaf.version>
@@ -451,6 +452,12 @@
 				</exclusions>
 			</dependency>
 			<dependency>
+		        <groupId>org.springframework.batch</groupId>
+		        <artifactId>spring-batch-core</artifactId>
+		        <version>${springbatch.version}</version>
+		    </dependency>
+			
+			<dependency>
 				<groupId>org.apache.geronimo.specs</groupId>
 				<artifactId>geronimo-servlet_3.0_spec</artifactId>
 				<version>1.0</version>
@@ -610,10 +617,17 @@
 				<artifactId>nekohtml</artifactId>
 				<version>1.9.21</version>
 			</dependency>
+			
+			<!-- Jackson -->
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
 				<version>2.4.2</version>
+			</dependency>
+			<dependency>
+			    <groupId>com.fasterxml.jackson.datatype</groupId>
+			    <artifactId>jackson-datatype-jsr310</artifactId>
+			    <version>2.4.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
