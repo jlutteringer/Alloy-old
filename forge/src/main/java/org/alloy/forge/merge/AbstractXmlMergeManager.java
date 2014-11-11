@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.alloy.metal.configuration.ConfigurationLocation;
 import org.alloy.metal.configuration._Configuration;
+import org.alloy.metal.object.WithLogger;
 import org.alloy.metal.resource.ResourceInputStream;
-import org.alloy.metal.spring.WithLogger;
 import org.alloy.metal.xml.merge.MergeXmlConfigResource;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

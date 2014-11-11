@@ -19,7 +19,6 @@
 	<url>http://maven.apache.org</url>
   
 	<modules>
-		<module>metal</module>
 		<module>forge</module>
 		<module>alloy-core</module>
 		<module>alloy-persistence</module>
@@ -174,7 +173,7 @@
 		<dependencies>
 			<dependency>
 				<groupId>org.alloy</groupId>
-				<artifactId>metal</artifactId>
+				<artifactId>metal-spring</artifactId>
 				<version>${alloy.version}</version>
 				<type>jar</type>
 				<scope>compile</scope>

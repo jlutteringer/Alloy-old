@@ -11,6 +11,7 @@ import javax.persistence.spi.PersistenceUnitTransactionType;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.alloy.metal.resource._Resource;
 import org.alloy.metal.utilities._Exception;
 import org.alloy.metal.utilities._Stream;
 import org.apache.logging.log4j.LogManager;
@@ -66,8 +67,8 @@ public class PersistenceUnitReader {
 	public List<PersistenceUnitInfo> readPersistenceUnitInfo(Resource persistenceUnit) {
 		List<PersistenceUnitInfo> infos = Lists.newArrayList();
 
-		_Stream.withStream(_Stream.transformer(), persistenceUnit, (stream) -> {
-			Document document = buildDocument(_Stream.transformer().apply(persistenceUnit));
+		_Stream.withStream(_Resource.transformer(), persistenceUnit, (stream) -> {
+			Document document = buildDocument(_Resource.transformer().apply(persistenceUnit));
 			parseDocument(persistenceUnit, document, infos);
 		});
 

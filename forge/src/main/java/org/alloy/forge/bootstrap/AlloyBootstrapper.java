@@ -13,7 +13,7 @@ import org.alloy.metal.configuration.AlloyConfigurationConstants;
 import org.alloy.metal.configuration.ConfigurationLocation;
 import org.alloy.metal.logging._Logging;
 import org.alloy.metal.resource.ResourceInputStream;
-import org.alloy.metal.resource._Resource;
+import org.alloy.metal.spring._ApplicationResource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -58,7 +58,7 @@ public class AlloyBootstrapper {
 
 		EnumerationConfigurer.configureEnumerations();
 		_Logging.configureLog4j(
-				ResourceInputStream.transformer().apply(_Resource.getResource(AlloyConfigurationConstants.FORGE_LOG4J_RESOURCE, bootstrapApplicationContext)));
+				ResourceInputStream.transformer().apply(_ApplicationResource.getResource(AlloyConfigurationConstants.FORGE_LOG4J_RESOURCE, bootstrapApplicationContext)));
 
 		bootstrapApplicationContext.setConfigLocations(getBootstrapConfigurationLocations().toArray(new String[0]));
 		bootstrapApplicationContext.refresh();

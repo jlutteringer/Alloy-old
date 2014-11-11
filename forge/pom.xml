@@ -11,7 +11,7 @@
 	 <dependencies>
 		<dependency>
 			<groupId>org.alloy</groupId>
-			<artifactId>metal</artifactId>
+			<artifactId>metal-spring</artifactId>
 		</dependency>
 	</dependencies>
 </project>

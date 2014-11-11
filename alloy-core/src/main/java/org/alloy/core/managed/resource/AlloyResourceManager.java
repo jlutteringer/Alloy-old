@@ -8,6 +8,7 @@ import org.alloy.metal.collections.iterable._Iterable;
 import org.alloy.metal.collections.lists._List;
 import org.alloy.metal.function._Function;
 import org.alloy.metal.resource._Resource;
+import org.alloy.metal.spring._ApplicationResource;
 import org.alloy.metal.utilities._Exception;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -33,7 +34,7 @@ public class AlloyResourceManager {
 
 	public Resource getResourceFromModule(Module module, String resourceLocation) {
 		String resolvedLocation = module.getName() + "/" + resourceLocation;
-		Resource resource = _Exception.ignore(() -> _Resource.getResource(resolvedLocation, applicationContext)).orElse(null);
+		Resource resource = _Exception.ignore(() -> _ApplicationResource.getResource(resolvedLocation, applicationContext)).orElse(null);
 
 		if (_Resource.exists(resource)) {
 			return resource;
@@ -65,7 +66,7 @@ public class AlloyResourceManager {
 	}
 
 	public List<ClassPathResource> getConcreteResources(String baseLocation) {
-		Iterable<List<Resource>> resources = _Iterable.transform(getResources(baseLocation), _Resource::getConcreteResources);
+		Iterable<List<Resource>> resources = _Iterable.transform(getResources(baseLocation), _ApplicationResource::getConcreteResources);
 		return _List.list(_Iterable.transform(_Iterable.unique(_Iterable.flatten(resources), (first, second) -> visiblyEqual(baseLocation, first, second)), _Function.cast()));
 	}
 
