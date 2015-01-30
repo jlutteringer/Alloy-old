@@ -8,8 +8,8 @@ import org.alloy.log.domain.AlloyLogEntry;
 import org.alloy.log.domain.AlloyLogEntryImpl;
 import org.alloy.log.domain.AlloyLogImpl;
 import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.collections.lists._List;
-import org.alloy.metal.function._Function;
+import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.function.OldFunction;
 import org.alloy.metal.string._String;
 import org.alloy.persistence.service.GenericDaoWrapper;
 import org.alloy.persistence.utilities._Query;
@@ -51,7 +51,7 @@ public class AlloyLogService extends GenericDaoWrapper<AlloyLog, AlloyLogImpl> {
 
 	public Iterable<AlloyLogEntry> getLogEntries(AlloyLog log, Instant since, int limit) {
 		if (log == null) {
-			return _List.list();
+			return _Lists.list();
 		}
 
 		List<AlloyLogEntryImpl> entries = this.dao.findAll(AlloyLogEntryImpl.class,
@@ -60,7 +60,7 @@ public class AlloyLogService extends GenericDaoWrapper<AlloyLog, AlloyLogImpl> {
 						.setParameter("since", since)
 						.limit(limit));
 
-		return _Iterable.transform(entries, _Function.cast());
+		return _Iterable.transform(entries, OldFunction.cast());
 	}
 
 	private AlloyLogEntry save(AlloyLogEntry entry) {

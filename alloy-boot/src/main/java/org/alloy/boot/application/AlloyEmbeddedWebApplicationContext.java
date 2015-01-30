@@ -24,11 +24,11 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 public class AlloyEmbeddedWebApplicationContext extends XmlEmbeddedWebApplicationContext implements AlloyApplicationContext {
-	private BootstrappedBeanFactory bootstrappedBeanFactory;
-
 	public AlloyEmbeddedWebApplicationContext(Resource resource) {
 		this.load(resource);
 	}
+
+	private BootstrappedBeanFactory bootstrappedBeanFactory;
 
 	@Override
 	public BootstrappedBeanFactory getBootstrappedBeanFactory() {

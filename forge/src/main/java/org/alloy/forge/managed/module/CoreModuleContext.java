@@ -17,7 +17,7 @@ import org.alloy.forge.module.Module;
 import org.alloy.forge.module.ModuleType;
 import org.alloy.forge.module.ResolvedDependency;
 import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.collections.lists._List;
+import org.alloy.metal.collections.lists._Lists;
 import org.alloy.metal.facets.FacetProvider;
 import org.alloy.metal.spring.AlloyBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,7 +76,7 @@ public class CoreModuleContext extends AlloyBean implements ModuleContext {
 
 	@Override
 	public Collection<Module> getModules() {
-		return Collections.unmodifiableList(_List.list(modules, coreModule, applicationModule));
+		return Collections.unmodifiableList(_Lists.list(modules, coreModule, applicationModule));
 	}
 
 	@Override
@@ -103,7 +103,7 @@ public class CoreModuleContext extends AlloyBean implements ModuleContext {
 
 	@Override
 	public Collection<Dependency> getDependencies(Module module) {
-		List<Dependency> dependencies = _List.list(module.getDependencies());
+		List<Dependency> dependencies = _Lists.list(module.getDependencies());
 		// Everything depends on core
 		dependencies.add(new ResolvedDependency(this.getCoreModule()));
 		return dependencies;

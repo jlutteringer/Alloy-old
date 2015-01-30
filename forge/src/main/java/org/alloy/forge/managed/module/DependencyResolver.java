@@ -16,7 +16,7 @@ import org.alloy.forge.module.NameDependency;
 import org.alloy.forge.module.ResolvedDependency;
 import org.alloy.forge.module.TypeDependency;
 import org.alloy.forge.module.WeakDependency;
-import org.alloy.metal.collections._Collection;
+import org.alloy.metal.collections._Collections;
 import org.alloy.metal.collections.iterable._Iterable;
 import org.alloy.metal.function.Condition;
 import org.alloy.metal.spring.AlloyBean;
@@ -39,7 +39,7 @@ public class DependencyResolver extends AlloyBean {
 		LinkedList<Dependency> dependenciesToResolve = Lists.newLinkedList(dependencies);
 		DependencyResolverState state = new DependencyResolverState();
 
-		Condition hasChanged = _Collection.monitor(dependenciesToResolve).hasChanged();
+		Condition hasChanged = _Collections.monitor(dependenciesToResolve).hasChanged();
 		while (!dependenciesToResolve.isEmpty() && hasChanged.test()) {
 			Dependency dependency = dependenciesToResolve.pop();
 			DependencyResolution resolution = this.resolveDependency(state, dependency);

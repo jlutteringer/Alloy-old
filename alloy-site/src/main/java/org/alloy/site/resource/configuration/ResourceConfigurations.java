@@ -1,6 +1,6 @@
 package org.alloy.site.resource.configuration;
 
-import org.alloy.metal.collections.lists._List;
+import org.alloy.metal.collections.lists._Lists;
 
 public class ResourceConfigurations {
 	public static ResourceAliasConfigurationBuilder alias(String aliasPath) {
@@ -9,7 +9,7 @@ public class ResourceConfigurations {
 
 	public static ResourceConfiguration injectProperties(String... resourceLocations) {
 		TransformResourceConfiguration configuration = new TransformResourceConfiguration();
-		configuration.getResourceLocations().addAll(_List.list(resourceLocations));
+		configuration.getResourceLocations().addAll(_Lists.list(resourceLocations));
 		configuration.setInjectProperties(true);
 		return configuration;
 	}

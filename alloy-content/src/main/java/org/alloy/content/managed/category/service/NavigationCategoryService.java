@@ -7,7 +7,7 @@ import org.alloy.content.category.domain.NavigationCategory;
 import org.alloy.content.category.domain.NavigationCategoryEntity;
 import org.alloy.content.category.domain.NavigationCategoryFragment;
 import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.collections.lists._List;
+import org.alloy.metal.collections.lists._Lists;
 import org.alloy.metal.collections.map._Map;
 import org.alloy.metal.extensibility.ConfigurationGatherer;
 import org.alloy.metal.object._Domain;
@@ -47,7 +47,7 @@ public class NavigationCategoryService extends ConfigurationGatherer<NavigationC
 
 	private NavigationCategory resolve(NavigationCategoryFragment fragment) {
 		Iterable<NavigationCategoryFragment> allCategoryFragments =
-				_Iterable.traverse(_List.list(fragment), (subFragment) -> this.findFragmentsByParentName(subFragment.getName()));
+				_Iterable.traverse(_Lists.list(fragment), (subFragment) -> this.findFragmentsByParentName(subFragment.getName()));
 
 		Map<String, NavigationCategory> categoryMap = _Map.map();
 
@@ -74,7 +74,7 @@ public class NavigationCategoryService extends ConfigurationGatherer<NavigationC
 	}
 
 	private List<NavigationCategoryFragment> findFragmentsByParentName(String name) {
-		List<NavigationCategoryFragment> fragments = _List.list();
+		List<NavigationCategoryFragment> fragments = _Lists.list();
 		Multimap<String, NavigationCategoryFragment> configuredCategoryParentNameMultimap = this.getConfiguredCategoryParentNameMultimap();
 		fragments.addAll(configuredCategoryParentNameMultimap.get(name));
 		fragments.addAll(genericDao.findAll(NavigationCategoryEntity.class,

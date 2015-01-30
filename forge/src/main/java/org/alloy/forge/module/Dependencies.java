@@ -3,7 +3,7 @@ package org.alloy.forge.module;
 import java.util.List;
 
 import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.function.equality.EqualityMapping;
+import org.metal.function.equality.EqualityMapping;
 
 import com.google.common.collect.Lists;
 

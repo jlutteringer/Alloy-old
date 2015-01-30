@@ -13,7 +13,7 @@ import org.alloy.forge.module.Module;
 import org.alloy.forge.module.ModuleHierarchy;
 import org.alloy.forge.module.ModuleLoader;
 import org.alloy.forge.module.SimpleModuleHierarchy;
-import org.alloy.metal.collections.lists._List;
+import org.alloy.metal.collections.lists._Lists;
 import org.alloy.metal.collections.tree.Tree;
 import org.alloy.metal.collections.tree._Tree;
 import org.apache.logging.log4j.Level;
@@ -70,7 +70,7 @@ public class CoreModuleLoader implements ModuleLoader {
 			Module module = modulesToAdd.pop();
 			if (!moduleTree.contains(module)) {
 				logger.debug("Considering module [" + module + "] to add to hierarchy");
-				Collection<Module> dependencies = _List.list(state.getAll(moduleContext.getDependencies(module)));
+				Collection<Module> dependencies = _Lists.list(state.getAll(moduleContext.getDependencies(module)));
 				if (moduleTree.containsAll(dependencies)) {
 					Tree<Module> childTree = _Tree.newHashTree(module);
 					for (Module dependency : dependencies) {

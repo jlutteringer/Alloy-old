@@ -2,17 +2,19 @@ package org.alloy.boot.application;
 
 import java.util.List;
 
+import org.alloy.core.managed.application.SimpleAlloyApplication;
 import org.alloy.forge.bootstrap.AlloyBootstrapper;
 import org.alloy.forge.context.AlloyApplicationContext;
+import org.alloy.metal.collections.lists._Lists;
 
 import com.google.common.collect.Lists;
 
-public class AlloyApplication {
+public class AlloyBootApplicationRunner {
 
 	private List<String> bootstrapApplicationContexts = Lists.newArrayList("forge-applicationContext.xml");
 
-	public AlloyApplication(String[] args) {
-
+	public AlloyBootApplicationRunner(String[] args) {
+		SimpleAlloyApplication.setCommandLineArguments(_Lists.list(args));
 	}
 
 	public void run() {
@@ -26,6 +28,6 @@ public class AlloyApplication {
 	}
 
 	public static void run(String[] args) {
-		new AlloyApplication(args).run();
+		new AlloyBootApplicationRunner(args).run();
 	}
 }

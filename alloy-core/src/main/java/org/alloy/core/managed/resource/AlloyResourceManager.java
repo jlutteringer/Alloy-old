@@ -4,9 +4,10 @@ import java.util.List;
 
 import org.alloy.forge.module.Module;
 import org.alloy.forge.module.ModuleLoader;
+import org.alloy.forge.module.ModuleType;
 import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.collections.lists._List;
-import org.alloy.metal.function._Function;
+import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.function.OldFunction;
 import org.alloy.metal.resource._Resource;
 import org.alloy.metal.spring._ApplicationResource;
 import org.alloy.metal.utilities._Exception;
@@ -33,7 +34,14 @@ public class AlloyResourceManager {
 	private ModuleLoader moduleLoader;
 
 	public Resource getResourceFromModule(Module module, String resourceLocation) {
-		String resolvedLocation = module.getName() + "/" + resourceLocation;
+		String resolvedLocation;
+		if (module.getType().equals(ModuleType.APPLICATION)) {
+			resolvedLocation = resourceLocation;
+		}
+		else {
+			resolvedLocation = module.getName() + "/" + resourceLocation;
+		}
+
 		Resource resource = _Exception.ignore(() -> _ApplicationResource.getResource(resolvedLocation, applicationContext)).orElse(null);
 
 		if (_Resource.exists(resource)) {
@@ -67,11 +75,11 @@ public class AlloyResourceManager {
 
 	public List<ClassPathResource> getConcreteResources(String baseLocation) {
 		Iterable<List<Resource>> resources = _Iterable.transform(getResources(baseLocation), _ApplicationResource::getConcreteResources);
-		return _List.list(_Iterable.transform(_Iterable.unique(_Iterable.flatten(resources), (first, second) -> visiblyEqual(baseLocation, first, second)), _Function.cast()));
+		return _Lists.list(_Iterable.transform(_Iterable.unique(_Iterable.flatten(resources), (first, second) -> visiblyEqual(baseLocation, first, second)), OldFunction.cast()));
 	}
 
 	public List<String> getConcreteVisibleResourcePaths(String baseLocation) {
-		return _List.transform(this.getConcreteResources(baseLocation), (resource) -> convertToVisiblePath(baseLocation, resource.getPath()));
+		return _Lists.transform(this.getConcreteResources(baseLocation), (resource) -> convertToVisiblePath(baseLocation, resource.getPath()));
 	}
 
 	public boolean visiblyEqual(String baseLocation, Resource path1, Resource path2) {

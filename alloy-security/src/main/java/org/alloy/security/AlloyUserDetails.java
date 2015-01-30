@@ -2,7 +2,7 @@ package org.alloy.security;
 
 import java.util.Collection;
 
-import org.alloy.metal.collections.lists._List;
+import org.alloy.metal.collections.lists._Lists;
 import org.alloy.user.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +17,7 @@ public class AlloyUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return _List.transform(user.getPermissions(), _Security::createAuthority);
+		return _Lists.transform(user.getPermissions(), _Security::createAuthority);
 	}
 
 	@Override

@@ -1,6 +1,6 @@
 package org.alloy.angular.managed.resource.handler;
 
-import org.alloy.metal.collections.lists._List;
+import org.alloy.metal.collections.lists._Lists;
 import org.alloy.metal.domain.Path;
 import org.alloy.metal.resource._Resource;
 import org.alloy.site.resource.configuration.AbstractResourceConfiguration;
@@ -24,7 +24,7 @@ public class DirectiveTemplatingResourceTransformer extends LocationRegisterable
 	public static class AngularResourceConfiguration extends AbstractResourceConfiguration {
 		public static AngularResourceConfiguration resolveDirectiveTemplates(String... resourceLocations) {
 			AngularResourceConfiguration configuration = new AngularResourceConfiguration();
-			configuration.getResourceLocations().addAll(_List.list(resourceLocations));
+			configuration.getResourceLocations().addAll(_Lists.list(resourceLocations));
 			configuration.setResolveDirectiveTemplates(true);
 			return configuration;
 		}

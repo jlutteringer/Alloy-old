@@ -6,7 +6,7 @@ import java.util.List;
 import org.alloy.log.domain.AlloyLog;
 import org.alloy.log.domain.AlloyLogEntry;
 import org.alloy.log.managed.service.AlloyLogService;
-import org.alloy.metal.collections.lists._List;
+import org.alloy.metal.collections.lists._Lists;
 import org.alloy.metal.json.JsonStatus;
 import org.alloy.metal.json._Json;
 import org.alloy.metal.utilities._Date;
@@ -50,7 +50,7 @@ public class AlloyLogController {
 		AlloyLog log = logService.findByName(logName);
 		Iterable<AlloyLogEntry> entries = logService.getLogEntries(log, since, limit);
 
-		return new AlloyLogContainer(log, _List.list(entries));
+		return new AlloyLogContainer(log, _Lists.list(entries));
 	}
 
 	public static class AlloyLogContainer {
