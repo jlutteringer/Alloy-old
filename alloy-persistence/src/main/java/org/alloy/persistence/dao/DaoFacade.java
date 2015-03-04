@@ -1,23 +1,31 @@
 package org.alloy.persistence.dao;
 
-import java.util.List;
+import java.util.Optional;
 
-import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.object.Identifiable;
+import org.alloy.metal.collections.list.AList;
+import org.alloy.metal.domain.Identifiable;
 import org.alloy.persistence.utilities.QueryQualifier;
 
 public interface DaoFacade<T extends Identifiable> {
 	public T create();
 
-	public T find(long id);
+	public Optional<T> find(long id);
 
-	public default T find(QueryQualifier qualifier) {
-		return _Iterable.getSingleResult(this.findAll(qualifier), true);
+	public default T findStrict(long id) {
+		return this.find(id).get();
 	}
 
-	public List<T> findAll();
+	public default Optional<T> find(QueryQualifier qualifier) {
+		return this.findAll(qualifier).first();
+	}
 
-	public List<T> findAll(QueryQualifier qualifier);
+	public default T findStrict(QueryQualifier qualifier) {
+		return this.find(qualifier).get();
+	}
+
+	public AList<T> findAll();
+
+	public AList<T> findAll(QueryQualifier qualifier);
 
 	public T save(T entity);
 

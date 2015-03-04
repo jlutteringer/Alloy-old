@@ -1,8 +1,9 @@
 package org.alloy.persistence.service;
 
-import java.util.List;
+import java.util.Optional;
 
-import org.alloy.metal.object.Identifiable;
+import org.alloy.metal.collections.list.AList;
+import org.alloy.metal.domain.Identifiable;
 import org.alloy.metal.reflection._Reflection;
 import org.alloy.metal.spring.TemplateAlloyBean;
 import org.alloy.persistence.dao.DaoFacade;
@@ -20,21 +21,22 @@ public class GenericDaoWrapper<T extends Identifiable, N extends T> extends Temp
 		return _Reflection.construct(this.getEntityClass());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public T find(long id) {
-		return dao.find(this.getEntityClass(), id);
+	public Optional<T> find(long id) {
+		return (Optional<T>) dao.find(this.getEntityClass(), id);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> findAll() {
-		return (List<T>) dao.findAll(this.getEntityClass());
+	public AList<T> findAll() {
+		return (AList<T>) dao.findAll(this.getEntityClass());
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> findAll(QueryQualifier qualifier) {
-		return (List<T>) dao.findAll(this.getEntityClass(), qualifier);
+	public AList<T> findAll(QueryQualifier qualifier) {
+		return (AList<T>) dao.findAll(this.getEntityClass(), qualifier);
 	}
 
 	@Override

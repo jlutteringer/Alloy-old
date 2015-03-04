@@ -70,12 +70,12 @@ public class ResourceMinificationServiceImpl extends AlloyBean implements Resour
 		try {
 			// Input streams to read the bytes
 			ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
-			InputStreamReader isr = new InputStreamReader(bais, _String.CHARACTER_ENCODING);
+			InputStreamReader isr = new InputStreamReader(bais, _String.CHARACTER_ENCODING.toString());
 			in = new BufferedReader(isr);
 
 			// Output streams to save the modified bytes
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			OutputStreamWriter osw = new OutputStreamWriter(baos, _String.CHARACTER_ENCODING);
+			OutputStreamWriter osw = new OutputStreamWriter(baos, _String.CHARACTER_ENCODING.toString());
 			out = new BufferedWriter(osw);
 
 			if ("js".equals(type)) {

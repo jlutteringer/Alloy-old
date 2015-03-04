@@ -1,11 +1,11 @@
 package org.alloy.persistence.utilities;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.TypedQuery;
 
-import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.collections.list.AList;
+import org.alloy.metal.collections.list._Lists;
 
 import com.google.common.collect.Iterables;
 
@@ -21,8 +21,8 @@ public class QueryWrapper<T> {
 		return this;
 	}
 
-	public List<T> getResults() {
-		return _Lists.list(query.getResultList());
+	public AList<T> getResults() {
+		return _Lists.wrap(query.getResultList());
 	}
 
 	public Optional<T> getSingleResult() {

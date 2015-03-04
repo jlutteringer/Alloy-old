@@ -1,6 +1,7 @@
 package org.alloy.site.views;
 
 import java.io.InputStream;
+import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -33,9 +34,9 @@ public class AlloyTemplateResolver extends TemplateResolver {
 
 		@Override
 		public InputStream getResourceAsStream(TemplateProcessingParameters templateProcessingParameters, String resourceName) {
-			Resource resource = resourceManager.getResource(resourceName);
-			if (resource != null) {
-				return _Resource.getInputStream(resourceManager.getResource(resourceName));
+			Optional<Resource> resource = resourceManager.getResource(resourceName);
+			if (resource.isPresent()) {
+				return _Resource.getInputStream(resource.get());
 			}
 
 			return null;

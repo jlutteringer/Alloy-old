@@ -953,14 +953,14 @@ public abstract class JDBC3DatabaseMetaData extends org.sqlite.core.CoreDatabase
 	 */
 	public boolean supportsSubqueriesInExists() {
 		return true;
-	} // TODO: check
+	}
 
 	/**
 	 * @see java.sql.DatabaseMetaData#supportsSubqueriesInIns()
 	 */
 	public boolean supportsSubqueriesInIns() {
 		return true;
-	} // TODO: check
+	}
 
 	/**
 	 * @see java.sql.DatabaseMetaData#supportsSubqueriesInQuantifieds()
@@ -1398,7 +1398,7 @@ public abstract class JDBC3DatabaseMetaData extends org.sqlite.core.CoreDatabase
 				.append(hasImportedKey ? "dr" : "3").append(" as DELETE_RULE, ")
 				.append(hasImportedKey ? "fkn" : "''").append(" as FK_NAME, ")
 				.append(pkFinder.getName() != null ? pkFinder.getName() : "''").append(" as PK_NAME, ")
-				.append(Integer.toString(DatabaseMetaData.importedKeyInitiallyDeferred)) // FIXME: Check for pragma foreign_keys = true ?
+				.append(Integer.toString(DatabaseMetaData.importedKeyInitiallyDeferred))
 				.append(" as DEFERRABILITY ");
 
 		if (hasImportedKey) {

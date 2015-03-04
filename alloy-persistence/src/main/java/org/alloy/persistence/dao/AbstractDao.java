@@ -1,8 +1,9 @@
 package org.alloy.persistence.dao;
 
-import java.util.List;
+import java.util.Optional;
 
-import org.alloy.metal.object.Identifiable;
+import org.alloy.metal.collections.list.AList;
+import org.alloy.metal.domain.Identifiable;
 import org.alloy.metal.reflection._Reflection;
 import org.alloy.metal.spring.TemplateAlloyBean;
 import org.alloy.persistence.managed.GenericDao;
@@ -19,17 +20,17 @@ public class AbstractDao<T extends Identifiable> extends TemplateAlloyBean<T> im
 	}
 
 	@Override
-	public T find(long id) {
+	public Optional<T> find(long id) {
 		return genericDao.find(this.getEntityClassInternal(), id);
 	}
 
 	@Override
-	public List<T> findAll() {
+	public AList<T> findAll() {
 		return genericDao.findAll(this.getEntityClassInternal());
 	}
 
 	@Override
-	public List<T> findAll(QueryQualifier qualifier) {
+	public AList<T> findAll(QueryQualifier qualifier) {
 		return genericDao.findAll(this.getEntityClassInternal(), qualifier);
 	}
 

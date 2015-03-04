@@ -1,10 +1,10 @@
 package org.alloy.persistence.managed;
 
-import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
-import org.alloy.metal.collections.iterable._Iterable;
+import org.alloy.metal.collections.list.AList;
 import org.alloy.persistence.managed.entities.EntityManagerContext;
 import org.alloy.persistence.utilities.EntityManagers;
 import org.alloy.persistence.utilities.QueryQualifier;
@@ -17,19 +17,19 @@ public class GenericDao {
 	@Autowired
 	private EntityManagerContext context;
 
-	public <T> T find(Class<T> entityClass, long id) {
-		return this.getEntityManager(entityClass).find(entityClass, id);
+	public <T> Optional<T> find(Class<T> entityClass, long id) {
+		return Optional.of(this.getEntityManager(entityClass).find(entityClass, id));
 	}
 
-	public <T> List<T> findAll(Class<T> entityClass) {
+	public <T> AList<T> findAll(Class<T> entityClass) {
 		return _Query.select(entityClass, this.getEntityManager(entityClass)).getResults();
 	}
 
-	public <T> T find(Class<T> entityClass, QueryQualifier qualifier) {
-		return _Iterable.getSingleResult(findAll(entityClass, qualifier), true);
+	public <T> Optional<T> find(Class<T> entityClass, QueryQualifier qualifier) {
+		return findAll(entityClass, qualifier).single();
 	}
 
-	public <T> List<T> findAll(Class<T> entityClass, QueryQualifier qualifier) {
+	public <T> AList<T> findAll(Class<T> entityClass, QueryQualifier qualifier) {
 		return _Query.select(entityClass, qualifier, getEntityManager(entityClass)).getResults();
 	}
 

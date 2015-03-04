@@ -24,7 +24,8 @@ public class CategoryController {
 	@RequestMapping(value = CATEGORY_API_URL, method = RequestMethod.GET)
 	@ResponseBody
 	public NavigationCategory getCategory(@RequestParam String key) {
-		return categoryService.findByName(key);
+		// FUTURE improve error handling
+		return categoryService.findByName(key).get();
 	}
 
 	@RequestMapping(value = CATEGORY_API_URL, method = RequestMethod.POST)
@@ -36,11 +37,15 @@ public class CategoryController {
 	@RequestMapping(value = CATEGORY_API_URL, method = RequestMethod.DELETE)
 	@ResponseBody
 	public JsonStatus removeCategory(@RequestParam String name) {
-		NavigationCategoryFragment category = categoryService.findFragmentByName(name);
+		// FUTURE improve error handling
+		NavigationCategoryFragment category =
+				categoryService.findFragmentByName(name).get();
+
 		if (category instanceof NavigationCategoryEntity) {
 			categoryService.remove((NavigationCategoryEntity) category);
 			return _Json.success();
 		}
+
 		return _Json.failure("Category {} cannot be deleted because it is not an entity", name);
 	}
 }

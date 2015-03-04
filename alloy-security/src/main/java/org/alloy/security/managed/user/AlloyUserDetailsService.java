@@ -1,5 +1,8 @@
 package org.alloy.security.managed.user;
 
+import java.util.Optional;
+import java.util.function.Supplier;
+
 import javax.annotation.Resource;
 
 import org.alloy.security.AlloyUserDetails;
@@ -17,11 +20,11 @@ public class AlloyUserDetailsService implements UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userService.findByUsername(username);
-		if (user == null) {
-			throw new UsernameNotFoundException("No user found for username: [" + username + "]");
-		}
+		Optional<User> user = userService.findByUsername(username);
 
-		return new AlloyUserDetails(user);
+		// Code is broken out this way to prevent a bug with lambdas in eclipse
+		Supplier<UsernameNotFoundException> exceptionSupplier =
+				() -> new UsernameNotFoundException("No user found for username: [" + username + "]");
+		return new AlloyUserDetails(user.orElseThrow(exceptionSupplier));
 	}
 }

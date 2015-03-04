@@ -1,16 +1,16 @@
 package org.alloy.core.managed.resource;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.alloy.forge.module.Module;
 import org.alloy.forge.module.ModuleLoader;
 import org.alloy.forge.module.ModuleType;
-import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.collections.lists._Lists;
-import org.alloy.metal.function.OldFunction;
+import org.alloy.metal.collections.list._Lists;
 import org.alloy.metal.resource._Resource;
 import org.alloy.metal.spring._ApplicationResource;
-import org.alloy.metal.utilities._Exception;
+import org.alloy.metal.utility._Exception;
+import org.alloy.metal.utility._Predicate;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,7 +20,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 @Service
@@ -69,17 +68,27 @@ public class AlloyResourceManager {
 		return resources;
 	}
 
-	public Resource getResource(String resourceName) {
-		return _Iterable.first(Iterables.filter(this.getResources(resourceName), _Resource::isValidResource));
+	public Optional<Resource> getResource(String resourceName) {
+		return _Lists.wrap(this.getResources(resourceName))
+				.filter(_Resource::isValidResource)
+				.first();
 	}
 
 	public List<ClassPathResource> getConcreteResources(String baseLocation) {
-		Iterable<List<Resource>> resources = _Iterable.transform(getResources(baseLocation), _ApplicationResource::getConcreteResources);
-		return _Lists.list(_Iterable.transform(_Iterable.unique(_Iterable.flatten(resources), (first, second) -> visiblyEqual(baseLocation, first, second)), OldFunction.cast()));
+		return _Lists.wrap(getResources(baseLocation))
+				.map(_ApplicationResource::getConcreteResources)
+				.flatMap((resources) -> _Lists.wrap(resources))
+				.filter(_Predicate.matchSeen((first, second) -> visiblyEqual(baseLocation, first, second)))
+				.map(resource -> (ClassPathResource) resource)
+				.collectList()
+				.asList();
 	}
 
 	public List<String> getConcreteVisibleResourcePaths(String baseLocation) {
-		return _Lists.transform(this.getConcreteResources(baseLocation), (resource) -> convertToVisiblePath(baseLocation, resource.getPath()));
+		return _Lists.wrap(this.getConcreteResources(baseLocation))
+				.map((resource) -> convertToVisiblePath(baseLocation, resource.getPath()))
+				.collectList()
+				.asList();
 	}
 
 	public boolean visiblyEqual(String baseLocation, Resource path1, Resource path2) {

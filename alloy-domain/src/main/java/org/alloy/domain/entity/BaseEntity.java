@@ -1,6 +1,6 @@
 package org.alloy.domain.entity;
 
-import org.alloy.metal.object.DomainObject;
+import org.alloy.metal.domain.DomainObject;
 
 public abstract class BaseEntity implements DomainObject {
 	private static final long serialVersionUID = 5994413883031694100L;

@@ -17,11 +17,12 @@ import org.alloy.forge.module.ResolvedDependency;
 import org.alloy.forge.module.TypeDependency;
 import org.alloy.forge.module.WeakDependency;
 import org.alloy.metal.collections._Collections;
-import org.alloy.metal.collections.iterable._Iterable;
-import org.alloy.metal.function.Condition;
+import org.alloy.metal.iteration._Iteration;
+import org.alloy.metal.iteration.cursor.Cursor;
 import org.alloy.metal.spring.AlloyBean;
 import org.alloy.metal.spring.delegator.AbstractDelegator;
 import org.alloy.metal.spring.delegator.ClassTypeDelegate;
+import org.alloy.metal.utility.Condition;
 import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -260,17 +261,21 @@ public class DependencyResolver extends AlloyBean {
 			return backingMap.get(dependency);
 		}
 
-		public Iterable<Module> getAll(Iterable<Dependency> dependencies) {
-			return _Iterable.transform(_Iterable.filter(dependencies, (dependency) -> {
-				if (this.containsDependency(dependency)) {
-					return true;
-				} else {
-					if (!dependency.isOptional()) {
-						throw new DependencyResolutionException("Required dependency " + dependency + " not found in state");
-					}
-					return false;
-				}
-			}), this::get);
+		public Cursor<Module> getAll(Iterable<Dependency> dependencies) {
+			return _Iteration.cursor(dependencies)
+					.filter((dependency) -> {
+						if (this.containsDependency(dependency)) {
+							return true;
+						} else {
+							if (!dependency.isOptional()) {
+								throw new DependencyResolutionException("Required dependency " + dependency + " not found in state");
+							}
+							return false;
+						}
+					})
+					.map(this::get)
+					.cursor();
+
 		}
 
 		public Collection<Entry<Dependency, Module>> getEntries() {

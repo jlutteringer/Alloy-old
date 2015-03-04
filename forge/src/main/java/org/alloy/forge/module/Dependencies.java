@@ -1,11 +1,6 @@
 package org.alloy.forge.module;
 
-import java.util.List;
-
-import org.alloy.metal.collections.iterable._Iterable;
 import org.metal.function.equality.EqualityMapping;
-
-import com.google.common.collect.Lists;
 
 public class Dependencies {
 	private static EqualityMapping<Dependency> EQUALITY = new EqualityMapping<>();
@@ -55,10 +50,6 @@ public class Dependencies {
 
 	public static Dependency weak(String name) {
 		return Dependencies.decorate(of(name), new WeakDependency());
-	}
-
-	public static List<Dependency> of(Iterable<Module> modules) {
-		return Lists.newArrayList(_Iterable.transform(modules, ResolvedDependency::new));
 	}
 
 	public static <T extends DependencyDecorator> T decorate(Dependency dependency, T decorator) {

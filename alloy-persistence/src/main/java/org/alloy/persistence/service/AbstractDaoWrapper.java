@@ -1,8 +1,9 @@
 package org.alloy.persistence.service;
 
-import java.util.List;
+import java.util.Optional;
 
-import org.alloy.metal.object.Identifiable;
+import org.alloy.metal.collections.list.AList;
+import org.alloy.metal.domain.Identifiable;
 import org.alloy.persistence.dao.Dao;
 import org.alloy.persistence.dao.DaoFacade;
 import org.alloy.persistence.utilities.QueryQualifier;
@@ -19,17 +20,17 @@ public class AbstractDaoWrapper<T extends Identifiable, N extends Dao<T>> implem
 	}
 
 	@Override
-	public T find(long id) {
+	public Optional<T> find(long id) {
 		return dao.find(id);
 	}
 
 	@Override
-	public List<T> findAll() {
+	public AList<T> findAll() {
 		return dao.findAll();
 	}
 
 	@Override
-	public List<T> findAll(QueryQualifier qualifier) {
+	public AList<T> findAll(QueryQualifier qualifier) {
 		return dao.findAll(qualifier);
 	}
 

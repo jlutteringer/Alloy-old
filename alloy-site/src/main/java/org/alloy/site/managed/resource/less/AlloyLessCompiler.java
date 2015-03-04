@@ -48,9 +48,9 @@ public class AlloyLessCompiler {
 			engine.getBindings(ScriptContext.ENGINE_SCOPE).put("arguments", args);
 
 			List<InputStream> streams = new ArrayList<InputStream>();
-			streams.add(resourceManager.getResource("assets/js/less/less-nashorn.js").getInputStream());
-			streams.add(resourceManager.getResource("assets/js/less/less.js").getInputStream());
-			streams.add(resourceManager.getResource("assets/js/less/lessc.js").getInputStream());
+			streams.add(resourceManager.getResource("assets/js/less/less-nashorn.js").get().getInputStream());
+			streams.add(resourceManager.getResource("assets/js/less/less.js").get().getInputStream());
+			streams.add(resourceManager.getResource("assets/js/less/lessc.js").get().getInputStream());
 			InputStreamReader reader = new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)));
 
 			engine.eval(reader);

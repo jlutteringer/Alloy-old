@@ -6,12 +6,14 @@ import java.util.Properties;
 import org.alloy.forge.context.AlloyApplicationContext;
 import org.alloy.forge.context.AlloyApplicationContextAware;
 import org.alloy.forge.managed.configuration.PropertiesConfigurationManager;
+import org.alloy.metal.collections.list._Lists;
 import org.alloy.metal.configuration._Configuration;
 import org.alloy.metal.resource.ResourceInputStream;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +34,11 @@ public class AlloyPropertyPlaceholderConfigurer extends PropertyPlaceholderConfi
 				_Configuration.getConfigurations(
 						applicationContext.getBootstrappedBeanFactory().getBean(PropertiesConfigurationManager.class).buildConfigurationLocations(), applicationContext);
 
-		this.setLocations(ResourceInputStream.toResources(configurations).toArray(new Resource[0]));
+		this.setLocations(_Lists.wrap(configurations)
+				.map(InputStreamResource::new)
+				.collectList()
+				.asList()
+				.toArray(new Resource[0]));
 	}
 
 	@Override

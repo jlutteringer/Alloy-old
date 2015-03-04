@@ -12,8 +12,8 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.alloy.metal.resource._Resource;
-import org.alloy.metal.utilities._Exception;
 import org.alloy.metal.utilities._Stream;
+import org.alloy.metal.utility._Exception;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.io.Resource;

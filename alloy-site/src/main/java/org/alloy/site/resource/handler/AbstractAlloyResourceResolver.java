@@ -53,7 +53,7 @@ public abstract class AbstractAlloyResourceResolver extends AbstractResourceHand
 		StringWriter writer = null;
 		try {
 			writer = new StringWriter();
-			IOUtils.copy(resource.getInputStream(), writer, _String.CHARACTER_ENCODING);
+			IOUtils.copy(resource.getInputStream(), writer, _String.CHARACTER_ENCODING.toString());
 			return writer.toString();
 		} finally {
 			if (writer != null) {

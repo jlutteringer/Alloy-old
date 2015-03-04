@@ -1,7 +1,5 @@
 package org.alloy.forge.managed.module;
 
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -13,7 +11,8 @@ import org.alloy.forge.module.Module;
 import org.alloy.forge.module.ModuleHierarchy;
 import org.alloy.forge.module.ModuleLoader;
 import org.alloy.forge.module.SimpleModuleHierarchy;
-import org.alloy.metal.collections.lists._Lists;
+import org.alloy.metal.collections.list.MutableLinkedList;
+import org.alloy.metal.collections.list._Lists;
 import org.alloy.metal.collections.tree.Tree;
 import org.alloy.metal.collections.tree._Tree;
 import org.apache.logging.log4j.Level;
@@ -59,9 +58,8 @@ public class CoreModuleLoader implements ModuleLoader {
 			logger.printf(Level.DEBUG, "Dependency [%s] => Module [%s]", entry.getKey(), entry.getValue());
 		}
 
-		LinkedList<Module> modulesToAdd =
-				Lists.newLinkedList(state.getAll(moduleContext.getApplicationModule().getDependencies()));
-
+		MutableLinkedList<Module> modulesToAdd = _Lists.linkedList();
+		modulesToAdd.addAll(state.getAll(moduleContext.getApplicationModule().getDependencies()));
 		modulesToAdd.add(moduleContext.getApplicationModule());
 
 		Tree<Module> moduleTree = _Tree.newHashTree(moduleContext.getCoreModule());
@@ -70,7 +68,11 @@ public class CoreModuleLoader implements ModuleLoader {
 			Module module = modulesToAdd.pop();
 			if (!moduleTree.contains(module)) {
 				logger.debug("Considering module [" + module + "] to add to hierarchy");
-				Collection<Module> dependencies = _Lists.list(state.getAll(moduleContext.getDependencies(module)));
+
+				List<Module> dependencies = state.getAll(moduleContext.getDependencies(module))
+						.collectList()
+						.asList();
+
 				if (moduleTree.containsAll(dependencies)) {
 					Tree<Module> childTree = _Tree.newHashTree(module);
 					for (Module dependency : dependencies) {
@@ -80,7 +82,7 @@ public class CoreModuleLoader implements ModuleLoader {
 				else {
 					dependencies.removeAll(moduleTree);
 					logger.debug("Dependencies " + dependencies + " have not yet been parsed, readding to queue");
-					modulesToAdd.addAll(dependencies);
+					modulesToAdd.addAll(_Lists.list(dependencies));
 					modulesToAdd.add(module);
 				}
 			}
